@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <map>
+#include <functional>
 
 #include "EasyGraphics.h"
 #include "core\ui\component\ComponentGroup.h"
@@ -120,5 +121,14 @@ namespace paint_tool {
 		// drawn to the screen boundaries.
 		//
 		void drawDebugComponentPositionLines(const Component *component);
+
+		//
+		// Walks the Component tree and executes the given function each time
+		// it visits a branch or leaf
+		//
+		static void constComponentWalker(
+			const Component *component,
+			std::function<void(const Component *component)> fn
+		);
 	};
 }
