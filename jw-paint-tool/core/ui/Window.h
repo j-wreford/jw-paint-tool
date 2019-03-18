@@ -126,9 +126,9 @@ namespace paint_tool {
 		// Walks the Component tree and executes the given function each time
 		// it visits a branch or leaf
 		//
-		static void constComponentWalker(
-			const Component *component,
-			std::function<void(const Component *component)> fn
+		static void componentWalker(
+			Component *component,
+			std::function<void(Component *component)> fn
 		);
 	};
 }
