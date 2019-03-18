@@ -40,7 +40,10 @@ void paint_tool::Window::onDraw() {
 
 	clrscr(0x000000);
 	
-	drawSingleComponent(root_component.get());
+	Window::constComponentWalker(
+		root_component.get(),
+		std::bind(&Window::drawSingleComponent, this, std::placeholders::_1)
+	);
 
 	EasyGraphics::onDraw();
 }
@@ -133,17 +136,6 @@ void paint_tool::Window::drawSingleComponent(const Component *component) {
 
 	component->drawComponent(this);
 
-	/* draw the children of this component, if any */
-
-	if (component->isComponentGroup()) {
-
-		const ComponentGroup *group =
-			dynamic_cast<const ComponentGroup *>(component);
-
-		for (auto &pair : *group->getChildComponents())
-			drawSingleComponent(pair.second.get());
-	}
-
 	/* draw debug graphics if the corresponding flag is set */
 
 	if (debug_show_ids)
@@ -227,4 +219,27 @@ void paint_tool::Window::drawDebugComponentPositionLines(const Component *compon
 	drawLine(rect.left + half_w, rect.bottom + 1, rect.left + half_w, parent_rect.bottom);
 	drawLine(rect.left - 1, rect.top + half_h, parent_rect.left, rect.top + half_h);
 	drawLine(rect.right + 1, rect.top + half_h, parent_rect.right, rect.top + half_h);
+}
+
+void paint_tool::Window::constComponentWalker(
+	const Component *component,
+	std::function<void(const Component *component)> fn
+) {
+
+	/* execute the function given with the currently visited component
+	   as its argument */
+
+	fn(component);
+
+	/* decend into this components children if it's a ComponentGroup */
+
+	if (component->isComponentGroup()) {
+
+		const ComponentGroup *group =
+			dynamic_cast<const ComponentGroup *>(component);
+
+		for (auto &pair : *group->getChildComponents())
+			Window::constComponentWalker(pair.second.get(), fn);
+	}
+
 }
