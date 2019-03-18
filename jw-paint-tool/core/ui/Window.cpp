@@ -40,7 +40,10 @@ void paint_tool::Window::onDraw() {
 
 	clrscr(0x000000);
 	
-	drawSingleComponent(root_component.get());
+	Window::constComponentWalker(
+		root_component.get(),
+		std::bind(&Window::drawSingleComponent, this, std::placeholders::_1)
+	);
 
 	EasyGraphics::onDraw();
 }
@@ -132,17 +135,6 @@ void paint_tool::Window::drawSingleComponent(const Component *component) {
 	}
 
 	component->drawComponent(this);
-
-	/* draw the children of this component, if any */
-
-	if (component->isComponentGroup()) {
-
-		const ComponentGroup *group =
-			dynamic_cast<const ComponentGroup *>(component);
-
-		for (auto &pair : *group->getChildComponents())
-			drawSingleComponent(pair.second.get());
-	}
 
 	/* draw debug graphics if the corresponding flag is set */
 
