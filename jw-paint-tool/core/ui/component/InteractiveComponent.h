@@ -68,9 +68,14 @@ namespace paint_tool {
 		inline virtual bool isInteractive() const override;
 
 		//
-		// Returns true when the Component is the last component to be clicked
+		// Returns focused
 		//
 		inline bool isFocused() const;
+
+		//
+		// Returns active
+		//
+		inline bool isActive() const;
 
 		//
 		// Returns true when the Component has been set to be draggable
@@ -139,6 +144,10 @@ bool paint_tool::InteractiveComponent::isInteractive() const {
 
 bool paint_tool::InteractiveComponent::isFocused() const {
 	return focused;
+}
+
+bool paint_tool::InteractiveComponent::isActive() const {
+	return active;
 }
 
 bool paint_tool::InteractiveComponent::isDraggable() const {
