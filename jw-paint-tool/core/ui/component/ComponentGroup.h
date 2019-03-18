@@ -90,10 +90,16 @@ namespace paint_tool {
 		std::map<std::string, paint_tool::p_component_t> child_components;
 
 		//
-		// The last Component within the ComponentGroup to have its
-		// hit test pass
+		// The last InteractiveComponent within the ComponentGroup to have its
+		// hit test pass during the left mouse up event
 		//
 		InteractiveComponent *focused_component;
+
+		//
+		// The InteractiveComponent that was focused while the mouse is held
+		// down
+		//
+		InteractiveComponent *active_component;
 
 		//
 		// When true, the ComponentGroup will fill its background with bg_colour
