@@ -392,7 +392,7 @@ void EasyGraphics::drawText(const wchar_t* text, int x, int y)
 {
   if (text)
   {
-    ::SelectObject(hdcback, hdeffont);
+	::SelectObject(hdcback, hdeffont);
 
     ::TextOut(hdcback, x, y, text, (int) wcslen(text));
 
