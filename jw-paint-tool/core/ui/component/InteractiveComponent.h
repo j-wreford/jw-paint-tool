@@ -18,44 +18,40 @@ namespace paint_tool {
 		virtual ~InteractiveComponent();
 
 		//
-		// Performs a check to see if the given mouse point lays
-		// inside the boundary of the Component.
+		// The operations to perform on the Component whenever the the left
+		// mouse button is pressed.
 		//
-		// If the test passes, then onHitTestPassed is called.
+		// It is the caller's responsibility to transform the mouse paramter
+		// into one that's relative to this Component.
 		//
-		// The result of the test is returned.
+		// If overriding this method, the method must still
+		// call InteractiveComponent's version.
 		//
-		bool hitTest(const POINT &mouse);
+		virtual void onLeftMouseButtonDown(const POINT &mouse);
 
 		//
-		// The operations to perform whenever a successful hitTest check occurs
+		// The operations to perform on the Component whenever the left mouse
+		// button is released.
 		//
-		virtual void onHitTestPassed(const POINT &mouse) = 0;
+		// It is the caller's responsibility to transform the mouse paramter
+		// into one that's relative to this Component.
+		//
+		// If overriding this method, the method must still
+		// call InteractiveComponent's version.
+		//
+		virtual void onLeftMouseButtonUp(const POINT &mouse);
 
 		//
-		// The operations to perform whenever the mouse is moved
+		// The operations to perform on the Component whenever the mouse is
+		// moved.
 		//
-		virtual void onMouseMove(const POINT &mouse);
-
+		// It is the caller's responsibility to transform the mouse paramter
+		// into one that's relative to this Component.
 		//
-		// Sets focused to true
+		// If overriding this method, the method must still
+		// call InteractiveComponent's version.
 		//
-		inline void giveFocus();
-
-		//
-		// Sets focused to false
-		//
-		inline void takeFocus();
-
-		//
-		// Sets active to true
-		//
-		inline void makeActive();
-
-		//
-		// Sets active to false
-		//
-		inline void makeInactive();
+		virtual void onMouseMove(const POINT &mouse, const bool& lmouse_down);
 
 		//
 		// Sets draggable to the value given
@@ -97,16 +93,34 @@ namespace paint_tool {
 			const	std::string &style_set_id = "default"
 		);
 
+		//
+		// Performs a check to see if the given mouse point lays
+		// inside the boundary of the Component.
+		//
+		// The result of the test is returned.
+		//
+		inline bool wasHit(const POINT &mouse) const;
+
+		//
+		// Transforms the given absolute POINT into one that's relative to the
+		// boundaries of the Component
+		//
+		POINT getRelativePoint(const POINT &point) const;
+
 	private:
 
 		//
-		// True when the Component is the last component to be clicked
+		// Trrue when a mouse up event occurs and it was within the the
+		// Component's boundaries
 		//
 		bool focused;
 
 		//
-		// True when the Component is the last component to be clicked during
-		// the time whereby the left mouse button is held down
+		// True when starting from a mouse down event that occured within
+		// the Component's boundaries, up until a mouse up event occurs.
+		//
+		// I.e, the Component is active when the mouse is being press-and-held
+		// over it.
 		//
 		bool active;
 
@@ -115,27 +129,20 @@ namespace paint_tool {
 		// clicks-and-drags on the Component
 		//
 		bool draggable;
+
+		//
+		// The offset of a left mouse-click so that
+		// mouse point + lmouse_down_offset = position.
+		//
+		// Used when 'dragging' the Component so that the position doesn't jump
+		// to the location of the mouse pointer.
+		//
+		POINT lmouse_down_offset;
 	};
 }
 
 void paint_tool::InteractiveComponent::setDraggable(const bool &_draggable) {
 	draggable = _draggable;
-}
-
-void paint_tool::InteractiveComponent::giveFocus() {
-	focused = true;
-}
-
-void paint_tool::InteractiveComponent::takeFocus() {
-	focused = false;
-}
-
-void paint_tool::InteractiveComponent::makeActive() {
-	active = true;
-}
-
-void paint_tool::InteractiveComponent::makeInactive() {
-	active = false;
 }
 
 bool paint_tool::InteractiveComponent::isInteractive() const {
@@ -152,4 +159,8 @@ bool paint_tool::InteractiveComponent::isActive() const {
 
 bool paint_tool::InteractiveComponent::isDraggable() const {
 	return draggable;
+}
+
+bool paint_tool::InteractiveComponent::wasHit(const POINT &mouse) const {
+	return ::PtInRect(&getRect(), mouse);
 }
