@@ -24,11 +24,6 @@ namespace paint_tool {
 		~RootComponent();
 
 		//
-		// TEMPORARY
-		//
-		virtual void onMouseMove(const POINT &mouse) override;
-
-		//
 		// Sets the size to the width and height of the client rect
 		//
 		virtual void recalculateSize() override;
