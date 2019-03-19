@@ -39,10 +39,29 @@ namespace paint_tool {
 		virtual void drawComponent(EasyGraphics *ctx) const;
 
 		//
-		// If the ComponentGroup is interactive, then the hit test will be passed
-		// on to the first child component who is interactive
+		// In addition to InteractiveComponent::onLeftMouseButtonDown,
+		// this method will update the focused_component and active_component
+		// properties.
 		//
-		virtual void onHitTestPassed(const POINT &mouse) override;
+		// It will also call onLeftMouseButtonDown on each child component.
+		//
+		virtual void onLeftMouseButtonDown(const POINT &mouse) override;
+
+		//
+		// In addition to InteractiveComponent::onLeftMouseButtonUp,
+		// this method will update the focused_component and active_component
+		// properties.
+		//
+		// It will also call onLeftMouseButtonUp on each child component.
+		//
+		virtual void onLeftMouseButtonUp(const POINT &mouse) override;
+
+		//
+		// Calls InteractiveComponent::onMouseMove.
+		//
+		// It will also call onMouseMove on each child component.
+		//
+		virtual void onMouseMove(const POINT &mouse, const bool& lmouse_down) override;
 
 		//
 		// Returns CPMNT_GROUP
@@ -87,7 +106,7 @@ namespace paint_tool {
 		//
 		// A map of child ui Components
 		//
-		std::map<std::string, paint_tool::p_component_t> child_components;
+		std::map<std::string, paint_tool::p_component_t> components;
 
 		//
 		// The last InteractiveComponent within the ComponentGroup to have its
@@ -119,7 +138,7 @@ bool paint_tool::ComponentGroup::isComponentGroup() const {
 }
 
 const std::map<std::string, paint_tool::p_component_t> *paint_tool::ComponentGroup::getChildComponents() const {
-	return &child_components;
+	return &components;
 }
 
 paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getFocusedComponent() {

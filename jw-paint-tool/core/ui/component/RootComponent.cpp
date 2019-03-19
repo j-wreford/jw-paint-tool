@@ -13,13 +13,6 @@ paint_tool::RootComponent::~RootComponent() {
 	//
 }
 
-void paint_tool::RootComponent::onMouseMove(const POINT &mouse) {
-
-	if (getFocusedComponent())
-		getFocusedComponent()->onMouseMove(mouse);
-
-}
-
 void paint_tool::RootComponent::recalculateSize() {
 
 	RECT rect;

@@ -40,7 +40,7 @@ namespace paint_tool {
 		// Returns the rectangle that represents the Component's position
 		// and size.
 		//
-		// The absolute variant will modify the return rect so that it's position
+		// The absolute variant will modify the return rect so that its position
 		// is relative to the upper-left pixel of the whole window.
 		//
 		inline RECT getRect() const;
@@ -180,11 +180,6 @@ std::string paint_tool::Component::getId() const {
 }
 
 RECT paint_tool::Component::getRect() const {
-
-	// TODO: factor in parent rect!
-	if (parent)
-		bool a = true;
-
 	return rect;
 }
 
