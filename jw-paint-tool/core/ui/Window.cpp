@@ -12,9 +12,14 @@ paint_tool::Window::Window(
 
 	create(hInstance, width, height, 80, false);
 	setImmediateDrawMode(false);
-	//ClipCursor();
 
-	::SetWindowText(getHWND(), L"Paint Tool! OOP4CS Assignment 2");
+	/*
+	RECT rect;
+	::GetWindowRect(getHWND(), &rect);
+	::ClipCursor(&rect);
+	*/
+
+	::SetWindowText(getHWND(), L"User Interface Window");
 
 	StyleManager::getInstance()->addStyleSet(
 		"window_style",
@@ -84,8 +89,7 @@ void paint_tool::Window::onChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 void paint_tool::Window::onLButtonDown(UINT nFlags, int x, int y) {
 
-	if (root_component->isInteractive())
-		root_component->hitTest(POINT{ x, y });
+	root_component->onLeftMouseButtonDown(POINT{ x, y });
 
 	lmouse_down = true;
 
@@ -93,6 +97,9 @@ void paint_tool::Window::onLButtonDown(UINT nFlags, int x, int y) {
 }
 
 void paint_tool::Window::onLButtonUp(UINT nFlags, int x, int y) {
+
+	root_component->onLeftMouseButtonUp(POINT{ x, y });
+
 	lmouse_down = false;
 
 	onDraw();
@@ -100,8 +107,7 @@ void paint_tool::Window::onLButtonUp(UINT nFlags, int x, int y) {
 
 void paint_tool::Window::onMouseMove(UINT nFlags, int x, int y) {
 	
-	if (lmouse_down)
-		root_component->onMouseMove(POINT{ x,y });
+	root_component->onMouseMove(POINT{ x, y }, lmouse_down);
 
 	onDraw();
 }
@@ -186,6 +192,25 @@ void paint_tool::Window::drawDebugComponentBorder(const Component *component) {
 		setPenColour(0x00ffff, 1);
 
 	drawRectangle(pos.x - 1, pos.y - 1, size.cx + 2, size.cy + 2, false);
+
+	/* if this component is active or focused, indicate it with further
+	   borders */
+
+	if (component->isInteractive()) {
+
+		const InteractiveComponent *temp =
+			dynamic_cast<const InteractiveComponent *>(component);
+
+		if (temp->isActive()) {
+			setPenColour(0x0000ff, 1);
+			drawRectangle(pos.x - 5, pos.y - 5, size.cx + 10, size.cy + 10, false);
+		}
+
+		if (temp->isFocused()) {
+			setPenColour(0xf0f0f0, 1);
+			drawRectangle(pos.x - 3, pos.y - 3, size.cx + 6, size.cy + 6, false);
+		}
+	}
 }
 
 void paint_tool::Window::drawDebugComponentPositionLines(const Component *component) {
