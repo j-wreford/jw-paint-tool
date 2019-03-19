@@ -8,6 +8,7 @@ paint_tool::ComponentGroup::ComponentGroup(
 ) :
 	InteractiveComponent(id, position, style_set_id),
 	focused_component(nullptr),
+	active_component(nullptr),
 	fill_background(fill_background) {
 	
 	recalculateSize();
@@ -28,32 +29,121 @@ void paint_tool::ComponentGroup::drawComponent(EasyGraphics *ctx) const {
 	}
 }
 
-void paint_tool::ComponentGroup::onHitTestPassed(const POINT &mouse) {
+void paint_tool::ComponentGroup::onLeftMouseButtonDown(const POINT &mouse) {
+	InteractiveComponent::onLeftMouseButtonDown(mouse);
 
-	if (focused_component)
-		focused_component->takeFocus();
+	/* 1. call onLeftMouseButtonDown on each interactive child component */
+
+	for (auto &pair : components) {
+
+		Component *component = pair.second.get();
+
+		if (component->isInteractive()) {
+
+			InteractiveComponent *inter_comp =
+				dynamic_cast<InteractiveComponent *>(component);
+
+			if (inter_comp)
+				inter_comp->onLeftMouseButtonDown(
+					getRelativePoint(mouse)
+				);
+		}
+	}
 	
-	if (isInteractive()) {
+	/* 2. find the child component which is now active (after responding to
+	      onLeftMouseButtonDown */
 
-		auto it = std::find_if(child_components.begin(), child_components.end(), [](auto &pair) {
-			return pair.second->isInteractive();
-		});
+	auto it = std::find_if(components.begin(), components.end(),
+		[](auto &pair) -> bool {
 
-		if (it != child_components.end()) {
+			bool active = false;
+			
+			InteractiveComponent *component =
+				dynamic_cast<InteractiveComponent *>(pair.second.get());
+
+			if (component)
+				active = component->isActive();
+			
+			return active;
+		}
+	);
+	
+	/* 3. set the active_component property */
+
+	if (it != components.end())
+		active_component = dynamic_cast<InteractiveComponent *>(it->second.get());
+}
+
+void paint_tool::ComponentGroup::onLeftMouseButtonUp(const POINT &mouse) {
+	InteractiveComponent::onLeftMouseButtonUp(mouse);
+
+	/* 1. call onLeftMouseButtonUp on each interactive child component */
+
+	for (auto &pair : components) {
+
+		Component *component = pair.second.get();
+
+		if (component->isInteractive()) {
+
+			InteractiveComponent *inter_comp =
+				dynamic_cast<InteractiveComponent *>(component);
+
+			if (inter_comp)
+				inter_comp->onLeftMouseButtonUp(
+					getRelativePoint(mouse)
+				);
+		}
+	}
+
+	/* 2. find the child component which is now focused (after responding to
+	      onLeftMouseButtonUp) */
+
+	auto it = std::find_if(components.begin(), components.end(),
+		[](auto &pair) -> bool {
+
+			bool focused = false;
 
 			InteractiveComponent *component =
-				dynamic_cast<InteractiveComponent *>(it->second.get());
+				dynamic_cast<InteractiveComponent *>(pair.second.get());
 
-			if (component) {
+			if (component)
+				focused = component->isFocused();
 
-				component->hitTest(mouse);
+			return focused;
+		}
+	);
 
-				component->giveFocus();
-				focused_component = component;
-			}
+	/* 3. set the focused_component and active_component properties */
+
+	if (it != components.end())
+		focused_component = dynamic_cast<InteractiveComponent *>(it->second.get());
+
+	active_component = nullptr;
+}
+
+void paint_tool::ComponentGroup::onMouseMove(const POINT &mouse, const bool &lmouse_down) {
+	InteractiveComponent::onMouseMove(mouse, lmouse_down);
+	
+	/* call onMouseMove on each interactive child component */
+
+	for (auto &pair : components) {
+
+		Component *component = pair.second.get();
+
+		if (component->isInteractive()) {
+
+			InteractiveComponent *inter_comp =
+				dynamic_cast<InteractiveComponent *>(component);
+
+			if (inter_comp)
+				inter_comp->onMouseMove(
+					getRelativePoint(mouse),
+					lmouse_down
+				);
 		}
 	}
 }
+
 
 bool paint_tool::ComponentGroup::isInteractive() const {
 
@@ -64,11 +154,11 @@ bool paint_tool::ComponentGroup::isInteractive() const {
 
 	if (!interactive) {
 
-		auto it = std::find_if(child_components.begin(), child_components.end(), [](auto &pair) {
+		auto it = std::find_if(components.begin(), components.end(), [](auto &pair) {
 			return pair.second->isInteractive();
 		});
 
-		if (it != child_components.end())
+		if (it != components.end())
 			interactive = true;
 	}
 
@@ -79,7 +169,7 @@ void paint_tool::ComponentGroup::addComponent(paint_tool::p_component_t &compone
 
 	component->setParent(this);
 
-	child_components.insert(
+	components.insert(
 		std::make_pair(component->getId(), std::move(component))
 	);
 
@@ -90,7 +180,7 @@ void paint_tool::ComponentGroup::recalculateSize() {
 
 	RECT rect = getAbsoluteRect();
 
-	std::for_each(child_components.begin(), child_components.end(), [&rect](auto &pair) {
+	std::for_each(components.begin(), components.end(), [&rect](auto &pair) {
 
 		RECT this_rect = pair.second->getAbsoluteRect();
 
