@@ -82,6 +82,62 @@ void paint_tool::Component::setPosition(POINT position) {
 		parent->recalculateSize();
 }
 
+void paint_tool::Component::positionRight() {
+
+	SIZE par_size{ 0,0 };
+
+	if (parent)
+		par_size = parent->getSize();
+
+	setPosition(POINT{
+		par_size.cx - getSize().cx,
+		getPosition().y
+	});
+}
+
+void paint_tool::Component::positionCenter() {
+	
+	SIZE par_size{ 0,0 };
+
+	if (parent)
+		par_size = parent->getSize();
+
+	int space = (par_size.cx - getSize().cx) / 2;
+
+	setPosition(POINT{
+		space,
+		getPosition().y
+	});
+}
+
+void paint_tool::Component::positionBottom() {
+
+	SIZE par_size{ 0,0 };
+
+	if (parent)
+		par_size = parent->getSize();
+
+	setPosition(POINT{
+		getPosition().x,
+		par_size.cy - getSize().cy
+	});
+}
+
+void paint_tool::Component::positionMiddle() {
+	
+	SIZE par_size{ 0,0 };
+
+	if (parent)
+		par_size = parent->getSize();
+
+	int space = (par_size.cy - getSize().cy) / 2;
+
+	setPosition(POINT{
+		getPosition().x,
+		space
+	});
+}
+
 void paint_tool::Component::setSize(SIZE size) {
 
 	SetRect(

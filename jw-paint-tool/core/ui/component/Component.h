@@ -83,6 +83,16 @@ namespace paint_tool {
 		void setPosition(POINT position);
 
 		//
+		// Positions the Component within the parent boundaries
+		//
+		inline void positionLeft();
+		void positionRight();
+		void positionCenter();
+		inline void positionTop();
+		void positionBottom();
+		void positionMiddle();
+
+		//
 		// Sets the pointer to the parent Component
 		//
 		inline void setParent(Component *_parent);
@@ -225,6 +235,22 @@ paint_tool::Component *paint_tool::Component::getParent() const {
 
 std::string paint_tool::Component::getStyleSetId() const {
 	return style_set_id;
+}
+
+void paint_tool::Component::positionLeft() {
+
+	setPosition(POINT{
+		0,
+		getPosition().y
+	});
+}
+
+void paint_tool::Component::positionTop() {
+
+	setPosition(POINT{
+		getPosition().x,
+		0
+	});
 }
 
 void paint_tool::Component::setRect(const RECT &_rect) {
