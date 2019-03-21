@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="core\Singleton.h" />
+    <ClInclude Include="core\ui\component\Button.h" />
     <ClInclude Include="core\ui\component\Component.h" />
     <ClInclude Include="core\ui\component\ComponentGroup.h" />
     <ClInclude Include="core\ui\component\InteractiveComponent.h" />
@@ -157,6 +158,7 @@
     <ClInclude Include="core\ui\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="core\ui\component\Button.cpp" />
     <ClCompile Include="core\ui\component\Component.cpp" />
     <ClCompile Include="core\ui\component\ComponentGroup.cpp" />
     <ClCompile Include="core\ui\component\InteractiveComponent.cpp" />
