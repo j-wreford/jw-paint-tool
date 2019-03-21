@@ -26,7 +26,7 @@ void paint_tool::InternalRadioItem<ValT>::drawComponent(EasyGraphics *ctx) {
 	ctx->drawCircle(pos.x, pos.y, getSize().cx, false);
 
 	if (isFocused())
-		ctx->drawCircle(pos.x, pos.y, getSize().cx / 2, false)
+		ctx->drawCircle(pos.x, pos.y, getSize().cx / 2, false);
 }
 
 template <class ValT>
