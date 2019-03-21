@@ -81,9 +81,6 @@ void paint_tool::InternalRadioItem<ValT>::drawComponent(EasyGraphics *ctx) const
 
 	POINT pos = getAbsolutePosition();
 
-	ctx->setPenColour(0xffffff, 2);
-	ctx->selectBackColour(0xffffff);
-
 	POINT center = {
 		pos.x + (getSize().cx / 2),
 		pos.y + (getSize().cy / 2)
@@ -94,7 +91,7 @@ void paint_tool::InternalRadioItem<ValT>::drawComponent(EasyGraphics *ctx) const
 	ComponentGroup *group = dynamic_cast<ComponentGroup *>(getParent());
 
 	if (group->getLastActiveComponent() == this)
-			ctx->drawCircle(center.x, center.y, (getSize().cx / 6), true);
+			ctx->drawCircle(center.x, center.y, (getSize().cx / 4), true);
 }
 
 template <class ValT>
