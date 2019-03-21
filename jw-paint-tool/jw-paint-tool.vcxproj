@@ -158,6 +158,7 @@
     <ClInclude Include="dependencies\easy-graphics\EasyGraphics.h" />
     <ClInclude Include="PaintTool.h" />
     <ClInclude Include="core\ui\Window.h" />
+    <ClInclude Include="TestUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\ui\component\Button.cpp" />
@@ -173,6 +174,7 @@
     <ClCompile Include="PaintTool.cpp" />
     <ClCompile Include="core\ui\Window.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="TestUI.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

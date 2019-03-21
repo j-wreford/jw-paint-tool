@@ -16,10 +16,5 @@ namespace paint_tool {
 
 		PaintTool(HINSTANCE hInstance);
 		~PaintTool();
-
-	private:
-
-		HFONT font_large;
-		HFONT font_small;
 	};
 }

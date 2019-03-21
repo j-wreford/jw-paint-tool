@@ -1,7 +1,7 @@
 #include <Windows.h>
 #include <crtdbg.h>
 
-#include "PaintTool.h"
+#include "TestUI.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 
@@ -10,7 +10,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	_onexit(_CrtDumpMemoryLeaks);
 #endif
 
-	paint_tool::PaintTool *app = new paint_tool::PaintTool(hInstance);
+	paint_tool::TestUI *app = new paint_tool::TestUI(hInstance);
 
 	delete app;
 
