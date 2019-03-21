@@ -69,6 +69,11 @@ namespace paint_tool {
 		inline virtual std::string getComponentType() const override;
 
 		//
+		// Returns the last active InteractiveComponent
+		//
+		inline const InteractiveComponent *getLastActiveComponent() const;
+
+		//
 		// Returns true; this is a grouping of Components
 		//
 		inline virtual bool isComponentGroup() const;
@@ -126,6 +131,11 @@ namespace paint_tool {
 		InteractiveComponent *active_component;
 
 		//
+		// The last active InteractiveComponent
+		//
+		InteractiveComponent *last_active_component;
+
+		//
 		// When true, the ComponentGroup will fill its background with bg_colour
 		//
 		bool fill_background;
@@ -136,6 +146,10 @@ namespace paint_tool {
 
 std::string paint_tool::ComponentGroup::getComponentType() const {
 	return CPMNT_GROUP;
+}
+
+const paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getLastActiveComponent() const {
+	return last_active_component;
 }
 
 bool paint_tool::ComponentGroup::isComponentGroup() const {

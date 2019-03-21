@@ -9,6 +9,7 @@ paint_tool::ComponentGroup::ComponentGroup(
 	InteractiveComponent(id, position, style_set_id),
 	focused_component(nullptr),
 	active_component(nullptr),
+	last_active_component(nullptr),
 	fill_background(fill_background) {
 	
 	recalculateSize();
@@ -117,6 +118,9 @@ void paint_tool::ComponentGroup::onLeftMouseButtonUp(const POINT &mouse) {
 
 	if (it != components.end())
 		focused_component = dynamic_cast<InteractiveComponent *>(it->second.get());
+
+	if (active_component)
+		last_active_component = active_component;
 
 	active_component = nullptr;
 }
