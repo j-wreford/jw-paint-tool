@@ -12,13 +12,13 @@ paint_tool::FontManager::~FontManager() {
 }
 
 void paint_tool::FontManager::addFontAttributeSet(
-	const	std::string &font_attr_set_id,
+	const	std::string	&font_attr_set_id,
 	const	int			&height,
 	const	int			&weight,
 	const	bool		&italic,
 	const	bool		&underline,
 	const	bool		&strikeout,
-	const	std::string &font_face
+	const	std::string	&font_face
 ) {
 
 	/* bail if there's already a pair within the map with the same key */
@@ -40,7 +40,7 @@ void paint_tool::FontManager::addFontAttributeSet(
 	logfont->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 	logfont->lfQuality = DEFAULT_QUALITY;
 	logfont->lfPitchAndFamily = DEFAULT_PITCH;
-	MultiByteToWideChar(CP_ACP, 0, font_face.c_str(), -1, logfont->lfFaceName, font_face.length());
+	MultiByteToWideChar(CP_ACP, 0, font_face.c_str(), -1, logfont->lfFaceName, (font_face.length() * 4));
 
 	font_attr_map.insert(std::make_pair(
 		font_attr_set_id, logfont
