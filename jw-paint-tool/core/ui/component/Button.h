@@ -25,7 +25,7 @@ namespace paint_tool {
 			const	SIZE						&size,
 			const	std::wstring				&text,
 			const	std::string					&style_set_id = "default",
-			const	std::function<void(void)>	callback = []() {}
+			const	std::function<void(void)>	callback = []() -> bool {}
 		);
 		~Button();
 
@@ -37,6 +37,11 @@ namespace paint_tool {
 		//
 		virtual void onLeftMouseButtonUp(const POINT &mouse) override;
 
+		//
+		// Returns true
+		//
+		inline virtual bool isInteractive() const override;
+
 	private:
 
 		//
@@ -44,4 +49,8 @@ namespace paint_tool {
 		//
 		std::function<void(void)> callback;
 	};
+}
+
+bool paint_tool::Button::isInteractive() const {
+	return true;
 }

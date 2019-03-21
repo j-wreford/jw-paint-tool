@@ -11,6 +11,16 @@ paint_tool::Button::Button(
 	ComponentGroup(id, position, style_set_id),
 	callback(callback)
 {
+
+	/* make the box for this button */
+
+	p_component_t box = std::make_unique<StaticBox>(
+		"btn_box",
+		POINT{ 0, 0 },
+		size,
+		style_set_id
+		);
+	addComponent(box);
 	
 	/* make the label for this button */
 
@@ -21,19 +31,13 @@ paint_tool::Button::Button(
 		style_set_id,
 		"default"
 	);
-	//addComponent(label);
+	Component *p_label = label.get();
+	addComponent(label);
 
-	/* make the box for this button */
+	/* must position the label after adding it - else, it won't have a parent */
 
-	p_component_t box = std::make_unique<StaticBox>(
-		"btn_box",
-		POINT { 0, 0 },
-		size,
-		style_set_id
-	);
-	addComponent(box);
-
-	setDraggable(true);
+	p_label->positionCenter();
+	p_label->positionMiddle();
 }
 
 paint_tool::Button::~Button() {
