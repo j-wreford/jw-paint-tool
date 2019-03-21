@@ -2,13 +2,9 @@
 
 #include <functional>
 
-#include "core\ui\Component\InteractiveComponent.h"
-
-/* TODO: Need an InteractiveComponentGroup class to inherit from instead! 
-   The Button component needs to contain a StaticLabel and a StaticBox.
-   
-   Perhaps a new label class called BoxLabel is needed?
-   */
+#include "core\ui\Component\ComponentGroup.h"
+#include "core\ui\Component\StaticBox.h"
+#include "core\ui\Component\StaticLabel.h"
 
 //
 // Button
@@ -20,17 +16,32 @@
 namespace paint_tool {
 
 	class Button :
-		public InteractiveComponent {
+		public ComponentGroup {
 	public:
 
-		Button();
+		Button(
+			const	std::string					&id,
+			const	POINT						&position,
+			const	SIZE						&size,
+			const	std::wstring				&text,
+			const	std::string					&style_set_id = "default",
+			const	std::function<void(void)>	callback = []() {}
+		);
 		~Button();
+
+		//
+		// Calls ComponentGroup::onLeftMouseButtonUp.
+		//
+		// In addition, the Button will execute the callback if the mouse point
+		// lies within the Button's boundaries.
+		//
+		virtual void onLeftMouseButtonUp(const POINT &mouse) override;
 
 	private:
 
 		//
 		// Upon a successful hit test, this function will be called
 		//
-		std::function<void> callback;
+		std::function<void(void)> callback;
 	};
 }
