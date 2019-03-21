@@ -154,6 +154,7 @@
     <ClInclude Include="core\ui\component\StaticBox.h" />
     <ClInclude Include="core\ui\component\StaticLabel.h" />
     <ClInclude Include="core\ui\FontManager.h" />
+    <ClInclude Include="core\ui\layout\LayoutManager.h" />
     <ClInclude Include="core\ui\StyleManager.h" />
     <ClInclude Include="dependencies\easy-graphics\EasyGraphics.h" />
     <ClInclude Include="PaintTool.h" />

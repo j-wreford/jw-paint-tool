@@ -63,6 +63,9 @@
     <ClInclude Include="TestUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="core\ui\layout\LayoutManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\ui\component\Component.cpp">
