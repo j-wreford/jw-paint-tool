@@ -40,7 +40,7 @@ void paint_tool::FontManager::addFontAttributeSet(
 	logfont->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 	logfont->lfQuality = DEFAULT_QUALITY;
 	logfont->lfPitchAndFamily = DEFAULT_PITCH;
-	MultiByteToWideChar(CP_ACP, 0, font_face.c_str(), -1, logfont->lfFaceName, (font_face.length() * 4));
+	MultiByteToWideChar(CP_ACP, 0, font_face.c_str(), -1, logfont->lfFaceName, 32);
 
 	font_attr_map.insert(std::make_pair(
 		font_attr_set_id, logfont
