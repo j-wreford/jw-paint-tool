@@ -110,7 +110,7 @@ namespace paint_tool {
 	private:
 
 		//
-		// Trrue when a mouse up event occurs and it was within the the
+		// True when a mouse up event occurs and it was within the the
 		// Component's boundaries
 		//
 		bool focused;
