@@ -7,6 +7,7 @@ paint_tool::Window::Window(
 ) :
 	lmouse_down(false),
 	debug_show_ids(false),
+	debug_show_pos(false),
 	debug_show_borders(false),
 	debug_show_position_lines(false) {
 
@@ -21,17 +22,17 @@ paint_tool::Window::Window(
 
 	::SetWindowText(getHWND(), L"User Interface Window");
 
+	root_component = std::make_unique<RootComponent>(
+		"window_style",
+		getHWND()
+	);
+
 	StyleManager::getInstance()->addStyleSet(
 		"window_style",
 		0x000000,
 		0x090909,
 		0x090909,
 		1
-	);
-
-	root_component = std::make_unique<RootComponent>(
-		"window_style",
-		getHWND()
 	);
 }
 
@@ -42,6 +43,9 @@ paint_tool::Window::~Window() {
 }
 
 void paint_tool::Window::onDraw() {
+
+	if (!root_component)
+		return;
 
 	clrscr(0x000000);
 	
@@ -66,6 +70,9 @@ void paint_tool::Window::onChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	if (nChar == (UINT) 'i')
 		debug_show_ids ^= true;
 
+	if (nChar == (UINT) 'p')
+		debug_show_pos ^= true;
+
 	if (nChar == (UINT) 'b')
 		debug_show_borders ^= true;
 
@@ -74,12 +81,14 @@ void paint_tool::Window::onChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	
 	if (nChar == (UINT) 'a') {
 		debug_show_ids = true;
+		debug_show_pos = true;
 		debug_show_borders = true;
 		debug_show_position_lines = true;
 	}
 
 	if (nChar == (UINT) '`') {
 		debug_show_ids = false;
+		debug_show_pos = false;
 		debug_show_borders = false;
 		debug_show_position_lines = false;
 	}
@@ -88,6 +97,9 @@ void paint_tool::Window::onChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 }
 
 void paint_tool::Window::onLButtonDown(UINT nFlags, int x, int y) {
+
+	if (!root_component)
+		return;
 
 	root_component->onLeftMouseButtonDown(POINT{ x, y });
 
@@ -98,6 +110,9 @@ void paint_tool::Window::onLButtonDown(UINT nFlags, int x, int y) {
 
 void paint_tool::Window::onLButtonUp(UINT nFlags, int x, int y) {
 
+	if (!root_component)
+		return;
+
 	root_component->onLeftMouseButtonUp(POINT{ x, y });
 
 	lmouse_down = false;
@@ -106,6 +121,9 @@ void paint_tool::Window::onLButtonUp(UINT nFlags, int x, int y) {
 }
 
 void paint_tool::Window::onMouseMove(UINT nFlags, int x, int y) {
+
+	if (!root_component)
+		return;
 	
 	root_component->onMouseMove(POINT{ x, y }, lmouse_down);
 
@@ -147,6 +165,9 @@ void paint_tool::Window::drawSingleComponent(const Component *component) {
 	if (debug_show_ids)
 		drawDebugComponentId(component);
 
+	if (debug_show_pos)
+		drawDebugComponentPos(component);
+
 	if (debug_show_borders)
 		drawDebugComponentBorder(component);
 
@@ -179,10 +200,44 @@ void paint_tool::Window::drawDebugComponentId(const Component *component) {
 	delete[] wstr;
 }
 
+void paint_tool::Window::drawDebugComponentPos(const Component *component) {
+
+	SIZE size = component->getSize();
+	POINT pos = component->getPosition();
+	POINT abs_pos = component->getAbsolutePosition();
+
+	int dy = (component->isComponentGroup() ? 25 : 5);
+
+	std::wstring wstr = L"(x=" + std::to_wstring(pos.x) + L", y=" + std::to_wstring(pos.y) + L") " + 
+		L" [" + std::to_wstring(size.cx) + L"x" + std::to_wstring(size.cy) + L"]";
+
+	HFONT debug_id_font = FontManager::getInstance()->getFontHandle("debug_id");
+	setHDEFFont(debug_id_font);
+	selectTextColour(0xff00ff);
+	drawText(wstr.c_str(), abs_pos.x, abs_pos.y + component->getSize().cy + dy);
+
+	::DeleteObject(debug_id_font);
+}
+
 void paint_tool::Window::drawDebugComponentBorder(const Component *component) {
 
 	POINT pos = component->getAbsolutePosition();
 	SIZE size = component->getSize();
+	POINT origin = component->getOrigin();
+
+	/* draw the origin */
+
+	int x1, y1, x2, y2;
+	x1 = pos.x + origin.x - 5;
+	y1 = pos.y + origin.y - 5;
+	x2 = pos.x + origin.x + 5;
+	y2 = pos.y + origin.y + 5;
+
+	setPenColour(0x0000ff, 1);
+	drawLine(x1, y1, x2, y2);
+	drawLine(x1, y2, x2, y1);
+	drawCircle(pos.x + origin.x, pos.y + origin.y, 5, false);
+	//drawLine(pos.x + origin.x - 5, pos.y + origin.y - 5, pos.x + origin.x + 5, pos.y + origin.y + 5);
 
 	/* differentiate between group borders and normal component borders */
 
@@ -231,7 +286,8 @@ void paint_tool::Window::drawDebugComponentPositionLines(const Component *compon
 	else
 		::GetClientRect(getHWND(), &parent_rect);
 
-	/* differentiate between group position lines and normal component position lines */
+	/* differentiate between group position lines and normal component position
+	   lines */
 
 	if (component->isComponentGroup())
 		setPenColour(0xffff00, 1);

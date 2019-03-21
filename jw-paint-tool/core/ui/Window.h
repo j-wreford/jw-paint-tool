@@ -9,6 +9,7 @@
 #include "core\ui\component\RootComponent.h"
 #include "core\ui\component\StaticBox.h"
 #include "core\ui\component\StaticLabel.h"
+#include "core\ui\component\Button.h"
 #include "core\ui\FontManager.h"
 #include "core\ui\StyleManager.h"
 
@@ -89,6 +90,11 @@ namespace paint_tool {
 		bool debug_show_ids;
 
 		//
+		// When true, the position of a component is drawn below its position
+		//
+		bool debug_show_pos;
+
+		//
 		// When true, all components are drawn with a surrounding border
 		//
 		bool debug_show_borders;
@@ -108,6 +114,11 @@ namespace paint_tool {
 		// Writes the id of the given Component above its position
 		//
 		void drawDebugComponentId(const Component *component);
+
+		//
+		// Writes the position of the given Component below its position
+		//
+		void drawDebugComponentPos(const Component *component);
 
 		//
 		// Frames the given Component's rect
