@@ -47,6 +47,11 @@ namespace paint_tool {
 		RECT getAbsoluteRect() const;
 
 		//
+		// Returns the point where (0,0) is within the Component's rect
+		//
+		inline POINT getOrigin() const;
+
+		//
 		// Returns the top and left values of the Component's rect in POINT
 		// form, relative to its parent.
 		//
@@ -122,7 +127,12 @@ namespace paint_tool {
 		//
 		// Gives the Component a new width, height, and position
 		//
-		inline void setRect(RECT _rect);
+		inline void setRect(const RECT &_rect);
+
+		//
+		// Gives the Component a new origin
+		//
+		inline void setOrigin(const POINT &_origin);
 
 		//
 		// Gives the Component a new width and height
@@ -148,9 +158,15 @@ namespace paint_tool {
 		std::string id;
 
 		//
-		// The combined position and size of the Component
+		// The combined position and size of the Component, not taking into
+		// account the origin offset
 		//
 		RECT rect;
+
+		//
+		// The point within the rect of which (0,0) lies at
+		//
+		POINT origin;
 
 		//
 		// A pointer to the parent of the Component.
@@ -183,6 +199,10 @@ RECT paint_tool::Component::getRect() const {
 	return rect;
 }
 
+POINT paint_tool::Component::getOrigin() const {
+	return origin;
+}
+
 POINT paint_tool::Component::getPosition() const {
 
 	return POINT{
@@ -207,8 +227,12 @@ std::string paint_tool::Component::getStyleSetId() const {
 	return style_set_id;
 }
 
-void paint_tool::Component::setRect(RECT _rect) {
+void paint_tool::Component::setRect(const RECT &_rect) {
 	rect = _rect;
+}
+
+void paint_tool::Component::setOrigin(const POINT &_origin) {
+	origin = _origin;
 }
 
 void paint_tool::Component::setParent(Component *_parent) {
