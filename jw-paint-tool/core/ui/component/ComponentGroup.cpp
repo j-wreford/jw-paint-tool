@@ -144,7 +144,6 @@ void paint_tool::ComponentGroup::onMouseMove(const POINT &mouse, const bool &lmo
 	}
 }
 
-
 bool paint_tool::ComponentGroup::isInteractive() const {
 
 	bool interactive = isDraggable();
@@ -178,11 +177,24 @@ void paint_tool::ComponentGroup::addComponent(paint_tool::p_component_t &compone
 
 void paint_tool::ComponentGroup::recalculateSize() {
 
-	RECT rect = getAbsoluteRect();
+	POINT pos = getPosition();
+	POINT origin = getOrigin();
 
+	/* get the position of the point where the origin lies */
+
+	pos.x += origin.x;
+	pos.y += origin.y;
+
+	/* reset the size to 0 x 0 so it can shrink from its previous size */
+
+	setSize(SIZE{ 0, 0 });
+
+	/* calculate the union rect of all child components */
+
+	RECT rect = getRect();
 	std::for_each(components.begin(), components.end(), [&rect](auto &pair) {
 
-		RECT this_rect = pair.second->getAbsoluteRect();
+		RECT this_rect = pair.second->getRect();
 
 		::UnionRect(
 			&rect,
@@ -191,5 +203,29 @@ void paint_tool::ComponentGroup::recalculateSize() {
 		);
 	});
 
+	/* union rect does not consider the fact that a child component's position
+	   might be at [10,10]. we need to include the leading space in the group's
+	   rectangle */
+
+	if (rect.left > 0)
+		rect.left = 0;
+	else
+		origin.x = -rect.left;
+
+	if (rect.top > 0)
+		rect.top = 0;
+	else
+		origin.y = -rect.top;
+
+	/* adjust the position to make it appear that the bottom-right point of the
+	   group's border hasn't moved */
+
+	pos.x -= origin.x;
+	pos.y -= origin.y;
+
+	/* update properties */
+
+	setOrigin(origin);
 	setRect(rect);
+	setPosition(pos);
 }
