@@ -15,6 +15,11 @@
 
 namespace paint_tool {
 
+	//
+	// The string used to represent the Component
+	//
+	const std::string CPMNT_BTN = "button";
+
 	class Button :
 		public ComponentGroup {
 	public:
@@ -49,6 +54,8 @@ namespace paint_tool {
 		//
 		std::function<void(void)> callback;
 	};
+
+	typedef std::unique_ptr<Button> p_button_t;
 }
 
 bool paint_tool::Button::isInteractive() const {
