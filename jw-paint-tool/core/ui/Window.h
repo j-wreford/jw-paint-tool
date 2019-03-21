@@ -7,6 +7,7 @@
 #include "EasyGraphics.h"
 #include "core\ui\component\ComponentGroup.h"
 #include "core\ui\component\RootComponent.h"
+#include "core\ui\component\RadioGroup.h"
 #include "core\ui\component\StaticBox.h"
 #include "core\ui\component\StaticLabel.h"
 #include "core\ui\component\Button.h"
