@@ -56,19 +56,35 @@ void paint_tool::InteractiveComponent::onMouseMove(const POINT &mouse, const boo
 
 	if (lmouse_down && active && draggable) {
 
-		setPosition(POINT{
+		POINT new_pos = //getPosition();
+		{
 			mouse.x - lmouse_down_offset.x,
 			mouse.y - lmouse_down_offset.y
-		});
+		};
+
+		setPosition(new_pos);
 	}
 }
 
 POINT paint_tool::InteractiveComponent::getRelativePoint(const POINT &mouse) const {
 
+	POINT relative_point = mouse;
+
 	POINT pos = getAbsolutePosition();
 
+	relative_point.x -= pos.x;
+	relative_point.y -= pos.y;
+
+	POINT origin = getOrigin();
+
+	relative_point.x -= origin.x;
+	relative_point.y -= origin.y;
+
+	return relative_point;
+
+	/*
 	return POINT{
-		mouse.x - pos.x,
-		mouse.y - pos.y
-	};
+		mouse.x - par_pos.x,//pos.x - par_origin.x,
+		mouse.y - par_pos.y//pos.y - par_origin.y
+	};*/
 }
