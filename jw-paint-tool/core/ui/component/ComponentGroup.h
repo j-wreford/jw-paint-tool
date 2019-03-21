@@ -101,6 +101,11 @@ namespace paint_tool {
 		//
 		inline InteractiveComponent *getFocusedComponent();
 
+		//
+		// Returns the Component with the given id
+		//
+		inline Component *getComponent(const std::string &id);
+
 	private:
 
 		//
@@ -143,4 +148,16 @@ const std::map<std::string, paint_tool::p_component_t> *paint_tool::ComponentGro
 
 paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getFocusedComponent() {
 	return focused_component;
+}
+
+paint_tool::Component *paint_tool::ComponentGroup::getComponent(const std::string &id) {
+
+	Component *component = nullptr;
+
+	auto it = components.find(id);
+
+	if (it != components.end())
+		component = it->second.get();
+
+	return component;
 }
