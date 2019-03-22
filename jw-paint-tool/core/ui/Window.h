@@ -69,6 +69,11 @@ namespace paint_tool {
 	protected:
 
 		//
+		// Returns the RootComponent
+		//
+		RootComponent *getRootComponent();
+
+		//
 		// Adds a component to the components collection
 		//
 		void addComponent(p_component_t &component);

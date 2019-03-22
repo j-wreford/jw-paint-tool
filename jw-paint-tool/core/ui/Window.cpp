@@ -135,6 +135,10 @@ void paint_tool::Window::onMouseMove(UINT nFlags, int x, int y) {
 	onDraw();
 }
 
+paint_tool::RootComponent *paint_tool::Window::getRootComponent() {
+	return root_component.get();
+}
+
 void paint_tool::Window::addComponent(paint_tool::p_component_t &component) {
 	root_component->addComponent(component);
 }
