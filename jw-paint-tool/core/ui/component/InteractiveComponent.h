@@ -82,13 +82,11 @@ namespace paint_tool {
 
 		InteractiveComponent(
 			const	std::string	&id,
-			const	POINT		&position,
 			const	std::string &style_set_id = "default"
 		);
 
 		InteractiveComponent(
 			const	std::string	&id,
-			const	POINT		&position,
 			const	SIZE		&size,
 			const	std::string &style_set_id = "default"
 		);
