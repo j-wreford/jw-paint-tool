@@ -98,6 +98,7 @@ namespace paint_tool {
 		// Returns the collection containing the child Components
 		//
 		inline const std::list<p_component_t> *getChildComponents() const;
+		inline std::list<p_component_t> *getChildComponents();
 
 		//
 		// Adds a Component to the ComponentGroup
@@ -183,6 +184,10 @@ bool paint_tool::ComponentGroup::isComponentGroup() const {
 }
 
 const std::list<paint_tool::p_component_t> *paint_tool::ComponentGroup::getChildComponents() const {
+	return &components;
+}
+
+std::list<paint_tool::p_component_t> *paint_tool::ComponentGroup::getChildComponents() {
 	return &components;
 }
 
