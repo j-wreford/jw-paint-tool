@@ -107,6 +107,39 @@ paint_tool::TestUI::TestUI(HINSTANCE hInstance) :
 
 	addComponent(radio_group);
 
+
+	// Build a group which will have a vertical layout
+
+
+	// Make the group
+	paint_tool::p_component_t layout_test_group = std::make_unique<ComponentGroup>(
+		"layout_test_group",
+		POINT{ 50, 400 },
+		"default",
+		false // transparent background
+	);
+
+	// Cast the group to ComponentGroup* so we can call addComponent()
+	ComponentGroup *p_layout_test_group = dynamic_cast<ComponentGroup *>(layout_test_group.get());
+	p_layout_test_group->setLayoutStrategy(LAYOUT_VERTICAL);
+
+	// Add some boxes to the group
+	for (int i = 0; i < 3; i++) {
+
+		paint_tool::p_component_t layout_test_box = std::make_unique<StaticBox>(
+			"layout_test_box_" + std::to_string(i),
+			POINT{ 0, 0 },
+			SIZE{ 15, 25 },
+			"test_style"
+		);
+		p_layout_test_group->addComponent(layout_test_box);
+	}
+
+	// Add the group
+	addComponent(layout_test_group);
+
+
+
 	InvalidateRect(getHWND(), NULL, false);
 
 	waitForClose();
