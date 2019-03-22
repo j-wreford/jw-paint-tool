@@ -30,7 +30,6 @@ namespace paint_tool {
 
 		ComponentGroup(
 			const	std::string	&id,
-			const	POINT		&position,
 			const	std::string &style_set_id = "default",
 			const	bool		&fill_background = false
 		);
