@@ -2,12 +2,11 @@
 
 paint_tool::StaticLabel::StaticLabel(
 	const	std::string		&id,
-	const	POINT			&position,
 	const	std::wstring	&text,
 	const	std::string		&style_set_id ,
 	const	std::string		&font_attr_set_id
 ) :
-	Component(id, position, style_set_id),
+	Component(id, style_set_id),
 	font_attr_set_id(font_attr_set_id),
 	text(text) {
 
