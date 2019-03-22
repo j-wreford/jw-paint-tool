@@ -70,3 +70,37 @@ void paint_tool::LayoutManager::layout(Component *component) {
 		}
 	}
 }
+
+void paint_tool::LayoutManager::layoutVertically(ComponentGroup *group) {
+
+	int last_bottom = 0;
+
+	for (p_component_t &component : *group->getChildComponents()) {
+
+		component->setPosition(POINT{
+			component->getPosition().x,
+			last_bottom
+		});
+
+		last_bottom = component->getRect().bottom;
+
+		layout(component.get());
+	}
+}
+
+void paint_tool::LayoutManager::layoutHorizontally(ComponentGroup *group) {
+
+	int last_right = 0;
+
+	for (p_component_t &component : *group->getChildComponents()) {
+
+		component->setPosition(POINT{
+			last_right,
+			component->getPosition().y
+			});
+
+		last_right = component->getRect().right;
+
+		layout(component.get());
+	}
+}
