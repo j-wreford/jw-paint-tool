@@ -4,6 +4,7 @@
 #include <algorithm>
 
 #include "core\ui\component\InteractiveComponent.h"
+#include "core\ui\component\FixedSpace.h"
 #include "core\ui\layout\LayoutManagerEnum.h"
 
 //
@@ -104,6 +105,12 @@ namespace paint_tool {
 		// Adds a Component to the ComponentGroup
 		//
 		void addComponent(p_component_t &component);
+
+		//
+		// Adds a Spacer component to the group
+		//
+		void addVerticalSpace(const int& height);
+		void addHorizontalSpace(const int& width);
 
 		//
 		// Sets the strategy to be used by the LayoutManager to position

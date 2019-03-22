@@ -173,6 +173,26 @@ void paint_tool::ComponentGroup::addComponent(paint_tool::p_component_t &compone
 	recalculateSize();
 }
 
+void paint_tool::ComponentGroup::addVerticalSpace(const int& height) {
+
+	components.push_back(
+		std::make_unique<FixedSpace>(
+			"fixed_space_" + std::to_string(components.size()),
+			SIZE{ 0, height }
+		)
+	);
+}
+
+void paint_tool::ComponentGroup::addHorizontalSpace(const int& width) {
+
+	components.push_back(
+		std::make_unique<FixedSpace>(
+			"fixed_space_" + std::to_string(components.size()),
+			SIZE{ width, 0 }
+		)
+	);
+}
+
 void paint_tool::ComponentGroup::recalculateSize() {
 
 	POINT pos = getPosition();
