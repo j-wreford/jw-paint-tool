@@ -21,7 +21,6 @@ namespace paint_tool {
 
 		inline RadioGroup(
 			const	std::string	&id,
-			const	POINT		&position,
 			const	SIZE		&item_size,
 			const	std::string &style_set_id = "default"
 		);
@@ -57,11 +56,10 @@ namespace paint_tool {
 template <class ValT, class ItemComponentT>
 paint_tool::RadioGroup<ValT, ItemComponentT>::RadioGroup(
 	const	std::string	&id,
-	const	POINT		&position,
 	const	SIZE		&item_size,
 	const	std::string &style_set_id
 ) :
-	ComponentGroup(id, position, style_set_id),
+	ComponentGroup(id, style_set_id),
 	item_size(item_size) {
 	//
 }

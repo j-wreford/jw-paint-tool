@@ -26,7 +26,6 @@ namespace paint_tool {
 
 		inline InternalRadioItem(
 			const	std::string	&id,
-			const	POINT		&position,
 			const	SIZE		&size,
 					ValT		value,
 			const	std::string &style_set_id = "default"
@@ -61,12 +60,11 @@ namespace paint_tool {
 template <class ValT>
 paint_tool::InternalRadioItem<ValT>::InternalRadioItem(
 	const	std::string	&id,
-	const	POINT		&position,
 	const	SIZE		&size,
 	ValT		value,
 	const	std::string &style_set_id
 ) :
-	InteractiveComponent(id, position, size, style_set_id),
+	InteractiveComponent(id, size, style_set_id),
 	value(value) {
 	//
 }
