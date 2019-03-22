@@ -3,6 +3,8 @@
 paint_tool::PaintTool::PaintTool(HINSTANCE hInstance) :
 	Window(hInstance, 1280, 800) {
 
+	::SetWindowText(getHWND(), L"Paint Tool");
+
 	getRootComponent()->setLayoutStrategy(LAYOUT_HORIZONTAL);
 
 	createStyles();
