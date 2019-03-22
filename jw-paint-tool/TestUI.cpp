@@ -102,7 +102,9 @@ paint_tool::TestUI::TestUI(HINSTANCE hInstance) :
 	RadioGroup<int> *p_radio_group = dynamic_cast<RadioGroup<int> *>(radio_group.get());
 	p_radio_group->setLayoutStrategy(LAYOUT_HORIZONTAL);
 	p_radio_group->addChoice(100);
+	p_radio_group->addHorizontalSpace(10);
 	p_radio_group->addChoice(200);
+	p_radio_group->addHorizontalSpace(10);
 	p_radio_group->addChoice(300);
 
 	addComponent(radio_group);
@@ -133,6 +135,9 @@ paint_tool::TestUI::TestUI(HINSTANCE hInstance) :
 			"test_style"
 		);
 		p_layout_test_group->addComponent(layout_test_box);
+		
+		if (i < 2)
+			p_layout_test_group->addVerticalSpace(10);
 	}
 
 	// Add the group
