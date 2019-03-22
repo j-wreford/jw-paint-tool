@@ -319,8 +319,7 @@ void paint_tool::Window::componentWalker(
 		const ComponentGroup *group =
 			dynamic_cast<const ComponentGroup *>(component);
 
-		for (auto &pair : *group->getChildComponents())
-			Window::componentWalker(pair.second.get(), fn);
+		for (const p_component_t &child : *group->getChildComponents())
+			Window::componentWalker(child.get(), fn);
 	}
-
 }
