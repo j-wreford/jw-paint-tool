@@ -101,6 +101,8 @@ paint_tool::TestUI::TestUI(HINSTANCE hInstance) :
 
 	RadioGroup<int> *p_radio_group = dynamic_cast<RadioGroup<int> *>(radio_group.get());
 	p_radio_group->setLayoutStrategy(LAYOUT_HORIZONTAL);
+	p_radio_group->setMinimumSize(SIZE{ 200, 200 });
+
 	p_radio_group->addChoice(100);
 	p_radio_group->addHorizontalSpace(10);
 	p_radio_group->addChoice(200);
