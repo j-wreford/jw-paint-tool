@@ -147,6 +147,7 @@
     <ClInclude Include="core\ui\component\Button.h" />
     <ClInclude Include="core\ui\component\Component.h" />
     <ClInclude Include="core\ui\component\ComponentGroup.h" />
+    <ClInclude Include="core\ui\component\FixedSpace.h" />
     <ClInclude Include="core\ui\component\InteractiveComponent.h" />
     <ClInclude Include="core\ui\component\InternalRadioItem.h" />
     <ClInclude Include="core\ui\component\RadioGroup.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="core\ui\component\Button.cpp" />
     <ClCompile Include="core\ui\component\Component.cpp" />
     <ClCompile Include="core\ui\component\ComponentGroup.cpp" />
+    <ClCompile Include="core\ui\component\FixedSpace.cpp" />
     <ClCompile Include="core\ui\component\InteractiveComponent.cpp" />
     <ClCompile Include="core\ui\component\RootComponent.cpp" />
     <ClCompile Include="core\ui\component\StaticBox.cpp" />
