@@ -34,7 +34,7 @@ namespace paint_tool {
 		//
 		// Begins the layout process
 		//
-		void layout(Component *component);
+		void layout(Component *component, LayoutStrategy parent_layout = LAYOUT_MANUAL);
 
 	private:
 
