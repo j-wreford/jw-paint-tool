@@ -6,6 +6,8 @@ paint_tool::PaintTool::PaintTool(HINSTANCE hInstance) :
 	createStyles();
 	createFonts();
 	createUI();
+
+	getRootComponent()->setLayoutStrategy(LAYOUT_HORIZONTAL);
 	
 	waitForClose();
 }
@@ -110,7 +112,6 @@ void paint_tool::PaintTool::createCanvas() {
 
 	p_component_t canvas = std::make_unique<StaticBox>(
 		"simulated_canvas",
-		POINT{ 260, 0 },
 		SIZE{ 1020, 800 },
 		"canvas_background"
 	);
@@ -123,7 +124,6 @@ void paint_tool::PaintTool::createLeftPanel() {
 
 	p_component_t panel = std::make_unique<ComponentGroup>(
 		"left_panel",
-		POINT{ 0, 0 },
 		"ui_panel",
 		true // fill background
 	);
@@ -134,7 +134,6 @@ void paint_tool::PaintTool::createLeftPanel() {
 
 	p_component_t box = std::make_unique<StaticBox>(
 		"left_panel_box",
-		POINT{ 0, 0 },
 		SIZE{ 260, 800 },
 		"ui_panel"
 	);
