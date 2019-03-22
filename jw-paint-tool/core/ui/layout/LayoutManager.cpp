@@ -18,6 +18,16 @@ void paint_tool::LayoutManager::layout(Component *component, LayoutStrategy pare
 		//
 		break;
 
+	case ALIGN_MIDDLE :
+
+		if (parent_layout == LAYOUT_VERTICAL)
+			component->positionCenter();
+		else
+		if (parent_layout == LAYOUT_HORIZONTAL)
+			component->positionMiddle();
+
+		break;
+
 	case ALIGN_LEFT_OR_TOP :
 
 		if (parent_layout == LAYOUT_VERTICAL)
@@ -85,7 +95,7 @@ void paint_tool::LayoutManager::layoutVertically(ComponentGroup *group) {
 
 		last_bottom = component->getRect().bottom;
 
-		layout(component.get());
+		layout(component.get(), group->getLayoutStrategy());
 	}
 }
 
@@ -100,8 +110,8 @@ void paint_tool::LayoutManager::layoutHorizontally(ComponentGroup *group) {
 			component->getPosition().y
 			});
 
-		last_right = component->getRect().right;
-
 		layout(component.get());
+
+		last_right = component->getRect().right;
 	}
 }
