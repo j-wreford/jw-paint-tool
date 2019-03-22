@@ -2,6 +2,7 @@
 
 #include "core\ui\layout\LayoutManagerEnum.h"
 #include "core\ui\component\Component.h"
+#include "core\ui\component\ComponentGroup.h"
 
 //
 // LayoutManager
@@ -34,6 +35,22 @@ namespace paint_tool {
 		// Begins the layout process
 		//
 		void layout(Component *component);
+
+	private:
+
+		//
+		// Takes a ComponentGroup and lays out its Components vertically.
+		//
+		// This method will also call layout on each of its children.
+		//
+		void layoutVertically(ComponentGroup *group);
+
+		//
+		// Takes a ComponentGroup and lays out its Components horizontally.
+		//
+		// This method will also call layout on each of its children.
+		//
+		void layoutHorizontally(ComponentGroup *group);
 	};
 }
 
