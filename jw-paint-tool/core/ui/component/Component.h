@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "EasyGraphics.h"
+#include "core\ui\layout\LayoutManagerEnum.h"
 
 //
 // Component
@@ -78,6 +79,11 @@ namespace paint_tool {
 		inline std::string getStyleSetId() const;
 
 		//
+		// Returns the alignment of the Component
+		//
+		inline AlignStrategy getAlignment() const;
+
+		//
 		// Gives the Component a new position
 		//
 		void setPosition(POINT position);
@@ -96,6 +102,11 @@ namespace paint_tool {
 		// Sets the pointer to the parent Component
 		//
 		inline void setParent(Component *_parent);
+
+		//
+		// Sets the alignment of the Component
+		//
+		inline void setAlignment(AlignStrategy _alignment);
 
 		//
 		// Returns false; the base Component is not interactive
@@ -192,6 +203,11 @@ namespace paint_tool {
 		std::string style_set_id;
 
 		//
+		// Determines how the Component will be aligned within its parent rect
+		//
+		AlignStrategy alignment;
+
+		//
 		// Set to true when the Component intends to use a drawing method
 		// which uses the corresponding property
 		//
@@ -237,6 +253,10 @@ std::string paint_tool::Component::getStyleSetId() const {
 	return style_set_id;
 }
 
+paint_tool::AlignStrategy paint_tool::Component::getAlignment() const {
+	return alignment;
+}
+
 void paint_tool::Component::positionLeft() {
 
 	setPosition(POINT{
@@ -263,6 +283,10 @@ void paint_tool::Component::setOrigin(const POINT &_origin) {
 
 void paint_tool::Component::setParent(Component *_parent) {
 	parent = _parent;
+}
+
+void paint_tool::Component::setAlignment(AlignStrategy _alignment) {
+	alignment = _alignment;
 }
 
 bool paint_tool::Component::isInteractive() const {
