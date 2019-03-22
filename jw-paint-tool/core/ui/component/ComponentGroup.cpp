@@ -35,14 +35,12 @@ void paint_tool::ComponentGroup::onLeftMouseButtonDown(const POINT &mouse) {
 
 	/* 1. call onLeftMouseButtonDown on each interactive child component */
 
-	for (auto &pair : components) {
-
-		Component *component = pair.second.get();
+	for (p_component_t &component : components) {
 
 		if (component->isInteractive()) {
 
 			InteractiveComponent *inter_comp =
-				dynamic_cast<InteractiveComponent *>(component);
+				dynamic_cast<InteractiveComponent *>(component.get());
 
 			if (inter_comp)
 				inter_comp->onLeftMouseButtonDown(
@@ -55,15 +53,15 @@ void paint_tool::ComponentGroup::onLeftMouseButtonDown(const POINT &mouse) {
 	      onLeftMouseButtonDown */
 
 	auto it = std::find_if(components.begin(), components.end(),
-		[](auto &pair) -> bool {
+		[](p_component_t &component) -> bool {
 
 			bool active = false;
 			
-			InteractiveComponent *component =
-				dynamic_cast<InteractiveComponent *>(pair.second.get());
+			InteractiveComponent *inter_comp =
+				dynamic_cast<InteractiveComponent *>(component.get());
 
-			if (component)
-				active = component->isActive();
+			if (inter_comp)
+				active = inter_comp->isActive();
 			
 			return active;
 		}
@@ -72,7 +70,7 @@ void paint_tool::ComponentGroup::onLeftMouseButtonDown(const POINT &mouse) {
 	/* 3. set the active_component property */
 
 	if (it != components.end())
-		active_component = dynamic_cast<InteractiveComponent *>(it->second.get());
+		active_component = dynamic_cast<InteractiveComponent *>(it->get());
 }
 
 void paint_tool::ComponentGroup::onLeftMouseButtonUp(const POINT &mouse) {
@@ -80,14 +78,12 @@ void paint_tool::ComponentGroup::onLeftMouseButtonUp(const POINT &mouse) {
 
 	/* 1. call onLeftMouseButtonUp on each interactive child component */
 
-	for (auto &pair : components) {
-
-		Component *component = pair.second.get();
+	for (p_component_t &component : components) {
 
 		if (component->isInteractive()) {
 
 			InteractiveComponent *inter_comp =
-				dynamic_cast<InteractiveComponent *>(component);
+				dynamic_cast<InteractiveComponent *>(component.get());
 
 			if (inter_comp)
 				inter_comp->onLeftMouseButtonUp(
@@ -100,15 +96,15 @@ void paint_tool::ComponentGroup::onLeftMouseButtonUp(const POINT &mouse) {
 	      onLeftMouseButtonUp) */
 
 	auto it = std::find_if(components.begin(), components.end(),
-		[](auto &pair) -> bool {
+		[](p_component_t &component) -> bool {
 
 			bool focused = false;
 
-			InteractiveComponent *component =
-				dynamic_cast<InteractiveComponent *>(pair.second.get());
+			InteractiveComponent *inter_comp =
+				dynamic_cast<InteractiveComponent *>(component.get());
 
-			if (component)
-				focused = component->isFocused();
+			if (inter_comp)
+				focused = inter_comp->isFocused();
 
 			return focused;
 		}
@@ -117,7 +113,7 @@ void paint_tool::ComponentGroup::onLeftMouseButtonUp(const POINT &mouse) {
 	/* 3. set the focused_component and active_component properties */
 
 	if (it != components.end())
-		focused_component = dynamic_cast<InteractiveComponent *>(it->second.get());
+		focused_component = dynamic_cast<InteractiveComponent *>(it->get());
 
 	if (active_component)
 		last_active_component = active_component;
@@ -130,14 +126,12 @@ void paint_tool::ComponentGroup::onMouseMove(const POINT &mouse, const bool &lmo
 	
 	/* call onMouseMove on each interactive child component */
 
-	for (auto &pair : components) {
-
-		Component *component = pair.second.get();
+	for (p_component_t &component: components) {
 
 		if (component->isInteractive()) {
 
 			InteractiveComponent *inter_comp =
-				dynamic_cast<InteractiveComponent *>(component);
+				dynamic_cast<InteractiveComponent *>(component.get());
 
 			if (inter_comp)
 				inter_comp->onMouseMove(
@@ -157,8 +151,9 @@ bool paint_tool::ComponentGroup::isInteractive() const {
 
 	if (!interactive) {
 
-		auto it = std::find_if(components.begin(), components.end(), [](auto &pair) {
-			return pair.second->isInteractive();
+		auto it = std::find_if(components.begin(), components.end(),
+			[](const p_component_t &component) {
+				return component->isInteractive();
 		});
 
 		if (it != components.end())
@@ -172,9 +167,7 @@ void paint_tool::ComponentGroup::addComponent(paint_tool::p_component_t &compone
 
 	component->setParent(this);
 
-	components.insert(
-		std::make_pair(component->getId(), std::move(component))
-	);
+	components.push_back(std::move(component));
 
 	recalculateSize();
 }
@@ -196,15 +189,16 @@ void paint_tool::ComponentGroup::recalculateSize() {
 	/* calculate the union rect of all child components */
 
 	RECT rect = getRect();
-	std::for_each(components.begin(), components.end(), [&rect](auto &pair) {
+	std::for_each(components.begin(), components.end(),
+		[&rect](p_component_t &component) {
 
-		RECT this_rect = pair.second->getRect();
+			RECT this_rect = component->getRect();
 
-		::UnionRect(
-			&rect,
-			&rect,
-			&this_rect
-		);
+			::UnionRect(
+				&rect,
+				&rect,
+				&this_rect
+			);
 	});
 
 	/* union rect does not consider the fact that a child component's position
@@ -221,8 +215,8 @@ void paint_tool::ComponentGroup::recalculateSize() {
 	else
 		origin.y = -rect.top;
 
-	/* adjust the position to make it appear that the bottom-right point of the
-	   group's border hasn't moved */
+	/* adjust the position to make it appear that component's haven't moved
+	   if the origin has changed */
 
 	pos.x -= origin.x;
 	pos.y -= origin.y;

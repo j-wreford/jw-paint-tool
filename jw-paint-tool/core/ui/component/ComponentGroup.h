@@ -1,6 +1,6 @@
 #pragma once
 
-#include <map>
+#include <list>
 #include <algorithm>
 
 #include "core\ui\component\InteractiveComponent.h"
@@ -9,6 +9,10 @@
 // ComponentGroup
 //
 // Collects a group of Components into one single Component.
+//
+// The collection is stored as a List. Originally, this project had used an
+// associative container but this was changed when the order of which Components
+// were addded became important.
 //
 
 namespace paint_tool {
@@ -87,12 +91,12 @@ namespace paint_tool {
 		//
 		// Returns the collection containing the child Components
 		//
-		inline const std::map<std::string, paint_tool::p_component_t> *getChildComponents() const;
+		inline const std::list<p_component_t> *getChildComponents() const;
 
 		//
 		// Adds a Component to the ComponentGroup
 		//
-		void addComponent(paint_tool::p_component_t &component);
+		void addComponent(p_component_t &component);
 
 		//
 		// Recalculates the union rectangle between all child Component rects
@@ -114,9 +118,9 @@ namespace paint_tool {
 	private:
 
 		//
-		// A map of child ui Components
+		// A list of child ui Components
 		//
-		std::map<std::string, paint_tool::p_component_t> components;
+		std::list<paint_tool::p_component_t> components;
 
 		//
 		// The last InteractiveComponent within the ComponentGroup to have its
@@ -156,7 +160,7 @@ bool paint_tool::ComponentGroup::isComponentGroup() const {
 	return true;
 }
 
-const std::map<std::string, paint_tool::p_component_t> *paint_tool::ComponentGroup::getChildComponents() const {
+const std::list<paint_tool::p_component_t> *paint_tool::ComponentGroup::getChildComponents() const {
 	return &components;
 }
 
@@ -168,10 +172,12 @@ paint_tool::Component *paint_tool::ComponentGroup::getComponent(const std::strin
 
 	Component *component = nullptr;
 
-	auto it = components.find(id);
+	auto it = std::find_if(components.begin(), components.end(), [&id](p_component_t &component) {
+		return (component->getId() == id);
+	});
 
 	if (it != components.end())
-		component = it->second.get();
+		component = it->get();
 
 	return component;
 }
