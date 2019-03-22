@@ -134,13 +134,11 @@ namespace paint_tool {
 
 		Component(
 			const	std::string	&id,
-			const	POINT		&position,
 			const	std::string &style_set_id = "default"
 		);
 
 		Component(
 			const	std::string	&id,
-			const	POINT		&position,
 			const	SIZE		&size,
 			const	std::string &style_set_id = "default"
 		);
