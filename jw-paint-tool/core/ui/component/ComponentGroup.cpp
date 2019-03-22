@@ -10,6 +10,7 @@ paint_tool::ComponentGroup::ComponentGroup(
 	focused_component(nullptr),
 	active_component(nullptr),
 	last_active_component(nullptr),
+	minimum_size(SIZE{ 0,0 }),
 	fill_background(fill_background) {
 	
 	recalculateSize();
@@ -234,6 +235,17 @@ void paint_tool::ComponentGroup::recalculateSize() {
 		rect.top = 0;
 	else
 		origin.y = -rect.top;
+
+	/* if the current rectangle is smaller than the minimum size, then increase
+	   its dimensions */
+
+	SIZE min_size = getMinimumSize();
+
+	if ((rect.right - rect.left) < min_size.cx)
+		rect.right = rect.left + min_size.cx;
+
+	if ((rect.bottom - rect.top) < min_size.cy)
+		rect.bottom = rect.top + min_size.cy;
 
 	/* adjust the position to make it appear that component's haven't moved
 	   if the origin has changed */

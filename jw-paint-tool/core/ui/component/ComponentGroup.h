@@ -101,6 +101,11 @@ namespace paint_tool {
 		inline std::list<p_component_t> *getChildComponents();
 
 		//
+		// Returns the minimum size of the ComponentGroup
+		//
+		inline SIZE getMinimumSize() const;
+
+		//
 		// Adds a Component to the ComponentGroup
 		//
 		void addComponent(p_component_t &component);
@@ -116,6 +121,11 @@ namespace paint_tool {
 		// child components
 		//
 		inline void setLayoutStrategy(LayoutStrategy _layout);
+
+		//
+		// Sets the minimum size of the ComponentGroup
+		//
+		inline void setMinimumSize(const SIZE &_minimum_size);
 
 		//
 		// Recalculates the union rectangle between all child Component rects
@@ -165,6 +175,11 @@ namespace paint_tool {
 		InteractiveComponent *last_active_component;
 
 		//
+		// Defines the minimum size of the ComponentGroup
+		//
+		SIZE minimum_size;
+
+		//
 		// When true, the ComponentGroup will fill its background with bg_colour
 		//
 		bool fill_background;
@@ -197,8 +212,16 @@ std::list<paint_tool::p_component_t> *paint_tool::ComponentGroup::getChildCompon
 	return &components;
 }
 
+SIZE paint_tool::ComponentGroup::getMinimumSize() const {
+	return minimum_size;
+}
+
 void paint_tool::ComponentGroup::setLayoutStrategy(LayoutStrategy _layout) {
 	layout = _layout;
+}
+
+void paint_tool::ComponentGroup::setMinimumSize(const SIZE &_minimum_size) {
+	minimum_size = _minimum_size;
 }
 
 paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getFocusedComponent() {
