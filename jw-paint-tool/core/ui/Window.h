@@ -11,6 +11,7 @@
 #include "core\ui\component\StaticBox.h"
 #include "core\ui\component\StaticLabel.h"
 #include "core\ui\component\Button.h"
+#include "core\ui\layout\LayoutManager.h"
 #include "core\ui\FontManager.h"
 #include "core\ui\StyleManager.h"
 
