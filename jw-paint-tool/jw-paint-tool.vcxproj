@@ -155,6 +155,7 @@
     <ClInclude Include="core\ui\component\StaticLabel.h" />
     <ClInclude Include="core\ui\FontManager.h" />
     <ClInclude Include="core\ui\layout\LayoutManager.h" />
+    <ClInclude Include="core\ui\layout\LayoutManagerEnum.h" />
     <ClInclude Include="core\ui\StyleManager.h" />
     <ClInclude Include="dependencies\easy-graphics\EasyGraphics.h" />
     <ClInclude Include="PaintTool.h" />
@@ -170,6 +171,7 @@
     <ClCompile Include="core\ui\component\StaticBox.cpp" />
     <ClCompile Include="core\ui\component\StaticLabel.cpp" />
     <ClCompile Include="core\ui\FontManager.cpp" />
+    <ClCompile Include="core\ui\layout\LayoutManager.cpp" />
     <ClCompile Include="core\ui\StyleManager.cpp" />
     <ClCompile Include="dependencies\easy-graphics\EasyGraphics.cpp" />
     <ClCompile Include="PaintTool.cpp" />
