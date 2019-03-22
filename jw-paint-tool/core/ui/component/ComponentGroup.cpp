@@ -7,6 +7,7 @@ paint_tool::ComponentGroup::ComponentGroup(
 	const	bool		&fill_background
 ) :
 	InteractiveComponent(id, position, style_set_id),
+	layout(LAYOUT_MANUAL),
 	focused_component(nullptr),
 	active_component(nullptr),
 	last_active_component(nullptr),

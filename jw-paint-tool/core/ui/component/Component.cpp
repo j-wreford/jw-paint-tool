@@ -9,7 +9,8 @@ paint_tool::Component::Component(
 	rect(RECT{ 0, 0, 0, 0 }),
 	origin(POINT{ 0, 0 }),
 	parent(nullptr),
-	style_set_id(style_set_id) {
+	style_set_id(style_set_id),
+	alignment(ALIGN_MANUAL) {
 
 	setPosition(position);
 }
