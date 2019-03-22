@@ -151,6 +151,7 @@
     <ClInclude Include="core\ui\component\InteractiveComponent.h" />
     <ClInclude Include="core\ui\component\InternalRadioItem.h" />
     <ClInclude Include="core\ui\component\RadioGroup.h" />
+    <ClInclude Include="core\ui\component\RadioItem.h" />
     <ClInclude Include="core\ui\component\StaticBox.h" />
     <ClInclude Include="core\ui\component\StaticLabel.h" />
     <ClInclude Include="core\ui\FontManager.h" />
