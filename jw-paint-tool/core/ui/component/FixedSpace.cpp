@@ -3,7 +3,7 @@
 paint_tool::FixedSpace::FixedSpace(
 	const	std::string	&id,
 	const	SIZE		&size
-) : StaticBox(id, POINT{ 0,0 }, size) {
+) : StaticBox(id, size) {
 	//
 }
 
