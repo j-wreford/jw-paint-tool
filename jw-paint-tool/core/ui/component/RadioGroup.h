@@ -80,11 +80,10 @@ void paint_tool::RadioGroup<ValT, ItemComponentT>::addChoice(ValT value) {
 
 	p_component_t choice = std::make_unique<ItemComponentT>(
 		id,
-		POINT{ 0, 0 },
 		item_size,
 		value,
 		getStyleSetId()
-		);
+	);
 
 	addComponent(choice);
 }
