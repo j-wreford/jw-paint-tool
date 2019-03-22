@@ -16,5 +16,32 @@ namespace paint_tool {
 
 		PaintTool(HINSTANCE hInstance);
 		~PaintTool();
+
+	private:
+
+		//
+		// Creates all the style sets for use in the application
+		//
+		void createStyles();
+
+		//
+		// Creates all the font sets for use in the application
+		//
+		void createFonts();
+
+		//
+		// Creates the UI components
+		//
+		void createUI();
+
+		//
+		// Creates the drawing canvas
+		//
+		void createCanvas();
+
+		//
+		// Creates the left panel
+		//
+		void createLeftPanel();
 	};
 }
