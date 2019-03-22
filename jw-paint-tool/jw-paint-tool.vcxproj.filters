@@ -63,6 +63,15 @@
     <ClInclude Include="TestUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="core\ui\layout\LayoutManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\ui\layout\LayoutManagerEnum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\ui\component\FixedSpace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\ui\component\Component.cpp">
@@ -105,6 +114,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TestUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\ui\layout\LayoutManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\ui\component\FixedSpace.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

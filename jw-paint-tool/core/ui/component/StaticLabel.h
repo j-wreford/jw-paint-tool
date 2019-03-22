@@ -24,7 +24,6 @@ namespace paint_tool {
 
 		StaticLabel(
 			const	std::string		&id,
-			const	POINT			&position,
 			const	std::wstring	&text,
 			const	std::string		&style_set_id = "default",
 			const	std::string		&font_attr_set_id = "default"

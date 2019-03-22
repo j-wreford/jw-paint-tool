@@ -48,6 +48,9 @@ void paint_tool::Window::onDraw() {
 		return;
 
 	clrscr(0x000000);
+
+	LayoutManager *layout_manager = new LayoutManager();
+	layout_manager->layout(root_component.get());
 	
 	Window::componentWalker(
 		root_component.get(),
@@ -55,6 +58,8 @@ void paint_tool::Window::onDraw() {
 	);
 
 	EasyGraphics::onDraw();
+
+	delete layout_manager;
 }
 
 void paint_tool::Window::onKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {

@@ -2,13 +2,12 @@
 
 paint_tool::Button::Button(
 	const	std::string					&id,
-	const	POINT						&position,
 	const	SIZE						&size,
 	const	std::wstring				&text,
 	const	std::string					&style_set_id,
 	const	std::function<void(void)>	callback
 ) :
-	ComponentGroup(id, position, style_set_id),
+	ComponentGroup(id, style_set_id),
 	callback(callback)
 {
 
@@ -16,7 +15,6 @@ paint_tool::Button::Button(
 
 	p_component_t box = std::make_unique<StaticBox>(
 		"btn_box",
-		POINT{ 0, 0 },
 		size,
 		style_set_id
 		);
@@ -26,7 +24,6 @@ paint_tool::Button::Button(
 
 	p_component_t label = std::make_unique<StaticLabel>(
 		"btn_label",
-		POINT{ 0, 0 },
 		text,
 		style_set_id,
 		"default"

@@ -26,7 +26,6 @@ namespace paint_tool {
 
 		Button(
 			const	std::string					&id,
-			const	POINT						&position,
 			const	SIZE						&size,
 			const	std::wstring				&text,
 			const	std::string					&style_set_id = "default",

@@ -4,7 +4,7 @@ paint_tool::RootComponent::RootComponent(
 	const	std::string &style_set_id,
 			HWND		h_window
 ) :
-	ComponentGroup("root_component", POINT{0, 0}, style_set_id, true),
+	ComponentGroup("root_component", style_set_id, true),
 	h_window(h_window) {
 	recalculateSize();
 }
