@@ -4,6 +4,7 @@
 #include <algorithm>
 
 #include "core\ui\component\InteractiveComponent.h"
+#include "core\ui\layout\LayoutManagerEnum.h"
 
 //
 // ComponentGroup
@@ -78,6 +79,11 @@ namespace paint_tool {
 		inline const InteractiveComponent *getLastActiveComponent() const;
 
 		//
+		// Returns the strategy used to lay out child components
+		//
+		inline LayoutStrategy getLayoutStrategy() const;
+
+		//
 		// Returns true; this is a grouping of Components
 		//
 		inline virtual bool isComponentGroup() const;
@@ -99,6 +105,12 @@ namespace paint_tool {
 		void addComponent(p_component_t &component);
 
 		//
+		// Sets the strategy to be used by the LayoutManager to position
+		// child components
+		//
+		inline void setLayoutStrategy(LayoutStrategy _layout);
+
+		//
 		// Recalculates the union rectangle between all child Component rects
 		//
 		virtual void recalculateSize() override;
@@ -116,6 +128,12 @@ namespace paint_tool {
 		inline Component *getComponent(const std::string &id);
 
 	private:
+
+		//
+		// Determines how to lay out the components contained
+		// within the group
+		//
+		LayoutStrategy layout;
 
 		//
 		// A list of child ui Components
@@ -156,12 +174,20 @@ const paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getLastActiv
 	return last_active_component;
 }
 
+paint_tool::LayoutStrategy paint_tool::ComponentGroup::getLayoutStrategy() const {
+	return layout;
+}
+
 bool paint_tool::ComponentGroup::isComponentGroup() const {
 	return true;
 }
 
 const std::list<paint_tool::p_component_t> *paint_tool::ComponentGroup::getChildComponents() const {
 	return &components;
+}
+
+void paint_tool::ComponentGroup::setLayoutStrategy(LayoutStrategy _layout) {
+	layout = _layout;
 }
 
 paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getFocusedComponent() {
