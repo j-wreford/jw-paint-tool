@@ -56,7 +56,10 @@ void paint_tool::LayoutManager::layout(Component *component) {
 			switch (group->getLayoutStrategy()) {
 
 			case LAYOUT_MANUAL:
-				//
+
+				for (p_component_t &component : *group->getChildComponents())
+					layout(component.get());
+
 				break;
 
 			case LAYOUT_VERTICAL:
