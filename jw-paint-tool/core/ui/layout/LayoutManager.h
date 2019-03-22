@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core\ui\layout\LayoutManagerEnum.h"
 #include "core\ui\component\Component.h"
 
 //
@@ -17,6 +18,8 @@
 // a Component is positioned on the oppose axis. For example, when using the
 // LAYOUT_VERTICAL layout_style, the position_style property will determine
 // its horizontal position (left, middle, or right).
+//
+// See LayoutManagerEnum.h for the enumerators which affect layouts.
 //
 
 namespace paint_tool {
