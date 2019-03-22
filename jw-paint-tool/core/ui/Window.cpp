@@ -22,10 +22,12 @@ paint_tool::Window::Window(
 
 	::SetWindowText(getHWND(), L"User Interface Window");
 
-	root_component = std::make_unique<RootComponent>(
+	root_component = std::make_unique<ComponentGroup>(
+		"root",
 		"window_style",
-		getHWND()
+		true
 	);
+	root_component->setMinimumSize(SIZE{ width, height });
 
 	StyleManager::getInstance()->addStyleSet(
 		"window_style",
@@ -135,7 +137,7 @@ void paint_tool::Window::onMouseMove(UINT nFlags, int x, int y) {
 	onDraw();
 }
 
-paint_tool::RootComponent *paint_tool::Window::getRootComponent() {
+paint_tool::ComponentGroup *paint_tool::Window::getRootComponent() {
 	return root_component.get();
 }
 

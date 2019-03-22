@@ -6,7 +6,6 @@
 
 #include "EasyGraphics.h"
 #include "core\ui\component\ComponentGroup.h"
-#include "core\ui\component\RootComponent.h"
 #include "core\ui\component\RadioGroup.h"
 #include "core\ui\component\StaticBox.h"
 #include "core\ui\component\StaticLabel.h"
@@ -71,7 +70,7 @@ namespace paint_tool {
 		//
 		// Returns the RootComponent
 		//
-		RootComponent *getRootComponent();
+		ComponentGroup *getRootComponent();
 
 		//
 		// Adds a component to the components collection
@@ -83,7 +82,7 @@ namespace paint_tool {
 		//
 		// The root component of which all Components are added to
 		//
-		p_root_component_t root_component;
+		p_component_group_t root_component;
 
 		//
 		// True when the left mouse mouse button has been pressed,

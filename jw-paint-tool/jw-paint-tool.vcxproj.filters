@@ -48,9 +48,6 @@
     <ClInclude Include="core\ui\StyleManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="core\ui\component\RootComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="core\ui\component\Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -105,9 +102,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="core\ui\StyleManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="core\ui\component\RootComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="core\ui\component\Button.cpp">
