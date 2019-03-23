@@ -25,7 +25,7 @@ namespace paint_tool {
 		StaticImage(
 			const std::string	&id,
 			const SIZE			&size,
-			const std::wstring	&file_path,
+			const std::wstring	&file_name,
 			const int			&transparent = 0xffffff
 		);
 
@@ -41,17 +41,36 @@ namespace paint_tool {
 		//
 		inline std::string getComponentType() const override;
 
+		//
+		// Returns true when a bmp file with the given name is inside the
+		// resources folder
+		//
+		static bool imageExists(const std::wstring &file_name);
+
+		//
+		// Returns the size of the given bmp file.
+		//
+		// If it does not exist, then the size given will be [-1 x -1].
+		//
+		static SIZE getImageSize(const std::wstring &file_name);
+
 	private:
 
 		//
 		// The name of the bitmap image (omitting the file extension)
 		//
-		std::wstring file_path;
+		std::wstring file_name;
 
 		//
 		// The pixel colour to treat as transparent
 		//
 		int transparent;
+
+		//
+		// Returns the full name of the file by prepending "resources\\" and
+		// appending ".bmp"
+		//
+		static std::wstring getFullName(const std::wstring &file_name);
 	};
 }
 
