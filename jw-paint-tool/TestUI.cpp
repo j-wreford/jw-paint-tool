@@ -149,7 +149,7 @@ paint_tool::TestUI::TestUI(HINSTANCE hInstance) :
 	// Make a StaticImage
 	p_component_t image = std::make_unique<StaticImage>(
 		"image_test",
-		SIZE{ 600, 600 },
+		SIZE{ 100, 100 },
 		L"Elephant"
 	);
 	image->setPosition(POINT{ 200, 200 });
