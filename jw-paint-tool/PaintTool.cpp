@@ -187,9 +187,9 @@ void paint_tool::PaintTool::createLeftPanel() {
 
 	p_tools_choice->addComponent(label_tools_management);
 	p_tools_choice->addVerticalSpace(10);
-	p_tools_choice->addChoice(1, L"Move");
+	p_tools_choice->addChoice(1, "tool_move", L"Move");
 	p_tools_choice->addVerticalSpace(10);
-	p_tools_choice->addChoice(2, L"Delete");
+	p_tools_choice->addChoice(2, "tool_del", L"Delete");
 
 	
 	/* 2.1.1 create and add the pens sub heading and options to the choice
@@ -205,9 +205,9 @@ void paint_tool::PaintTool::createLeftPanel() {
 	p_tools_choice->addVerticalSpace(25);
 	p_tools_choice->addComponent(label_tools_pens);
 	p_tools_choice->addVerticalSpace(10);
-	p_tools_choice->addChoice(3, L"Freehand");
+	p_tools_choice->addChoice(3, "tool_pen_freehand", L"Freehand");
 	p_tools_choice->addVerticalSpace(10);
-	p_tools_choice->addChoice(4, L"Line");
+	p_tools_choice->addChoice(4, "tool_pen_line", L"Line");
 
 
 	/* 2.1.2 create and add the shapes sub heading and options */
@@ -222,13 +222,13 @@ void paint_tool::PaintTool::createLeftPanel() {
 	p_tools_choice->addVerticalSpace(25);
 	p_tools_choice->addComponent(label_tools_shapes);
 	p_tools_choice->addVerticalSpace(10);
-	p_tools_choice->addChoice(5, L"Triangle");
+	p_tools_choice->addChoice(5, "tool_shape_tri", L"Triangle");
 	p_tools_choice->addVerticalSpace(10);
-	p_tools_choice->addChoice(6, L"Rectangle");
+	p_tools_choice->addChoice(6, "tool_shape_rect", L"Rectangle");
 	p_tools_choice->addVerticalSpace(10);
-	p_tools_choice->addChoice(7, L"Circle");
+	p_tools_choice->addChoice(7, "tool_shape_circle", L"Circle");
 	p_tools_choice->addVerticalSpace(10);
-	p_tools_choice->addChoice(8, L"Star");
+	p_tools_choice->addChoice(8, "tool_shape_star", L"Star");
 
 
 	/* 3. add the created components to the panel */
