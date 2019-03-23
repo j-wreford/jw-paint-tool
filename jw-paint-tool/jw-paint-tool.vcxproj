@@ -185,6 +185,9 @@
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="TestUI.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\Elephant.bmp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -33,7 +33,7 @@ namespace paint_tool {
 	private:
 
 		//
-		// The path of the file
+		// The name of the bitmap image that's within the resources folder
 		//
 		std::wstring file_path;
 
