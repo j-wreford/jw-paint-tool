@@ -1,5 +1,9 @@
 #pragma once
 
+#ifndef USE_EG_TRANSPARENT_BITMAPS
+	#define USE_EG_TRANSPARENT_BITMAPS
+#endif
+
 #include <memory>
 #include <map>
 #include <functional>
