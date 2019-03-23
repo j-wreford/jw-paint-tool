@@ -8,7 +8,7 @@
 
 // make sure you add "Msimg32.lib" to your additional library dependencies
 // once you have added Msimage32.lib, uncomment the following #define statement
-//#define USE_EG_TRANSPARENT_BITMAPS
+#define USE_EG_TRANSPARENT_BITMAPS
 
 /*
   WARNING: Only edit this file if you cannot achieve what you need via inheriting from EasyGraphics or using it as its own object.
