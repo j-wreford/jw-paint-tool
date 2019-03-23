@@ -38,7 +38,11 @@ namespace paint_tool {
 		//
 		// Adds a choice to the RadioGroup
 		//
-		inline void addChoice(ValT value, const std::wstring &label);
+		inline void addChoice(
+					ValT			value,
+			const	std::string		&choice_id,
+			const	std::wstring	&label
+		);
 
 		//
 		// Returns the value of the last clicked InternalRadioItem* within
@@ -115,13 +119,17 @@ void paint_tool::RadioGroup<ValT, ItemComponentT>::onLeftMouseButtonDown(const P
 }
 
 template <class ValT, class ItemComponentT>
-void paint_tool::RadioGroup<ValT, ItemComponentT>::addChoice(ValT value, const std::wstring &label) {
+void paint_tool::RadioGroup<ValT, ItemComponentT>::addChoice(
+			ValT			value,
+	const	std::string		&choice_id,
+	const	std::wstring	&label
+) {
 
 	auto items = getChildComponents();
 
 	/* build the id */
 
-	std::string id = getId() + "_choice_" + std::to_string(items->size());
+	std::string id = getId() + "_" + choice_id;
 
 	p_component_t choice = std::make_unique<ItemComponentT>(
 		id,
