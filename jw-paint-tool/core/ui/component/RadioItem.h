@@ -109,6 +109,7 @@ paint_tool::RadioItem<ValT>::RadioItem(
 			);
 		addComponent(image);
 
+		addHorizontalSpace(5);
 		setLayoutStrategy(LAYOUT_HORIZONTAL);
 	}
 	
