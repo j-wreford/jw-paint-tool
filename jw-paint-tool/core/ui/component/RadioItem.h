@@ -2,6 +2,7 @@
 
 #include "core\ui\component\ComponentGroup.h"
 #include "core\ui\component\StaticLabel.h"
+#include "core\ui\component\StaticImage.h"
 
 //
 // RadioItem<ValT>
@@ -92,6 +93,24 @@ paint_tool::RadioItem<ValT>::RadioItem(
 	ComponentGroup(id, style_set_id),
 	value(value),
 	chosen(false){
+
+	/* if there is an image with the same id as this choice, then create a
+       static image component */
+
+	std::wstring image_name(id.begin(), id.end());
+
+	if (StaticImage::imageExists(image_name)) {
+
+		p_component_t image = std::make_unique<StaticImage>(
+			id + "_img",
+			StaticImage::getImageSize(image_name),
+			image_name,
+			0x00ff00
+			);
+		addComponent(image);
+
+		setLayoutStrategy(LAYOUT_HORIZONTAL);
+	}
 	
 	/* make the label for this radio item */
 
@@ -101,7 +120,6 @@ paint_tool::RadioItem<ValT>::RadioItem(
 		style_set_id,
 		font_attr_set_id
 	);
-	Component *p_label = label.get();
 	addComponent(label);
 }
 
