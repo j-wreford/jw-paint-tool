@@ -52,13 +52,13 @@ void paint_tool::PaintTool::createStyles() {
 		1
 	);
 
-	/* white text colour */
+	/* white text colour, white line colour, 1px line thickness */
 
 	manager->addStyleSet(
 		"ui_panel_text",
 		0xffffff,
 		0x101010,
-		0x101010,
+		0xffffff,
 		1
 	);
 
@@ -94,6 +94,18 @@ void paint_tool::PaintTool::createFonts() {
 	manager->addFontAttributeSet(
 		"ui_panel_sub_header",
 		20,
+		FW_THIN,
+		false,
+		false,
+		false,
+		"Segoe UI"
+	);
+
+	/* body font */
+
+	manager->addFontAttributeSet(
+		"ui_panel_body",
+		18,
 		FW_THIN,
 		false,
 		false,
@@ -154,8 +166,8 @@ void paint_tool::PaintTool::createLeftPanel() {
 
 	p_component_t drawing_tools_choice = std::make_unique<RadioGroup<int>>(
 		"drawing_tools_choice",
-		SIZE{ 20, 20 },
-		"canvas_background"
+		"ui_panel_text",
+		"ui_panel_body"
 	);
 	drawing_tools_choice->setPosition(POINT{ left_margin, 0 });
 
@@ -174,9 +186,9 @@ void paint_tool::PaintTool::createLeftPanel() {
 
 	p_drawing_tools_choice->addComponent(label_drawing_tools_pens);
 	p_drawing_tools_choice->addVerticalSpace(10);
-	p_drawing_tools_choice->addChoice(1);
+	p_drawing_tools_choice->addChoice(1, L"Freehand");
 	p_drawing_tools_choice->addVerticalSpace(10);
-	p_drawing_tools_choice->addChoice(2);
+	p_drawing_tools_choice->addChoice(2, L"Line");
 
 
 	/* 2.1.2 create and add the shapes sub heading and options */
@@ -191,11 +203,13 @@ void paint_tool::PaintTool::createLeftPanel() {
 	p_drawing_tools_choice->addVerticalSpace(25);
 	p_drawing_tools_choice->addComponent(label_drawing_tools_shapes);
 	p_drawing_tools_choice->addVerticalSpace(10);
-	p_drawing_tools_choice->addChoice(1);
+	p_drawing_tools_choice->addChoice(3, L"Triangle");
 	p_drawing_tools_choice->addVerticalSpace(10);
-	p_drawing_tools_choice->addChoice(2);
+	p_drawing_tools_choice->addChoice(4, L"Rectangle");
 	p_drawing_tools_choice->addVerticalSpace(10);
-	p_drawing_tools_choice->addChoice(3);
+	p_drawing_tools_choice->addChoice(5, L"Circle");
+	p_drawing_tools_choice->addVerticalSpace(10);
+	p_drawing_tools_choice->addChoice(6, L"Star");
 
 
 	/* 3. add the created components to the panel */
