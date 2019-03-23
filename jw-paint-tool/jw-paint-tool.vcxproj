@@ -152,6 +152,7 @@
     <ClInclude Include="core\ui\component\RadioGroup.h" />
     <ClInclude Include="core\ui\component\RadioItem.h" />
     <ClInclude Include="core\ui\component\StaticBox.h" />
+    <ClInclude Include="core\ui\component\StaticImage.h" />
     <ClInclude Include="core\ui\component\StaticLabel.h" />
     <ClInclude Include="core\ui\FontManager.h" />
     <ClInclude Include="core\ui\layout\LayoutManager.h" />
@@ -169,6 +170,7 @@
     <ClCompile Include="core\ui\component\FixedSpace.cpp" />
     <ClCompile Include="core\ui\component\InteractiveComponent.cpp" />
     <ClCompile Include="core\ui\component\StaticBox.cpp" />
+    <ClCompile Include="core\ui\component\StaticImage.cpp" />
     <ClCompile Include="core\ui\component\StaticLabel.cpp" />
     <ClCompile Include="core\ui\FontManager.cpp" />
     <ClCompile Include="core\ui\layout\LayoutManager.cpp" />
