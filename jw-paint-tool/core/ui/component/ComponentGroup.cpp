@@ -9,7 +9,6 @@ paint_tool::ComponentGroup::ComponentGroup(
 	layout(LAYOUT_MANUAL),
 	focused_component(nullptr),
 	active_component(nullptr),
-	last_active_component(nullptr),
 	minimum_size(SIZE{ 0,0 }),
 	fill_background(fill_background) {
 	
@@ -72,6 +71,8 @@ void paint_tool::ComponentGroup::onLeftMouseButtonDown(const POINT &mouse) {
 
 	if (it != components.end())
 		active_component = dynamic_cast<InteractiveComponent *>(it->get());
+	else
+		active_component = nullptr;
 }
 
 void paint_tool::ComponentGroup::onLeftMouseButtonUp(const POINT &mouse) {
@@ -115,9 +116,6 @@ void paint_tool::ComponentGroup::onLeftMouseButtonUp(const POINT &mouse) {
 
 	if (it != components.end())
 		focused_component = dynamic_cast<InteractiveComponent *>(it->get());
-
-	if (active_component)
-		last_active_component = active_component;
 
 	active_component = nullptr;
 }

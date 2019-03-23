@@ -74,11 +74,6 @@ namespace paint_tool {
 		inline virtual std::string getComponentType() const override;
 
 		//
-		// Returns the last active InteractiveComponent
-		//
-		inline const InteractiveComponent *getLastActiveComponent() const;
-
-		//
 		// Returns the strategy used to lay out child components
 		//
 		inline LayoutStrategy getLayoutStrategy() const;
@@ -135,14 +130,20 @@ namespace paint_tool {
 	protected:
 
 		//
-		// TEMPORARY
-		//
-		inline InteractiveComponent *getFocusedComponent();
-
-		//
 		// Returns the Component with the given id
 		//
 		inline Component *getComponent(const std::string &id);
+
+		//
+		// Returns the focused component
+		//
+		inline InteractiveComponent *getFocusedComponent();
+
+
+		//
+		// Returns the active component
+		//
+		inline InteractiveComponent *getActiveComponent();
 
 	private:
 
@@ -170,11 +171,6 @@ namespace paint_tool {
 		InteractiveComponent *active_component;
 
 		//
-		// The last active InteractiveComponent
-		//
-		InteractiveComponent *last_active_component;
-
-		//
 		// Defines the minimum size of the ComponentGroup
 		//
 		SIZE minimum_size;
@@ -190,10 +186,6 @@ namespace paint_tool {
 
 std::string paint_tool::ComponentGroup::getComponentType() const {
 	return CPMNT_GROUP;
-}
-
-const paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getLastActiveComponent() const {
-	return last_active_component;
 }
 
 paint_tool::LayoutStrategy paint_tool::ComponentGroup::getLayoutStrategy() const {
@@ -226,6 +218,10 @@ void paint_tool::ComponentGroup::setMinimumSize(const SIZE &_minimum_size) {
 
 paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getFocusedComponent() {
 	return focused_component;
+}
+
+paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getActiveComponent() {
+	return active_component;
 }
 
 paint_tool::Component *paint_tool::ComponentGroup::getComponent(const std::string &id) {
