@@ -151,73 +151,92 @@ void paint_tool::PaintTool::createLeftPanel() {
 	const int left_margin = 15;
 
 
-	/* 2. create the drawing tools heading label with spacing above and below */
+	/* 2. create the tools heading label with spacing above and below */
 
-	p_component_t label_drawing_tools = std::make_unique<StaticLabel>(
-		"left_panel_label_drawing_tools",
-		L"Drawing Tools",
+	p_component_t label_tools = std::make_unique<StaticLabel>(
+		"left_panel_label_tools",
+		L"Tools",
 		"ui_panel_header",
 		"ui_panel_header"
 	);
-	label_drawing_tools->setPosition(POINT{ left_margin, 0 });
+	label_tools->setPosition(POINT{ left_margin, 0 });
 
 
 	/* 2.1 create the tool choice option group */
 
-	p_component_t drawing_tools_choice = std::make_unique<RadioGroup<int>>(
-		"drawing_tools_choice",
+	p_component_t tools_choice = std::make_unique<RadioGroup<int>>(
+		"tools_choice",
 		"ui_panel_text",
 		"ui_panel_body"
 	);
-	drawing_tools_choice->setPosition(POINT{ left_margin, 0 });
+	tools_choice->setPosition(POINT{ left_margin, 0 });
 
-	RadioGroup<int> *p_drawing_tools_choice = dynamic_cast<RadioGroup<int> *>(drawing_tools_choice.get());
-	p_drawing_tools_choice->setLayoutStrategy(LAYOUT_VERTICAL);
+	RadioGroup<int> *p_tools_choice = dynamic_cast<RadioGroup<int> *>(tools_choice.get());
+	p_tools_choice->setLayoutStrategy(LAYOUT_VERTICAL);
+
+
+	/* 2.1.0 create and add the management sub heading and options to the
+	   choice group */
+
+	p_component_t label_tools_management = std::make_unique<StaticLabel>(
+		"label_tools_management",
+		L"Management",
+		"ui_panel_sub_header",
+		"ui_panel_sub_header"
+	);
+
+	p_tools_choice->addComponent(label_tools_management);
+	p_tools_choice->addVerticalSpace(10);
+	p_tools_choice->addChoice(1, L"Move");
+	p_tools_choice->addVerticalSpace(10);
+	p_tools_choice->addChoice(2, L"Delete");
 
 	
-	/* 2.1.1 create and add the pens sub heading and options */
+	/* 2.1.1 create and add the pens sub heading and options to the choice
+	   group */
 
-	p_component_t label_drawing_tools_pens = std::make_unique<StaticLabel>(
-		"label_drawing_tools_pens",
+	p_component_t label_tools_pens = std::make_unique<StaticLabel>(
+		"label_tools_pens",
 		L"Pens",
 		"ui_panel_sub_header",
 		"ui_panel_sub_header"
 	);
 
-	p_drawing_tools_choice->addComponent(label_drawing_tools_pens);
-	p_drawing_tools_choice->addVerticalSpace(10);
-	p_drawing_tools_choice->addChoice(1, L"Freehand");
-	p_drawing_tools_choice->addVerticalSpace(10);
-	p_drawing_tools_choice->addChoice(2, L"Line");
+	p_tools_choice->addVerticalSpace(25);
+	p_tools_choice->addComponent(label_tools_pens);
+	p_tools_choice->addVerticalSpace(10);
+	p_tools_choice->addChoice(3, L"Freehand");
+	p_tools_choice->addVerticalSpace(10);
+	p_tools_choice->addChoice(4, L"Line");
 
 
 	/* 2.1.2 create and add the shapes sub heading and options */
 
-	p_component_t label_drawing_tools_shapes = std::make_unique<StaticLabel>(
-		"label_drawing_tools_shapes",
+	p_component_t label_tools_shapes = std::make_unique<StaticLabel>(
+		"label_tools_shapes",
 		L"Shapes",
 		"ui_panel_sub_header",
 		"ui_panel_sub_header"
 	);
 
-	p_drawing_tools_choice->addVerticalSpace(25);
-	p_drawing_tools_choice->addComponent(label_drawing_tools_shapes);
-	p_drawing_tools_choice->addVerticalSpace(10);
-	p_drawing_tools_choice->addChoice(3, L"Triangle");
-	p_drawing_tools_choice->addVerticalSpace(10);
-	p_drawing_tools_choice->addChoice(4, L"Rectangle");
-	p_drawing_tools_choice->addVerticalSpace(10);
-	p_drawing_tools_choice->addChoice(5, L"Circle");
-	p_drawing_tools_choice->addVerticalSpace(10);
-	p_drawing_tools_choice->addChoice(6, L"Star");
+	p_tools_choice->addVerticalSpace(25);
+	p_tools_choice->addComponent(label_tools_shapes);
+	p_tools_choice->addVerticalSpace(10);
+	p_tools_choice->addChoice(5, L"Triangle");
+	p_tools_choice->addVerticalSpace(10);
+	p_tools_choice->addChoice(6, L"Rectangle");
+	p_tools_choice->addVerticalSpace(10);
+	p_tools_choice->addChoice(7, L"Circle");
+	p_tools_choice->addVerticalSpace(10);
+	p_tools_choice->addChoice(8, L"Star");
 
 
 	/* 3. add the created components to the panel */
 
 	p_panel->addVerticalSpace(15);
-	p_panel->addComponent(label_drawing_tools);
-	p_panel->addVerticalSpace(10);
-	p_panel->addComponent(drawing_tools_choice);
+	p_panel->addComponent(label_tools);
+	p_panel->addVerticalSpace(25);
+	p_panel->addComponent(tools_choice);
 
 
 	/* final: add the group to the ui */
