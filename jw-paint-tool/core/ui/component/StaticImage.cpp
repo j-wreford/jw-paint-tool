@@ -4,7 +4,7 @@ paint_tool::StaticImage::StaticImage(
 	const std::string	&id,
 	const SIZE			&size,
 	const std::wstring	&file_path,
-	const int			&transparent = 0xffffff
+	const int			&transparent
 ) : Component(id, size), 
 	file_path(file_path),
 	transparent(transparent) {
