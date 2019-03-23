@@ -92,22 +92,23 @@ paint_tool::TestUI::TestUI(HINSTANCE hInstance) :
 	addComponent(test_group_c);
 
 	// Add a test radio group
-	paint_tool::p_component_t radio_group = std::make_unique<RadioGroup<int>>(
+	paint_tool::p_component_t radio_group =
+		std::make_unique<RadioGroup<int>>(
 		"radio_group",
-		SIZE{ 25, 25 },
-		"test_style"
+		"test_style",
+		"small_font"
 	);
 	radio_group->setPosition(POINT{ 50, 200 });
 
 	RadioGroup<int> *p_radio_group = dynamic_cast<RadioGroup<int> *>(radio_group.get());
-	p_radio_group->setLayoutStrategy(LAYOUT_HORIZONTAL);
+	p_radio_group->setLayoutStrategy(LAYOUT_VERTICAL);
 	p_radio_group->setMinimumSize(SIZE{ 200, 200 });
 
-	p_radio_group->addChoice(100);
+	p_radio_group->addChoice(100, L"Choice 1");
 	p_radio_group->addHorizontalSpace(10);
-	p_radio_group->addChoice(200);
+	p_radio_group->addChoice(200, L"Choice 2");
 	p_radio_group->addHorizontalSpace(10);
-	p_radio_group->addChoice(300);
+	p_radio_group->addChoice(300, L"Choice 3");
 
 	addComponent(radio_group);
 
