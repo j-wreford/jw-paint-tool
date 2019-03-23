@@ -104,11 +104,11 @@ paint_tool::TestUI::TestUI(HINSTANCE hInstance) :
 	p_radio_group->setLayoutStrategy(LAYOUT_VERTICAL);
 	p_radio_group->setMinimumSize(SIZE{ 200, 200 });
 
-	p_radio_group->addChoice(100, L"Choice 1");
+	p_radio_group->addChoice(100, "choice_1", L"Choice 1");
 	p_radio_group->addHorizontalSpace(10);
-	p_radio_group->addChoice(200, L"Choice 2");
+	p_radio_group->addChoice(200, "choice_2", L"Choice 2");
 	p_radio_group->addHorizontalSpace(10);
-	p_radio_group->addChoice(300, L"Choice 3");
+	p_radio_group->addChoice(300, "choice_3", L"Choice 3");
 
 	addComponent(radio_group);
 
