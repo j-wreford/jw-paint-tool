@@ -9,6 +9,12 @@
 //
 // A Component which loads a bitmap image from file.
 //
+// The image name given must be inside the resources folder, else the load will
+// fail.
+//
+// Currently, even if the image does not load, the StaticImage still takes up
+// space within the user interface.
+//
 
 namespace paint_tool {
 
@@ -30,10 +36,15 @@ namespace paint_tool {
 		//
 		void drawComponent(EasyGraphics *ctx) const override;
 
+		//
+		// Temp: this method will be removed
+		//
+		inline std::string getComponentType() const override;
+
 	private:
 
 		//
-		// The name of the bitmap image that's within the resources folder
+		// The name of the bitmap image (omitting the file extension)
 		//
 		std::wstring file_path;
 
@@ -42,4 +53,8 @@ namespace paint_tool {
 		//
 		int transparent;
 	};
+}
+
+std::string paint_tool::StaticImage::getComponentType() const {
+	return "";
 }
