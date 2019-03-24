@@ -36,12 +36,7 @@ namespace paint_tool {
 		//
 		struct StyleSet {
 
-			inline ~StyleSet() {
-				delete text_colour;
-				delete bg_colour;
-				delete line_colour;
-				delete line_thickness;
-			}
+			~StyleSet();
 
 			//
 			// The colour of drawn text
@@ -67,13 +62,13 @@ namespace paint_tool {
 		//
 		// Returns the StyleSet for the given state
 		//
-		inline const StyleSet *getStyleSet(ComponentState state) const;
-		inline StyleSet *getStyleSet(ComponentState state);
+		const StyleSet *getStyleSet(ComponentState state) const;
+		StyleSet *getStyleSet(ComponentState state);
 
 		//
 		// Sets the StyleSet for the given state
 		//
-		inline void setStyleSet(StyleSet *style_set, ComponentState state);
+		void setStyleSet(StyleSet *style_set, ComponentState state);
 
 	private:
 

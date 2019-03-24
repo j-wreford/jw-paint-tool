@@ -1,11 +1,17 @@
 #include "ComponentStyle.h"
 
+paint_tool::ComponentStyle::StyleSet::~StyleSet() {
+	delete text_colour;
+	delete bg_colour;
+	delete line_colour;
+	delete line_thickness;
+}
+
 paint_tool::ComponentStyle::ComponentStyle() {
 	//
 }
 
 paint_tool::ComponentStyle::~ComponentStyle() {
-
 	delete normal;
 	delete active;
 	delete focused;
