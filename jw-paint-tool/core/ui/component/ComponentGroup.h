@@ -11,7 +11,7 @@
 // ComponentGroup
 //
 // Collects a group of Components into one single Component.
-//
+//,
 // The collection is stored as a List. Originally, this project had used an
 // associative container but this was changed when the order of which Components
 // were addded became important.
@@ -44,29 +44,25 @@ namespace paint_tool {
 		virtual void drawComponent(EasyGraphics *ctx) const;
 
 		//
-		// In addition to InteractiveComponent::onLeftMouseButtonDown,
-		// this method will update the focused_component and active_component
-		// properties.
+		// Updates the active_component property and calls onLeftMosueDownHit
+		// to the first child Component whose hit test passes
 		//
-		// It will also call onLeftMouseButtonDown on each child component.
-		//
-		virtual void onLeftMouseButtonDown(const POINT &mouse) override;
+		virtual void onLeftMouseDownHit(const POINT &mouse) override;
+		virtual void onLeftMouseDownLostHit() override;
 
 		//
-		// In addition to InteractiveComponent::onLeftMouseButtonUp,
-		// this method will update the focused_component and active_component
-		// properties.
+		// Updates the focused_component property and calls onLeftMouseUpHit
+		// to the first child Component whose hit test passes
 		//
-		// It will also call onLeftMouseButtonUp on each child component.
-		//
-		virtual void onLeftMouseButtonUp(const POINT &mouse) override;
+		virtual void onLeftMouseUpHit(const POINT &mouse) override;
+		virtual void onLeftMouseUpLostHit() override;
 
 		//
-		// Calls InteractiveComponent::onMouseMove.
+		// Updates the hovered_component property and calls onLeftMouseUpHit
+		// to the first child Component whose hit test passes
 		//
-		// It will also call onMouseMove on each child component.
-		//
-		virtual void onMouseMove(const POINT &mouse, const bool& lmouse_down) override;
+		virtual void onMouseMoveHit(const POINT &mouse, const bool& lmouse_down) override;
+		virtual void onMouseMoveLostHit() override;
 
 		//
 		// Returns CPMNT_GROUP
@@ -139,11 +135,15 @@ namespace paint_tool {
 		//
 		inline InteractiveComponent *getFocusedComponent();
 
-
 		//
 		// Returns the active component
 		//
 		inline InteractiveComponent *getActiveComponent();
+
+		//
+		// Returns the hovered component
+		//
+		inline InteractiveComponent *getHoveredComponent();
 
 	private:
 
@@ -159,16 +159,19 @@ namespace paint_tool {
 		std::list<paint_tool::p_component_t> components;
 
 		//
-		// The last InteractiveComponent within the ComponentGroup to have its
-		// hit test pass during the left mouse up event
+		// The child InteractiveComponent who is focused
 		//
 		InteractiveComponent *focused_component;
 
 		//
-		// The InteractiveComponent that was focused while the mouse is held
-		// down
+		// The child InteractiveComponent who is active
 		//
 		InteractiveComponent *active_component;
+
+		//
+		// The child InteractiveComponent who is hovered
+		//
+		InteractiveComponent *hovered_component;
 
 		//
 		// Defines the minimum size of the ComponentGroup
@@ -179,6 +182,12 @@ namespace paint_tool {
 		// When true, the ComponentGroup will fill its background with bg_colour
 		//
 		bool fill_background;
+
+		//
+		// Returns a pointer to the first interactive child component whose
+		// hit test passes
+		//
+		InteractiveComponent *getFirstHitInteractiveComponent(const POINT &mouse);
 	};
 
 	typedef std::unique_ptr<ComponentGroup> p_component_group_t;
@@ -222,6 +231,10 @@ paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getFocusedComponen
 
 paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getActiveComponent() {
 	return active_component;
+}
+
+paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getHoveredComponent() {
+	return hovered_component;
 }
 
 paint_tool::Component *paint_tool::ComponentGroup::getComponent(const std::string &id) {
