@@ -20,6 +20,14 @@ namespace paint_tool {
 	private:
 
 		//
+		// Colour constants
+		//
+		const COLORREF ui_panel_bg;
+		const COLORREF ui_panel_text;
+		const COLORREF ui_panel_heading;
+		const COLORREF ui_panel_sub_heading;
+
+		//
 		// Creates all the style sets for use in the application
 		//
 		void createStyles();

@@ -1,7 +1,11 @@
 #include "PaintTool.h"
 
 paint_tool::PaintTool::PaintTool(HINSTANCE hInstance) :
-	Window(hInstance, 1280, 800) {
+	Window(hInstance, 1280, 800),
+	ui_panel_bg(0x101010),
+	ui_panel_text(0xffffff),
+	ui_panel_heading(RGB(0xff, 0x93, 0x3b)),
+	ui_panel_sub_heading(RGB(0x5b, 0xd2, 0xfe)) {
 
 	::SetWindowText(getHWND(), L"Paint Tool");
 
@@ -129,6 +133,7 @@ void paint_tool::PaintTool::createCanvas() {
 		SIZE{ 1020, 800 },
 		"canvas_background"
 	);
+	canvas->setBgColour(0xffffff);
 	addComponent(canvas);
 }
 
@@ -145,6 +150,9 @@ void paint_tool::PaintTool::createLeftPanel() {
 	p_panel->setMinimumSize(SIZE{ 260, 800 });
 	p_panel->setLayoutStrategy(LAYOUT_VERTICAL);
 
+	p_panel->setBgColour(ui_panel_bg);
+	p_panel->setTextColour(ui_panel_text);
+
 
 	/* the x coordinate of each group within the panel */
 
@@ -160,6 +168,7 @@ void paint_tool::PaintTool::createLeftPanel() {
 		"ui_panel_header"
 	);
 	label_tools->setPosition(POINT{ left_margin, 0 });
+	label_tools->setTextColour(ui_panel_heading);
 
 
 	/* 2.1 create the tool choice option group */
@@ -184,6 +193,7 @@ void paint_tool::PaintTool::createLeftPanel() {
 		"ui_panel_sub_header",
 		"ui_panel_sub_header"
 	);
+	label_tools_management->setTextColour(ui_panel_sub_heading);
 
 	p_tools_choice->addComponent(label_tools_management);
 	p_tools_choice->addVerticalSpace(10);
@@ -201,6 +211,7 @@ void paint_tool::PaintTool::createLeftPanel() {
 		"ui_panel_sub_header",
 		"ui_panel_sub_header"
 	);
+	label_tools_pens->setTextColour(ui_panel_sub_heading);
 
 	p_tools_choice->addVerticalSpace(25);
 	p_tools_choice->addComponent(label_tools_pens);
@@ -218,6 +229,7 @@ void paint_tool::PaintTool::createLeftPanel() {
 		"ui_panel_sub_header",
 		"ui_panel_sub_header"
 	);
+	label_tools_shapes->setTextColour(ui_panel_sub_heading);
 
 	p_tools_choice->addVerticalSpace(25);
 	p_tools_choice->addComponent(label_tools_shapes);
