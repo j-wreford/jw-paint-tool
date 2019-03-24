@@ -6,6 +6,8 @@
 
 #include "EasyGraphics.h"
 #include "core\ui\layout\LayoutManagerEnum.h"
+#include "core\enum\ComponentStateEnum.h"
+#include "core\ui\style\ComponentStyle.h"
 
 //
 // Component
@@ -74,11 +76,6 @@ namespace paint_tool {
 		inline Component *getParent() const;
 
 		//
-		// Returns the id of the style set the Component will use
-		//
-		inline std::string getStyleSetId() const;
-
-		//
 		// Returns the alignment of the Component
 		//
 		inline AlignStrategy getAlignment() const;
@@ -107,6 +104,16 @@ namespace paint_tool {
 		// Sets the alignment of the Component
 		//
 		inline void setAlignment(AlignStrategy _alignment);
+
+		//
+		// Sets the corresponding style property for the given component state.
+		//
+		// If state is not given, then the default style set is updated.
+		//
+		inline void setTextColour(COLORREF *text_colour, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setBgColour(COLORREF *bg_colour, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setLineColour(COLORREF *line_colour, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setLineThickness(int line_thickness, ComponentState state = COMPONENT_STATE_NORMAL);
 
 		//
 		// Returns false; the base Component is not interactive
@@ -196,9 +203,9 @@ namespace paint_tool {
 		Component *parent;
 
 		//
-		// The id of the style set the Component will use
+		// The style of the Component
 		//
-		std::string style_set_id;
+		ComponentStyle *style;
 
 		//
 		// Determines how the Component will be aligned within its parent rect
@@ -247,10 +254,6 @@ paint_tool::Component *paint_tool::Component::getParent() const {
 	return parent;
 }
 
-std::string paint_tool::Component::getStyleSetId() const {
-	return style_set_id;
-}
-
 paint_tool::AlignStrategy paint_tool::Component::getAlignment() const {
 	return alignment;
 }
@@ -285,6 +288,22 @@ void paint_tool::Component::setParent(Component *_parent) {
 
 void paint_tool::Component::setAlignment(AlignStrategy _alignment) {
 	alignment = _alignment;
+}
+
+void paint_tool::Component::setTextColour(COLORREF *colour, ComponentState state) {
+	style->getStyle(state)->text_colour = colour;
+}
+
+void paint_tool::Component::setBgColour(COLORREF *colour, ComponentState state) {
+	style->getStyle(state)->bg_colour = colour;
+}
+
+void paint_tool::Component::setLineColour(COLORREF *colour, ComponentState state) {
+	style->getStyle(state)->line_colour = colour;
+}
+
+void paint_tool::Component::setLineThickness(int line_thickness, ComponentState state) {
+	style->getStyle(state)->line_thickness = new int(line_thickness);
 }
 
 bool paint_tool::Component::isInteractive() const {

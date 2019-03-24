@@ -8,7 +8,7 @@ paint_tool::Component::Component(
 	rect(RECT{ 0, 0, 0, 0 }),
 	origin(POINT{ 0, 0 }),
 	parent(nullptr),
-	style_set_id(style_set_id),
+	style(new ComponentStyle()),
 	alignment(ALIGN_MANUAL) {
 	//
 }
@@ -23,7 +23,8 @@ paint_tool::Component::Component(
 }
 
 paint_tool::Component::~Component() {
-	//
+	
+	delete style;
 }
 
 RECT paint_tool::Component::getAbsoluteRect() const {
