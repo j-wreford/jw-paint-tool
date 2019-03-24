@@ -135,34 +135,30 @@ namespace paint_tool {
 
 		//
 		// When true, the Component will be moved around when the user
-		// clicks-and-drags on the Component.
+		// clicks-and-drags on the Component
 		//
 		bool draggable;
 
 		//
-		// The offset of a left mouse-click so that
-		// mouse point + lmouse_down_offset = position.
+		// The point where the left mouse down button was clicked, relative to
+		// this Component.
 		//
-		// Used when 'dragging' the Component so that the position doesn't jump
+		// Used when dragging the Component so that the position doesn't jump
 		// to the location of the mouse pointer.
 		//
-		POINT lmouse_down_offset;
+		POINT lmd_startpoint;
 	};
 }
 
 void paint_tool::InteractiveComponent::onLeftMouseDownHit(const POINT &mouse) {
-
 	focused = false;
 	active = true;
-
-	lmouse_down_offset = POINT{
-		mouse.x - getPosition().x,
-		mouse.y - getPosition().y
-	};
+	lmd_startpoint = mouse;
 }
 
 void paint_tool::InteractiveComponent::onLeftMouseDownLostHit() {
 	focused = false;
+	active = false;
 }
 
 void paint_tool::InteractiveComponent::onLeftMouseUpHit(const POINT &mouse) {
@@ -170,14 +166,15 @@ void paint_tool::InteractiveComponent::onLeftMouseUpHit(const POINT &mouse) {
 	focused = true;
 	active = false;
 
-	lmouse_down_offset = POINT{
+	lmd_startpoint = POINT{
 		-1,
 		-1
 	};
 }
 
 void paint_tool::InteractiveComponent::onLeftMouseUpLostHit() {
-	//
+	focused = false;
+	active = false;
 }
 
 void paint_tool::InteractiveComponent::onMouseMoveLostHit() {

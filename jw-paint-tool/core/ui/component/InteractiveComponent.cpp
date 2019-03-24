@@ -33,11 +33,11 @@ void paint_tool::InteractiveComponent::onMouseMoveHit(const POINT &mouse, const 
 
 	hovered = true;
 
-	if (lmouse_down && active && draggable) {
+	if (active && draggable) {
 
 		POINT new_pos{
-			mouse.x - lmouse_down_offset.x,
-			mouse.y - lmouse_down_offset.y
+			mouse.x + getPosition().x - lmd_startpoint.x,
+			mouse.y + getPosition().y - lmd_startpoint.y
 		};
 
 		setPosition(new_pos);
@@ -46,19 +46,13 @@ void paint_tool::InteractiveComponent::onMouseMoveHit(const POINT &mouse, const 
 
 POINT paint_tool::InteractiveComponent::getRelativePoint(const POINT &mouse) const {
 
-	POINT relative_point = mouse;
-
-	POINT pos = getAbsolutePosition();
-
-	relative_point.x -= pos.x;
-	relative_point.y -= pos.y;
-
+	POINT pos = getPosition();
 	POINT origin = getOrigin();
 
-	relative_point.x -= origin.x;
-	relative_point.y -= origin.y;
-
-	return relative_point;
+	return POINT{
+		mouse.x - pos.x - origin.x,
+		mouse.y - pos.y - origin.y
+	};
 
 	/*
 	return POINT{
