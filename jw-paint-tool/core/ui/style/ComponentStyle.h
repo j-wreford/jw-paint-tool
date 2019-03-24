@@ -3,6 +3,8 @@
 #include <Windows.h>
 #include <string>
 
+#include "core\enum\ComponentStateEnum.h"
+
 //
 // Style
 //
@@ -23,21 +25,46 @@
 
 namespace paint_tool {
 
-	class Style {
+	class ComponentStyle {
 	public:
 
-		Style();
-		~Style();
+		ComponentStyle();
+		~ComponentStyle();
 
 		//
-		// The structure for a single set of styles
+		// The structure for a single set of styles.
+		//
+		// These properties are all pointers to make it obvious when
+		// one hasn't been set. NULL cannot be used since 0x0 is a valid
+		// colour.
 		//
 		struct StyleSet {
+
+			//
+			// The colour of drawn text
+			//
 			COLORREF *text_colour = nullptr;
+
+			//
+			// The background colour used when drawing shapes
+			//
 			COLORREF *bg_colour = nullptr;
+
+			//
+			// The colour of lines
+			//
 			COLORREF *line_colour = nullptr;
+
+			//
+			// The thickness of lines
+			//
 			int *line_thickness = nullptr;
 		};
+
+		//
+		// Returns the StyleSet for the given state
+		//
+		inline StyleSet *getStyle(ComponentState state);
 
 	private:
 
