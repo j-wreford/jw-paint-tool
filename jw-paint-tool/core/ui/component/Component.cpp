@@ -1,8 +1,7 @@
 #include "Component.h"
 
 paint_tool::Component::Component(
-	const	std::string	&id,
-	const	std::string &style_set_id
+	const	std::string	&id
 ) :
 	id(id),
 	rect(RECT{ 0, 0, 0, 0 }),
@@ -15,9 +14,8 @@ paint_tool::Component::Component(
 
 paint_tool::Component::Component(
 	const	std::string	&id,
-	const	SIZE		&size,
-	const	std::string &style_set_id
-) : Component(id, style_set_id) {
+	const	SIZE		&size
+) : Component(id) {
 
 	setSize(size);
 }
