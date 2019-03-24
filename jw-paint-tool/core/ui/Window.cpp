@@ -53,11 +53,8 @@ void paint_tool::Window::onDraw() {
 
 	LayoutManager *layout_manager = new LayoutManager();
 	layout_manager->layout(root_component.get());
-	
-	Window::componentWalker(
-		root_component.get(),
-		std::bind(&Window::drawSingleComponent, this, std::placeholders::_1)
-	);
+
+	drawComponent(root_component.get(), 0x000000, 0xffffff, 0xffffff, 1);
 
 	EasyGraphics::onDraw();
 
@@ -218,6 +215,101 @@ void paint_tool::Window::drawSingleComponent(const Component *component) {
 
 	if (debug_show_position_lines)
 		drawDebugComponentPositionLines(component);
+}
+
+void paint_tool::Window::drawComponent(const Component *component, int current_text_col, int current_bg_col, int current_line_col, int current_line_thickness) {
+
+	/* adjust the colours being used */
+
+	const ComponentStyle::StyleSet *style_set = component->getStyleSet();
+
+	if (style_set->text_colour) {
+		selectTextColour(*style_set->text_colour);
+		current_text_col = *(style_set->text_colour.get());
+	}
+
+	if (style_set->bg_colour) {
+		selectBackColour(*style_set->bg_colour);
+		current_bg_col = *(style_set->bg_colour.get());
+	}
+
+	if (style_set->line_colour && style_set->line_thickness) {
+		setPenColour(*style_set->line_colour, *style_set->line_thickness);
+		current_line_col = *style_set->line_colour.get();
+		current_line_thickness = *style_set->line_thickness.get();
+	}
+	else {
+
+		HDC hdc = GetDC(getHWND());
+
+		if (style_set->line_colour) {
+			::SetDCPenColor(hdc, *style_set->line_colour);
+			current_line_col = *style_set->line_colour.get();
+		}
+		else if (style_set->line_thickness) {
+
+			COLORREF current_line_colour = ::GetDCPenColor(hdc);
+
+			setPenColour(current_line_colour, *style_set->line_thickness);
+			current_line_thickness = *style_set->line_thickness.get();
+		}
+
+		::ReleaseDC(getHWND(), hdc);
+	}
+
+
+	/* adjust the font being used if this component is a label */
+
+	if (component->getComponentType() == paint_tool::CPMNT_STATIC_LABEL) {
+
+		const StaticLabel *label =
+			dynamic_cast<const StaticLabel *>(component);
+
+		if (label)
+			setHDEFFont(
+				FontManager::getInstance()->getFontHandle(
+					label->getFontAttributeSetId()
+				)
+			);
+	}
+
+	component->drawComponent(this);
+
+	/* draw debug graphics if the corresponding flag is set */
+
+	if (debug_show_ids)
+		drawDebugComponentId(component);
+
+	if (debug_show_pos)
+		drawDebugComponentPos(component);
+
+	if (debug_show_borders)
+		drawDebugComponentBorder(component);
+
+	if (debug_show_position_lines)
+		drawDebugComponentPositionLines(component);
+
+
+	/* draw child components, if any */
+
+	if (component->isComponentGroup()) {
+
+		const ComponentGroup *group =
+			dynamic_cast<const ComponentGroup *>(component);
+
+		for (const p_component_t &child : *group->getChildComponents()) {
+
+			/* draw the child component */
+
+			drawComponent(child.get(), current_text_col, current_bg_col, current_line_col, current_line_thickness);
+
+			/* reset the colours */
+
+			selectTextColour(current_text_col);
+			selectBackColour(current_bg_col);
+			setPenColour(current_line_col, current_line_thickness);
+		}
+	}
 }
 
 void paint_tool::Window::drawDebugComponentId(const Component *component) {

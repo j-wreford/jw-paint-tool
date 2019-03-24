@@ -118,6 +118,12 @@ namespace paint_tool {
 		void drawSingleComponent(const Component *component);
 
 		//
+		// Test: this draw method will recursively draw child components itself
+		//
+		void drawComponent(const Component *component,
+			int current_text_col, int current_bg_col, int current_line_col, int current_line_thickness);
+
+		//
 		// Writes the id of the given Component above its position
 		//
 		void drawDebugComponentId(const Component *component);
