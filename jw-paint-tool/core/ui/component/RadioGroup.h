@@ -146,7 +146,7 @@ void paint_tool::RadioGroup<ValT, ItemComponentT>::addChoice(
 		id,
 		value,
 		label,
-		getStyleSetId(),
+		"temp",
 		item_font_attr_set_id
 	);
 
