@@ -5,8 +5,7 @@
 //
 // InteractiveComponent
 //
-// Extends the Component base class by offering a hitTest and onHitTestPassed
-// methods to provide interactive functionality.
+// Extends the Component base class by offering interactive functionality.
 //
 
 namespace paint_tool {
