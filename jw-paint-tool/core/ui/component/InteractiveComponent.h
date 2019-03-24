@@ -151,33 +151,44 @@ namespace paint_tool {
 }
 
 void paint_tool::InteractiveComponent::onLeftMouseDownHit(const POINT &mouse) {
+
+	/* this component was mouse down clicked on - make it active and reset focused */
+
 	focused = false;
 	active = true;
 	lmd_startpoint = mouse;
 }
 
 void paint_tool::InteractiveComponent::onLeftMouseDownLostHit() {
+
+	/* a new component was mouse down clicked on - reset focused and active to false */
+
 	focused = false;
 	active = false;
+	lmd_startpoint = POINT{ -1,-1 };
 }
 
 void paint_tool::InteractiveComponent::onLeftMouseUpHit(const POINT &mouse) {
 
+	/* this component was mouse up clicked on - make it focused, and reset active */
+
 	focused = true;
 	active = false;
-
-	lmd_startpoint = POINT{
-		-1,
-		-1
-	};
+	lmd_startpoint = POINT{ -1,-1 };
 }
 
 void paint_tool::InteractiveComponent::onLeftMouseUpLostHit() {
+
+	/* a new component was mouse up clicked on - reset focused and active to false */
+
 	focused = false;
 	active = false;
 }
 
 void paint_tool::InteractiveComponent::onMouseMoveLostHit() {
+
+	/* a new component was hovered over - reset hovered to false */
+
 	hovered = false;
 }
 
