@@ -152,8 +152,7 @@ bool paint_tool::ComponentGroup::isInteractive() const {
 				return component->isInteractive();
 		});
 
-		if (it != components.end())
-			interactive = true;
+		interactive = (it != components.end());
 	}
 
 	return interactive;
