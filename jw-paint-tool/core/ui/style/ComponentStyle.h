@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windows.h>
+#include <memory>
 #include <string>
 
 #include "core\enum\ComponentStateEnum.h"
@@ -36,27 +37,25 @@ namespace paint_tool {
 		//
 		struct StyleSet {
 
-			~StyleSet();
-
 			//
 			// The colour of drawn text
 			//
-			COLORREF *text_colour = nullptr;
+			std::unique_ptr<int> text_colour = nullptr;
 
 			//
 			// The background colour used when drawing shapes
 			//
-			COLORREF *bg_colour = nullptr;
+			std::unique_ptr<int> bg_colour = nullptr;
 
 			//
 			// The colour of lines
 			//
-			COLORREF *line_colour = nullptr;
+			std::unique_ptr<int> line_colour = nullptr;
 
 			//
 			// The thickness of lines
 			//
-			int *line_thickness = nullptr;
+			std::unique_ptr<int> line_thickness = nullptr;
 		};
 
 		//
@@ -75,21 +74,21 @@ namespace paint_tool {
 		//
 		// A StyleSet for when the Component is drawn under normal conditions
 		//
-		StyleSet *normal = new StyleSet;
+		std::unique_ptr<StyleSet> normal = std::make_unique<StyleSet>();
 
 		//
 		// A StyleSet for when the Component is drawn when it's active
 		//
-		StyleSet *active = new StyleSet;
+		std::unique_ptr<StyleSet> active = std::make_unique<StyleSet>();
 
 		//
 		// A StyleSet for when the Component is drawn when it's focused
 		//
-		StyleSet *focused = new StyleSet;
+		std::unique_ptr<StyleSet> focused = std::make_unique<StyleSet>();
 
 		//
 		// A StyleSet for when the Component is drawn when it's hovered
 		//
-		StyleSet *hovered = new StyleSet;
+		std::unique_ptr<StyleSet> hovered = std::make_unique<StyleSet>();
 	};
 }

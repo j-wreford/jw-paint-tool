@@ -1,21 +1,11 @@
 #include "ComponentStyle.h"
 
-paint_tool::ComponentStyle::StyleSet::~StyleSet() {
-	delete text_colour;
-	delete bg_colour;
-	delete line_colour;
-	delete line_thickness;
-}
-
 paint_tool::ComponentStyle::ComponentStyle() {
 	//
 }
 
 paint_tool::ComponentStyle::~ComponentStyle() {
-	delete normal;
-	delete active;
-	delete focused;
-	delete hovered;
+	//
 }
 
 const paint_tool::ComponentStyle::StyleSet *paint_tool::ComponentStyle::getStyleSet(ComponentState state) const {
@@ -25,19 +15,19 @@ const paint_tool::ComponentStyle::StyleSet *paint_tool::ComponentStyle::getStyle
 	switch (state) {
 
 	case COMPONENT_STATE_NORMAL :
-		style_set = normal;
+		style_set = normal.get();
 		break;
 
 	case COMPONENT_STATE_ACTIVE:
-		style_set = active;
+		style_set = active.get();
 		break;
 
 	case COMPONENT_STATE_FOCUSED:
-		style_set = focused;
+		style_set = focused.get();
 		break;
 
 	case COMPONENT_STATE_HOVERED:
-		style_set = hovered;
+		style_set = hovered.get();
 		break;
 	}
 
@@ -53,23 +43,19 @@ void paint_tool::ComponentStyle::setStyleSet(StyleSet *style_set, ComponentState
 	switch (state) {
 
 	case COMPONENT_STATE_NORMAL:
-		delete normal;
-		normal = style_set;
+		normal = std::unique_ptr<StyleSet>(style_set);
 		break;
 
 	case COMPONENT_STATE_ACTIVE:
-		delete active;
-		active = style_set;
+		active = std::unique_ptr<StyleSet>(style_set);
 		break;
 
 	case COMPONENT_STATE_FOCUSED:
-		delete focused;
-		focused = style_set;
+		focused = std::unique_ptr<StyleSet>(style_set);
 		break;
 
 	case COMPONENT_STATE_HOVERED:
-		delete hovered;
-		hovered = style_set;
+		hovered = std::unique_ptr<StyleSet>(style_set);
 		break;
 	}
 }
