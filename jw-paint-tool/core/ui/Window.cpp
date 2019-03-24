@@ -54,7 +54,7 @@ void paint_tool::Window::onDraw() {
 	LayoutManager *layout_manager = new LayoutManager();
 	layout_manager->layout(root_component.get());
 
-	drawComponent(root_component.get(), 0x000000, 0xffffff, 0xffffff, 1);
+	componentDrawer(root_component.get(), 0x000000, 0xffffff, 0xffffff, 1);
 
 	EasyGraphics::onDraw();
 
@@ -217,46 +217,48 @@ void paint_tool::Window::drawSingleComponent(const Component *component) {
 		drawDebugComponentPositionLines(component);
 }
 
-void paint_tool::Window::drawComponent(const Component *component, int current_text_col, int current_bg_col, int current_line_col, int current_line_thickness) {
+void paint_tool::Window::componentDrawer(
+	const Component *component,
+	int	current_text_col,
+	int	current_bg_col,
+	int	current_line_col,
+	int	current_line_thickness
+) {
 
-	/* adjust the colours being used */
+	/* 1. adjust the colours being used and update the current_ variables
+		  so these can be set again after a child component changes them */
 
 	const ComponentStyle::StyleSet *style_set = component->getStyleSet();
 
+	/* adjust text colour */
+
 	if (style_set->text_colour) {
 		selectTextColour(*style_set->text_colour);
-		current_text_col = *(style_set->text_colour.get());
+		current_text_col = *style_set->text_colour;
 	}
+
+	/* adjust background colour */
 
 	if (style_set->bg_colour) {
 		selectBackColour(*style_set->bg_colour);
-		current_bg_col = *(style_set->bg_colour.get());
+		current_bg_col = *style_set->bg_colour;
 	}
+
+	/* adjust pen colour & thickness */
 
 	if (style_set->line_colour && style_set->line_thickness) {
 		setPenColour(*style_set->line_colour, *style_set->line_thickness);
-		current_line_col = *style_set->line_colour.get();
-		current_line_thickness = *style_set->line_thickness.get();
+		current_line_col = *style_set->line_colour;
+		current_line_thickness = *style_set->line_thickness;
 	}
-	else {
-
-		HDC hdc = GetDC(getHWND());
-
-		if (style_set->line_colour) {
-			::SetDCPenColor(hdc, *style_set->line_colour);
-			current_line_col = *style_set->line_colour.get();
-		}
-		else if (style_set->line_thickness) {
-
-			COLORREF current_line_colour = ::GetDCPenColor(hdc);
-
-			setPenColour(current_line_colour, *style_set->line_thickness);
-			current_line_thickness = *style_set->line_thickness.get();
-		}
-
-		::ReleaseDC(getHWND(), hdc);
+	else if (style_set->line_colour) {
+		setPenColour(*style_set->line_colour, current_line_thickness);
+		current_line_col = *style_set->line_colour;
 	}
-
+	else if (style_set->line_thickness) {
+		setPenColour(current_line_col, *style_set->line_thickness);
+		current_line_thickness = *style_set->line_thickness;
+	}
 
 	/* adjust the font being used if this component is a label */
 
@@ -272,6 +274,8 @@ void paint_tool::Window::drawComponent(const Component *component, int current_t
 				)
 			);
 	}
+
+	/* draw the component */
 
 	component->drawComponent(this);
 
@@ -289,7 +293,6 @@ void paint_tool::Window::drawComponent(const Component *component, int current_t
 	if (debug_show_position_lines)
 		drawDebugComponentPositionLines(component);
 
-
 	/* draw child components, if any */
 
 	if (component->isComponentGroup()) {
@@ -301,9 +304,9 @@ void paint_tool::Window::drawComponent(const Component *component, int current_t
 
 			/* draw the child component */
 
-			drawComponent(child.get(), current_text_col, current_bg_col, current_line_col, current_line_thickness);
+			componentDrawer(child.get(), current_text_col, current_bg_col, current_line_col, current_line_thickness);
 
-			/* reset the colours */
+			/* reset the colours for the next child component to use */
 
 			selectTextColour(current_text_col);
 			selectBackColour(current_bg_col);

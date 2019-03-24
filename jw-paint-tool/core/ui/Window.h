@@ -118,10 +118,22 @@ namespace paint_tool {
 		void drawSingleComponent(const Component *component);
 
 		//
-		// Test: this draw method will recursively draw child components itself
+		// Draws the given Component and draws child Components recursively.
 		//
-		void drawComponent(const Component *component,
-			int current_text_col, int current_bg_col, int current_line_col, int current_line_thickness);
+		// The current_ parameters are the colours currently being used. After
+		// a child Component is drawn using this method, the colours are set
+		// back to the current_ ones.
+		//
+		// This allows Components to inherit the colours of a parent if one
+		// isn't specified.
+		//
+		void componentDrawer(
+			const Component *component,
+			int	current_text_col,
+			int	current_bg_col,
+			int	current_line_col,
+			int	current_line_thickness
+		);
 
 		//
 		// Writes the id of the given Component above its position
