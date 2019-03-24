@@ -233,7 +233,7 @@ void paint_tool::PaintTool::createLeftPanel() {
 
 	/* 3. add the created components to the panel */
 
-	p_panel->addVerticalSpace(15);
+	p_panel->addVerticalSpace(25);
 	p_panel->addComponent(label_tools);
 	p_panel->addVerticalSpace(25);
 	p_panel->addComponent(tools_choice);
