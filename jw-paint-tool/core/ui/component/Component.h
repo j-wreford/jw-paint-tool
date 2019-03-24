@@ -121,6 +121,7 @@ namespace paint_tool {
 		inline void setBgColour(COLORREF *bg_colour, ComponentState state = COMPONENT_STATE_NORMAL);
 		inline void setLineColour(COLORREF *line_colour, ComponentState state = COMPONENT_STATE_NORMAL);
 		inline void setLineThickness(int line_thickness, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setStyleSet(ComponentStyle::StyleSet *style_set, ComponentState state = COMPONENT_STATE_NORMAL);
 
 		//
 		// Returns false; the base Component is not interactive
@@ -262,7 +263,7 @@ paint_tool::Component *paint_tool::Component::getParent() const {
 }
 
 const paint_tool::ComponentStyle::StyleSet *paint_tool::Component::getStyleSet() const {
-	return style->getStyle(COMPONENT_STATE_NORMAL);
+	return style->getStyleSet(COMPONENT_STATE_NORMAL);
 }
 
 paint_tool::AlignStrategy paint_tool::Component::getAlignment() const {
@@ -302,19 +303,23 @@ void paint_tool::Component::setAlignment(AlignStrategy _alignment) {
 }
 
 void paint_tool::Component::setTextColour(COLORREF *colour, ComponentState state) {
-	style->getStyle(state)->text_colour = colour;
+	style->getStyleSet(state)->text_colour = colour;
 }
 
 void paint_tool::Component::setBgColour(COLORREF *colour, ComponentState state) {
-	style->getStyle(state)->bg_colour = colour;
+	style->getStyleSet(state)->bg_colour = colour;
 }
 
 void paint_tool::Component::setLineColour(COLORREF *colour, ComponentState state) {
-	style->getStyle(state)->line_colour = colour;
+	style->getStyleSet(state)->line_colour = colour;
 }
 
 void paint_tool::Component::setLineThickness(int line_thickness, ComponentState state) {
-	style->getStyle(state)->line_thickness = new int(line_thickness);
+	style->getStyleSet(state)->line_thickness = new int(line_thickness);
+}
+
+void paint_tool::Component::setStyleSet(ComponentStyle::StyleSet *style_set, ComponentState state) {
+	style->setStyleSet(style_set, state);
 }
 
 bool paint_tool::Component::isInteractive() const {
