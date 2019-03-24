@@ -7,8 +7,9 @@ paint_tool::ComponentGroup::ComponentGroup(
 ) :
 	InteractiveComponent(id, style_set_id),
 	layout(LAYOUT_MANUAL),
-	focused_component(nullptr),
-	active_component(nullptr),
+	last_lmdh(nullptr),
+	last_lmuh(nullptr),
+	last_mmh(nullptr),
 	minimum_size(SIZE{ 0,0 }),
 	fill_background(fill_background) {
 	
@@ -38,8 +39,6 @@ void paint_tool::ComponentGroup::onLeftMouseDownHit(const POINT &mouse) {
 
 	InteractiveComponent *hit_component = getFirstHitInteractiveComponent(mouse);
 
-	/* 2. if a component within this group was hit */
-
 	if (hit_component) {
 
 		/* 2.1 call onLeftMouseDownHit() on the hit child component */
@@ -47,21 +46,22 @@ void paint_tool::ComponentGroup::onLeftMouseDownHit(const POINT &mouse) {
 		hit_component->onLeftMouseDownHit(
 			hit_component->getRelativePoint(mouse)
 		);
-
-		/* 2.2 set the active_component property */
-
-		active_component = hit_component;
 	}
+
+	if (last_lmdh && last_lmdh != hit_component)
+		last_lmdh->onLeftMouseDownLostHit();
+
+	last_lmdh = hit_component;
 }
 
 void paint_tool::ComponentGroup::onLeftMouseDownLostHit() {
 
 	InteractiveComponent::onLeftMouseDownLostHit();
 
-	if (active_component)
-		active_component->onLeftMouseDownLostHit();
+	if (last_lmdh)
+		last_lmdh->onLeftMouseDownLostHit();
 
-	active_component = nullptr;
+	last_lmdh = nullptr;
 }
 
 void paint_tool::ComponentGroup::onLeftMouseUpHit(const POINT &mouse) {
@@ -72,8 +72,6 @@ void paint_tool::ComponentGroup::onLeftMouseUpHit(const POINT &mouse) {
 
 	InteractiveComponent *hit_component = getFirstHitInteractiveComponent(mouse);
 
-	/* 2. if a component within this group was hit */
-
 	if (hit_component) {
 
 		/* 2.1 call onLeftMouseUpHit() on the hit child component */
@@ -81,26 +79,22 @@ void paint_tool::ComponentGroup::onLeftMouseUpHit(const POINT &mouse) {
 		hit_component->onLeftMouseUpHit(
 			hit_component->getRelativePoint(mouse)
 		);
-
-		/* 2. set the focused_component property */
-
-		focused_component = hit_component;
 	}
+#
+	if (last_lmuh && last_lmuh != hit_component)
+		last_lmuh->onLeftMouseUpLostHit();
 
-	/* 3. the mouse was let go on this component; the previously active component
-	      is no longer active */
-
-	active_component = nullptr;
+	last_lmuh = hit_component;
 }
 
 void paint_tool::ComponentGroup::onLeftMouseUpLostHit() {
 
 	InteractiveComponent::onLeftMouseUpLostHit();
 
-	if (focused_component)
-		focused_component->onLeftMouseUpLostHit();
+	if (last_lmuh)
+		last_lmuh->onLeftMouseUpLostHit();
 
-	focused_component = nullptr;
+	last_lmuh = nullptr;
 }
 
 void paint_tool::ComponentGroup::onMouseMoveHit(const POINT &mouse, const bool &lmouse_down) {
@@ -111,8 +105,6 @@ void paint_tool::ComponentGroup::onMouseMoveHit(const POINT &mouse, const bool &
 
 	InteractiveComponent *hit_component = getFirstHitInteractiveComponent(mouse);
 
-	/* 2. if a component within this group was hit */
-
 	if (hit_component) {
 
 		/* 2.1 call onMouseMoveHit() on the hit child component */
@@ -120,22 +112,22 @@ void paint_tool::ComponentGroup::onMouseMoveHit(const POINT &mouse, const bool &
 		hit_component->onMouseMoveHit(
 			hit_component->getRelativePoint(mouse), lmouse_down
 		);
-
-		/* 2.2 set the hovered_component property */
-
-		if (hit_component)
-			hovered_component = hit_component;
 	}
+
+	if (last_mmh && last_mmh != hit_component)
+		last_mmh->onMouseMoveLostHit();
+
+	last_mmh = hit_component;
 }
 
 void paint_tool::ComponentGroup::onMouseMoveLostHit() {
 
 	InteractiveComponent::onMouseMoveLostHit();
 
-	if (hovered_component)
-		hovered_component->onMouseMoveLostHit();
+	if (last_mmh)
+		last_mmh->onMouseMoveLostHit();
 
-	hovered_component = nullptr;
+	last_mmh = nullptr;
 }
 
 bool paint_tool::ComponentGroup::isInteractive() const {
@@ -265,9 +257,7 @@ paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getFirstHitInterac
 				dynamic_cast<InteractiveComponent *>(component.get());
 
 			if (interactive)
-				return interactive->wasHit(
-					interactive->getRelativePoint(mouse)
-				);
+				return interactive->wasHit(mouse);
 		}
 
 		return false;

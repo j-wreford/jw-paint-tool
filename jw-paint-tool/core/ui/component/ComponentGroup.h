@@ -159,19 +159,22 @@ namespace paint_tool {
 		std::list<paint_tool::p_component_t> components;
 
 		//
-		// The child InteractiveComponent who is focused
+		// The child InteractiveComponent who last responded to
+		// left mouse down hit
 		//
-		InteractiveComponent *focused_component;
+		InteractiveComponent *last_lmdh;
 
 		//
-		// The child InteractiveComponent who is active
+		// The child InteractiveComponent who last responded to
+		// left mouse up hit
 		//
-		InteractiveComponent *active_component;
+		InteractiveComponent *last_lmuh;
 
 		//
-		// The child InteractiveComponent who is hovered
+		// The child InteractiveComponent who last responded to
+		// mouse move hit
 		//
-		InteractiveComponent *hovered_component;
+		InteractiveComponent *last_mmh;
 
 		//
 		// Defines the minimum size of the ComponentGroup
@@ -226,15 +229,15 @@ void paint_tool::ComponentGroup::setMinimumSize(const SIZE &_minimum_size) {
 }
 
 paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getFocusedComponent() {
-	return focused_component;
+	return last_lmuh;
 }
 
 paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getActiveComponent() {
-	return active_component;
+	return last_lmdh;
 }
 
 paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getHoveredComponent() {
-	return hovered_component;
+	return last_mmh;
 }
 
 paint_tool::Component *paint_tool::ComponentGroup::getComponent(const std::string &id) {
