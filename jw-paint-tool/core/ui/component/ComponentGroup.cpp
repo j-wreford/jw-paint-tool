@@ -2,10 +2,9 @@
 
 paint_tool::ComponentGroup::ComponentGroup(
 	const	std::string	&id,
-	const	std::string &style_set_id,
 	const	bool		&fill_background
 ) :
-	InteractiveComponent(id, style_set_id),
+	InteractiveComponent(id),
 	layout(LAYOUT_MANUAL),
 	last_lmdh(nullptr),
 	last_lmuh(nullptr),
