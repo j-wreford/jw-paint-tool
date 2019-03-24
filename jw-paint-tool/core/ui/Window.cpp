@@ -159,12 +159,34 @@ void paint_tool::Window::addComponent(paint_tool::p_component_t &component) {
 
 void paint_tool::Window::drawSingleComponent(const Component *component) {
 
-	/* adjust the style set being used */
+	/* adjust the colours being used */
 
-	StyleManager::getInstance()->applyStyleSet(
-		component->getStyleSetId(),
-		this
-	);
+	const ComponentStyle::StyleSet *style_set = component->getStyleSet();
+
+	if (style_set->text_colour)
+		selectTextColour(*style_set->text_colour);
+
+	if (style_set->bg_colour)
+		selectBackColour(*style_set->bg_colour);
+
+	if (style_set->line_colour && style_set->line_thickness)
+		setPenColour(*style_set->line_colour, *style_set->line_thickness);
+	else {
+
+		HDC hdc = GetDC(getHWND());
+
+		if (style_set->line_colour)
+			::SetDCPenColor(hdc, *style_set->line_colour);
+		else if (style_set->line_thickness) {
+
+			COLORREF current_line_colour = ::GetDCPenColor(hdc);
+
+			setPenColour(current_line_colour, *style_set->line_thickness);
+		}
+
+		::ReleaseDC(getHWND(), hdc);
+	}
+
 
 	/* adjust the font being used if this component is a label */
 
