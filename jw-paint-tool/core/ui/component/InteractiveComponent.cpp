@@ -6,6 +6,7 @@ paint_tool::InteractiveComponent::InteractiveComponent(
 ) : Component(id, style_set_id),
 	focused(false),
 	active(false),
+	hovered(false),
 	draggable(false) {
 	//
 }
@@ -25,37 +26,15 @@ paint_tool::InteractiveComponent::~InteractiveComponent() {
 	//
 }
 
-void paint_tool::InteractiveComponent::onLeftMouseButtonDown(const POINT &mouse) {
+// If the left mouse button is down, then active should be true.
+// Does lmouse_down need to be a parameter here?
+void paint_tool::InteractiveComponent::onMouseMoveHit(const POINT &mouse, const bool& lmouse_down) {
 
-	if (wasHit(mouse)) {
-
-		active = true;
-
-		lmouse_down_offset = POINT{
-			mouse.x - getPosition().x,
-			mouse.y - getPosition().y
-		};
-	}
-	else
-		focused = false;
-}
-
-void paint_tool::InteractiveComponent::onLeftMouseButtonUp(const POINT &mouse) {
-
-	if (wasHit(mouse))
-		focused = true;
-
-	lmouse_down_offset = POINT{ -1, -1 };
-
-	active = false;
-}
-
-void paint_tool::InteractiveComponent::onMouseMove(const POINT &mouse, const bool& lmouse_down) {
+	hovered = true;
 
 	if (lmouse_down && active && draggable) {
 
-		POINT new_pos = //getPosition();
-		{
+		POINT new_pos{
 			mouse.x - lmouse_down_offset.x,
 			mouse.y - lmouse_down_offset.y
 		};
