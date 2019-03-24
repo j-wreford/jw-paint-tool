@@ -108,7 +108,11 @@ void paint_tool::Window::onLButtonDown(UINT nFlags, int x, int y) {
 	if (!root_component)
 		return;
 
-	root_component->onLeftMouseButtonDown(POINT{ x, y });
+	/* the root component should always have been hit, but perform a
+	   test anyway to be safe */
+
+	if (root_component->wasHit(POINT{ x,y }))
+		root_component->onLeftMouseDownHit(POINT{ x, y });
 
 	lmouse_down = true;
 
@@ -120,7 +124,11 @@ void paint_tool::Window::onLButtonUp(UINT nFlags, int x, int y) {
 	if (!root_component)
 		return;
 
-	root_component->onLeftMouseButtonUp(POINT{ x, y });
+	/* the root component should always have been hit, but perform a
+       test anyway to be safe */
+
+	if (root_component->wasHit(POINT{ x,y }))
+		root_component->onLeftMouseUpHit(POINT{ x, y });
 
 	lmouse_down = false;
 
@@ -132,7 +140,11 @@ void paint_tool::Window::onMouseMove(UINT nFlags, int x, int y) {
 	if (!root_component)
 		return;
 	
-	root_component->onMouseMove(POINT{ x, y }, lmouse_down);
+	/* the root component should always have been hit, but perform a
+       test anyway to be safe */
+
+	if (root_component->wasHit(POINT{ x,y }))
+		root_component->onMouseMoveHit(POINT{ x, y }, lmouse_down);
 
 	onDraw();
 }
