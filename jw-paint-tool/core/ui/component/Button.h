@@ -34,12 +34,9 @@ namespace paint_tool {
 		~Button();
 
 		//
-		// Calls ComponentGroup::onLeftMouseButtonUp.
+		// Executes the Button's callback
 		//
-		// In addition, the Button will execute the callback if the mouse point
-		// lies within the Button's boundaries.
-		//
-		virtual void onLeftMouseButtonUp(const POINT &mouse) override;
+		virtual void onLeftMouseUpHit(const POINT &mouse) override;
 
 		//
 		// Returns true
