@@ -43,7 +43,7 @@ namespace paint_tool {
 		// these versions.
 		//
 		inline virtual void onLeftMouseUpHit(const POINT &mouse);
-		inline virtual void onleftMouseUpLostHit();
+		inline virtual void onLeftMouseUpLostHit();
 
 		//
 		// The operations to perform whenever the mouse button is moved on
@@ -135,7 +135,7 @@ namespace paint_tool {
 
 		//
 		// When true, the Component will be moved around when the user
-		// clicks-and-drags on the Component
+		// clicks-and-drags on the Component.
 		//
 		bool draggable;
 
@@ -174,7 +174,7 @@ void paint_tool::InteractiveComponent::onLeftMouseUpHit(const POINT &mouse) {
 	focused = true;
 }
 
-void paint_tool::InteractiveComponent::onleftMouseUpLostHit() {
+void paint_tool::InteractiveComponent::onLeftMouseUpLostHit() {
 	focused = false;
 }
 
