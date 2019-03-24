@@ -152,6 +152,7 @@ namespace paint_tool {
 
 void paint_tool::InteractiveComponent::onLeftMouseDownHit(const POINT &mouse) {
 
+	focused = false;
 	active = true;
 
 	lmouse_down_offset = POINT{
@@ -161,7 +162,12 @@ void paint_tool::InteractiveComponent::onLeftMouseDownHit(const POINT &mouse) {
 }
 
 void paint_tool::InteractiveComponent::onLeftMouseDownLostHit() {
+	focused = false;
+}
 
+void paint_tool::InteractiveComponent::onLeftMouseUpHit(const POINT &mouse) {
+
+	focused = true;
 	active = false;
 
 	lmouse_down_offset = POINT{
@@ -170,12 +176,8 @@ void paint_tool::InteractiveComponent::onLeftMouseDownLostHit() {
 	};
 }
 
-void paint_tool::InteractiveComponent::onLeftMouseUpHit(const POINT &mouse) {
-	focused = true;
-}
-
 void paint_tool::InteractiveComponent::onLeftMouseUpLostHit() {
-	focused = false;
+	//
 }
 
 void paint_tool::InteractiveComponent::onMouseMoveLostHit() {
