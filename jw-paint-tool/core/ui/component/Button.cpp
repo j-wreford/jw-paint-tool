@@ -4,10 +4,9 @@ paint_tool::Button::Button(
 	const	std::string					&id,
 	const	SIZE						&size,
 	const	std::wstring				&text,
-	const	std::string					&style_set_id,
 	const	std::function<void(void)>	callback
 ) :
-	ComponentGroup(id, style_set_id),
+	ComponentGroup(id),
 	callback(callback)
 {
 
@@ -15,8 +14,7 @@ paint_tool::Button::Button(
 
 	p_component_t box = std::make_unique<StaticBox>(
 		"btn_box",
-		size,
-		style_set_id
+		size
 		);
 	addComponent(box);
 	
@@ -25,7 +23,6 @@ paint_tool::Button::Button(
 	p_component_t label = std::make_unique<StaticLabel>(
 		"btn_label",
 		text,
-		style_set_id,
 		"default"
 	);
 	Component *p_label = label.get();
