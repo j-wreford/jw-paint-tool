@@ -12,7 +12,7 @@ paint_tool::ComponentStyle::~ComponentStyle() {
 	delete hovered;
 }
 
-paint_tool::ComponentStyle::StyleSet *paint_tool::ComponentStyle::getStyleSet(ComponentState state) {
+const paint_tool::ComponentStyle::StyleSet *paint_tool::ComponentStyle::getStyleSet(ComponentState state) const {
 
 	StyleSet *style_set = nullptr;
 	
@@ -36,6 +36,10 @@ paint_tool::ComponentStyle::StyleSet *paint_tool::ComponentStyle::getStyleSet(Co
 	}
 
 	return style_set;
+}
+
+paint_tool::ComponentStyle::StyleSet *paint_tool::ComponentStyle::getStyleSet(ComponentState state) {
+	return const_cast<ComponentStyle::StyleSet *>(const_cast<const ComponentStyle *>(this)->getStyleSet(state));
 }
 
 void paint_tool::ComponentStyle::setStyleSet(StyleSet *style_set, ComponentState state) {

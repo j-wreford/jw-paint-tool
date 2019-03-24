@@ -6,7 +6,7 @@
 #include "core\enum\ComponentStateEnum.h"
 
 //
-// Style
+// ComponentStyle.
 //
 // A Style describes how to modify the brush when a Component is being drawn.
 //
@@ -14,9 +14,9 @@
 // Component's state.
 //
 // If a particular property within a StyleSet hasn't been set, then this
-// property is skipped, making the colour used be the last one set. This
-// effectively means that whatever colours the Component's parent used will be
-// passed on to the current Component.
+// property is skipped when the StyleManager is setting colours, making the
+// colour used be the last one set. This effectively means that whatever colours
+// the Component's parent used will be passed on to the current Component.
 //
 
 namespace paint_tool {
@@ -67,6 +67,7 @@ namespace paint_tool {
 		//
 		// Returns the StyleSet for the given state
 		//
+		inline const StyleSet *getStyleSet(ComponentState state) const;
 		inline StyleSet *getStyleSet(ComponentState state);
 
 		//
