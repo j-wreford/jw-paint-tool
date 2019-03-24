@@ -6,6 +6,7 @@ paint_tool::InteractiveComponent::InteractiveComponent(
 ) : Component(id, style_set_id),
 	focused(false),
 	active(false),
+	hovered(false),
 	draggable(false) {
 	//
 }
@@ -17,6 +18,7 @@ paint_tool::InteractiveComponent::InteractiveComponent(
 ) : Component(id, size, style_set_id),
 	focused(false),
 	active(false),
+	hovered(false),
 	draggable(false) {
 	//
 }
@@ -25,60 +27,32 @@ paint_tool::InteractiveComponent::~InteractiveComponent() {
 	//
 }
 
-void paint_tool::InteractiveComponent::onLeftMouseButtonDown(const POINT &mouse) {
+// If the left mouse button is down, then active should be true.
+// Does lmouse_down need to be a parameter here?
+void paint_tool::InteractiveComponent::onMouseMoveHit(const POINT &mouse, const bool& lmouse_down) {
 
-	if (wasHit(mouse)) {
+	/* this component was hovered over - set hovered to true and handle dragging if warrented */
 
-		active = true;
+	hovered = true;
 
-		lmouse_down_offset = POINT{
-			mouse.x - getPosition().x,
-			mouse.y - getPosition().y
-		};
-	}
-	else
-		focused = false;
-}
+	if (active && draggable) {
 
-void paint_tool::InteractiveComponent::onLeftMouseButtonUp(const POINT &mouse) {
-
-	if (wasHit(mouse))
-		focused = true;
-
-	lmouse_down_offset = POINT{ -1, -1 };
-
-	active = false;
-}
-
-void paint_tool::InteractiveComponent::onMouseMove(const POINT &mouse, const bool& lmouse_down) {
-
-	if (lmouse_down && active && draggable) {
-
-		POINT new_pos = //getPosition();
-		{
-			mouse.x - lmouse_down_offset.x,
-			mouse.y - lmouse_down_offset.y
-		};
-
-		setPosition(new_pos);
+		setPosition(POINT{
+			mouse.x + getPosition().x - lmd_startpoint.x,
+			mouse.y + getPosition().y - lmd_startpoint.y
+		});
 	}
 }
 
 POINT paint_tool::InteractiveComponent::getRelativePoint(const POINT &mouse) const {
 
-	POINT relative_point = mouse;
-
-	POINT pos = getAbsolutePosition();
-
-	relative_point.x -= pos.x;
-	relative_point.y -= pos.y;
-
+	POINT pos = getPosition();
 	POINT origin = getOrigin();
 
-	relative_point.x -= origin.x;
-	relative_point.y -= origin.y;
-
-	return relative_point;
+	return POINT{
+		mouse.x - pos.x - origin.x,
+		mouse.y - pos.y - origin.y
+	};
 
 	/*
 	return POINT{

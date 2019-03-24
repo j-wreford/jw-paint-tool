@@ -7,8 +7,9 @@ paint_tool::ComponentGroup::ComponentGroup(
 ) :
 	InteractiveComponent(id, style_set_id),
 	layout(LAYOUT_MANUAL),
-	focused_component(nullptr),
-	active_component(nullptr),
+	last_lmdh(nullptr),
+	last_lmuh(nullptr),
+	last_mmh(nullptr),
 	minimum_size(SIZE{ 0,0 }),
 	fill_background(fill_background) {
 	
@@ -30,115 +31,103 @@ void paint_tool::ComponentGroup::drawComponent(EasyGraphics *ctx) const {
 	}
 }
 
-void paint_tool::ComponentGroup::onLeftMouseButtonDown(const POINT &mouse) {
-	InteractiveComponent::onLeftMouseButtonDown(mouse);
+void paint_tool::ComponentGroup::onLeftMouseDownHit(const POINT &mouse) {
 
-	/* 1. call onLeftMouseButtonDown on each interactive child component */
+	InteractiveComponent::onLeftMouseDownHit(mouse);
 
-	for (p_component_t &component : components) {
+	/* 1. get the first interactive child component whose hit test passes */
 
-		if (component->isInteractive()) {
+	InteractiveComponent *hit_component = getFirstHitInteractiveComponent(mouse);
 
-			InteractiveComponent *inter_comp =
-				dynamic_cast<InteractiveComponent *>(component.get());
+	if (hit_component) {
 
-			if (inter_comp)
-				inter_comp->onLeftMouseButtonDown(
-					getRelativePoint(mouse)
-				);
-		}
+		/* 2.1 call onLeftMouseDownHit() on the hit child component */
+
+		hit_component->onLeftMouseDownHit(
+			hit_component->getRelativePoint(mouse)
+		);
 	}
-	
-	/* 2. find the child component which is now active (after responding to
-	      onLeftMouseButtonDown */
 
-	auto it = std::find_if(components.begin(), components.end(),
-		[](p_component_t &component) -> bool {
+	if (last_lmdh && last_lmdh != hit_component)
+		last_lmdh->onLeftMouseDownLostHit();
 
-			bool active = false;
-			
-			InteractiveComponent *inter_comp =
-				dynamic_cast<InteractiveComponent *>(component.get());
-
-			if (inter_comp)
-				active = inter_comp->isActive();
-			
-			return active;
-		}
-	);
-	
-	/* 3. set the active_component property */
-
-	if (it != components.end())
-		active_component = dynamic_cast<InteractiveComponent *>(it->get());
-	else
-		active_component = nullptr;
+	last_lmdh = hit_component;
 }
 
-void paint_tool::ComponentGroup::onLeftMouseButtonUp(const POINT &mouse) {
-	InteractiveComponent::onLeftMouseButtonUp(mouse);
+void paint_tool::ComponentGroup::onLeftMouseDownLostHit() {
 
-	/* 1. call onLeftMouseButtonUp on each interactive child component */
+	InteractiveComponent::onLeftMouseDownLostHit();
 
-	for (p_component_t &component : components) {
+	if (last_lmdh)
+		last_lmdh->onLeftMouseDownLostHit();
 
-		if (component->isInteractive()) {
-
-			InteractiveComponent *inter_comp =
-				dynamic_cast<InteractiveComponent *>(component.get());
-
-			if (inter_comp)
-				inter_comp->onLeftMouseButtonUp(
-					getRelativePoint(mouse)
-				);
-		}
-	}
-
-	/* 2. find the child component which is now focused (after responding to
-	      onLeftMouseButtonUp) */
-
-	auto it = std::find_if(components.begin(), components.end(),
-		[](p_component_t &component) -> bool {
-
-			bool focused = false;
-
-			InteractiveComponent *inter_comp =
-				dynamic_cast<InteractiveComponent *>(component.get());
-
-			if (inter_comp)
-				focused = inter_comp->isFocused();
-
-			return focused;
-		}
-	);
-
-	/* 3. set the focused_component and active_component properties */
-
-	if (it != components.end())
-		focused_component = dynamic_cast<InteractiveComponent *>(it->get());
-
-	active_component = nullptr;
+	last_lmdh = nullptr;
 }
 
-void paint_tool::ComponentGroup::onMouseMove(const POINT &mouse, const bool &lmouse_down) {
-	InteractiveComponent::onMouseMove(mouse, lmouse_down);
-	
-	/* call onMouseMove on each interactive child component */
+void paint_tool::ComponentGroup::onLeftMouseUpHit(const POINT &mouse) {
 
-	for (p_component_t &component: components) {
+	InteractiveComponent::onLeftMouseUpHit(mouse);
 
-		if (component->isInteractive()) {
+	/* 1. get the first interactive child component whose hit test passes */
 
-			InteractiveComponent *inter_comp =
-				dynamic_cast<InteractiveComponent *>(component.get());
+	InteractiveComponent *hit_component = getFirstHitInteractiveComponent(mouse);
 
-			if (inter_comp)
-				inter_comp->onMouseMove(
-					getRelativePoint(mouse),
-					lmouse_down
-				);
-		}
+	if (hit_component) {
+
+		/* 2.1 call onLeftMouseUpHit() on the hit child component */
+
+		hit_component->onLeftMouseUpHit(
+			hit_component->getRelativePoint(mouse)
+		);
 	}
+#
+	if (last_lmuh && last_lmuh != hit_component)
+		last_lmuh->onLeftMouseUpLostHit();
+
+	last_lmuh = hit_component;
+}
+
+void paint_tool::ComponentGroup::onLeftMouseUpLostHit() {
+
+	InteractiveComponent::onLeftMouseUpLostHit();
+
+	if (last_lmuh)
+		last_lmuh->onLeftMouseUpLostHit();
+
+	last_lmuh = nullptr;
+}
+
+void paint_tool::ComponentGroup::onMouseMoveHit(const POINT &mouse, const bool &lmouse_down) {
+
+	InteractiveComponent::onMouseMoveHit(mouse, lmouse_down);
+
+	/* 1. get the first interactive child component whose hit test passes */
+
+	InteractiveComponent *hit_component = getFirstHitInteractiveComponent(mouse);
+
+	if (hit_component) {
+
+		/* 2.1 call onMouseMoveHit() on the hit child component */
+
+		hit_component->onMouseMoveHit(
+			hit_component->getRelativePoint(mouse), lmouse_down
+		);
+	}
+
+	if (last_mmh && last_mmh != hit_component)
+		last_mmh->onMouseMoveLostHit();
+
+	last_mmh = hit_component;
+}
+
+void paint_tool::ComponentGroup::onMouseMoveLostHit() {
+
+	InteractiveComponent::onMouseMoveLostHit();
+
+	if (last_mmh)
+		last_mmh->onMouseMoveLostHit();
+
+	last_mmh = nullptr;
 }
 
 bool paint_tool::ComponentGroup::isInteractive() const {
@@ -155,8 +144,7 @@ bool paint_tool::ComponentGroup::isInteractive() const {
 				return component->isInteractive();
 		});
 
-		if (it != components.end())
-			interactive = true;
+		interactive = (it != components.end());
 	}
 
 	return interactive;
@@ -256,4 +244,24 @@ void paint_tool::ComponentGroup::recalculateSize() {
 	setOrigin(origin);
 	setRect(rect);
 	setPosition(pos);
+}
+
+paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getFirstHitInteractiveComponent(const POINT &mouse) {
+	
+	auto it = std::find_if(components.begin(), components.end(),
+		[&mouse](p_component_t &component) -> bool {
+
+		if (component->isInteractive()) {
+
+			InteractiveComponent *interactive =
+				dynamic_cast<InteractiveComponent *>(component.get());
+
+			if (interactive)
+				return interactive->wasHit(mouse);
+		}
+
+		return false;
+	});
+
+	return (it == components.end() ? nullptr : dynamic_cast<InteractiveComponent *>(it->get()));
 }

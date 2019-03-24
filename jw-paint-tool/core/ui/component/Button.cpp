@@ -41,9 +41,9 @@ paint_tool::Button::~Button() {
 	//
 }
 
-void paint_tool::Button::onLeftMouseButtonUp(const POINT &mouse) {
-	ComponentGroup::onLeftMouseButtonUp(mouse);
+void paint_tool::Button::onLeftMouseUpHit(const POINT &mouse) {
 
-	if (wasHit(mouse))
-		callback();
+	ComponentGroup::onLeftMouseUpHit(mouse);
+
+	callback();
 }

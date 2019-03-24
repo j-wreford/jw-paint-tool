@@ -30,10 +30,25 @@ namespace paint_tool {
 
 		inline ~RadioGroup();
 
+		/* ============================= */
+
+
 		//
-		// 
+		// Updates the selected_component property and calls onLeftMouseDownHit
+		// to the first child RadioItem<ValT> whose hit test passes
 		//
-		virtual void onLeftMouseButtonDown(const POINT &mouse) override;
+		//virtual void onLeftMouseDownHit(const POINT &mouse) override;
+
+		//
+		// Updates the focused_component property and calls onLeftMouseUpHit
+		// to the first child Component whose hit test passes
+		//
+		virtual void onLeftMouseUpHit(const POINT &mouse) override;
+		//virtual void onLeftMouseUpLostHit() override;
+
+
+		/* ============================= */
+
 
 		//
 		// Adds a choice to the RadioGroup
@@ -55,7 +70,7 @@ namespace paint_tool {
 		//
 		// A pointer to the currently selected item 
 		//
-		RadioItem<ValT> *selected;
+		RadioItem<ValT> *selected_component;
 
 		//
 		// The font attribute set id to pass down to the radio items
@@ -71,7 +86,7 @@ paint_tool::RadioGroup<ValT, ItemComponentT>::RadioGroup(
 	const	std::string &item_font_attr_set_id
 ) :
 	ComponentGroup(id, style_set_id),
-	selected(nullptr),
+	selected_component(nullptr),
 	item_font_attr_set_id(item_font_attr_set_id) {
 	//
 }
@@ -82,22 +97,18 @@ paint_tool::RadioGroup<ValT, ItemComponentT>::~RadioGroup() {
 }
 
 template <class ValT, class ItemComponentT>
-void paint_tool::RadioGroup<ValT, ItemComponentT>::onLeftMouseButtonDown(const POINT &mouse) {
-	ComponentGroup::onLeftMouseButtonDown(mouse);
+void paint_tool::RadioGroup<ValT, ItemComponentT>::onLeftMouseUpHit(const POINT &mouse) {
 
-	/* bail if the mouse didn't click this radio group */
+	ComponentGroup::onLeftMouseUpHit(mouse);
 
-	if (!wasHit(mouse))
-		return;
+	/* 1. get the component that was last clicked by calling getFocusedComponent() */
 
-	/* 1. get the component just clicked by calling getActiveComponent() */
-
-	Component *active_component = getActiveComponent();
+	InteractiveComponent *focused_component = getFocusedComponent();
 
 	/* 2. check if it is a RadioItem<ValT>* component */
 
 	RadioItem<ValT> *new_selected =
-		dynamic_cast<RadioItem<ValT> *>(active_component);
+		dynamic_cast<RadioItem<ValT> *>(focused_component);
 
 	/* 3. if it is: */
 
@@ -105,16 +116,16 @@ void paint_tool::RadioGroup<ValT, ItemComponentT>::onLeftMouseButtonDown(const P
 
 		/* 3.1 notify the current selected that it's no longer chosen */
 
-		if (selected)
-			selected->setChosen(false);
+		if (selected_component)
+			selected_component->setChosen(false);
 
 		/* 3.2 set this RadioItem as the new selected */
 
-		selected = new_selected;
+		selected_component = new_selected;
 
 		/* 3.3 notify the new active_choice that it's chosen */
 
-		selected->setChosen(true);
+		selected_component->setChosen(true);
 	}
 }
 
@@ -147,8 +158,8 @@ ValT paint_tool::RadioGroup<ValT, ItemComponentT>::getValue() const {
 
 	ValT value;
 
-	if (selected)
-		value = selected->getValue();
+	if (selected_component)
+		value = selected_component->getValue();
 
 	return value;
 }

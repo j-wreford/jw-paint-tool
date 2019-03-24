@@ -108,7 +108,11 @@ void paint_tool::Window::onLButtonDown(UINT nFlags, int x, int y) {
 	if (!root_component)
 		return;
 
-	root_component->onLeftMouseButtonDown(POINT{ x, y });
+	/* the root component should always have been hit, but perform a
+	   test anyway to be safe */
+
+	if (root_component->wasHit(POINT{ x, y }))
+		root_component->onLeftMouseDownHit(POINT{ x, y });
 
 	lmouse_down = true;
 
@@ -120,7 +124,11 @@ void paint_tool::Window::onLButtonUp(UINT nFlags, int x, int y) {
 	if (!root_component)
 		return;
 
-	root_component->onLeftMouseButtonUp(POINT{ x, y });
+	/* the root component should always have been hit, but perform a
+       test anyway to be safe */
+
+	if (root_component->wasHit(POINT{ x, y }))
+		root_component->onLeftMouseUpHit(POINT{ x, y });
 
 	lmouse_down = false;
 
@@ -132,7 +140,11 @@ void paint_tool::Window::onMouseMove(UINT nFlags, int x, int y) {
 	if (!root_component)
 		return;
 	
-	root_component->onMouseMove(POINT{ x, y }, lmouse_down);
+	/* the root component should always have been hit, but perform a
+       test anyway to be safe */
+
+	if (root_component->wasHit(POINT{ x,y }))
+		root_component->onMouseMoveHit(POINT{ x, y }, lmouse_down);
 
 	onDraw();
 }
@@ -207,7 +219,7 @@ void paint_tool::Window::drawDebugComponentId(const Component *component) {
 
 	/* memory cleanup  */
 
-	::DeleteObject(debug_id_font);
+	//::DeleteObject(debug_id_font); Doesn't need to be deleted? setHDEFFont does this
 	delete[] wstr;
 }
 
@@ -259,7 +271,7 @@ void paint_tool::Window::drawDebugComponentBorder(const Component *component) {
 
 	drawRectangle(pos.x - 1, pos.y - 1, size.cx + 2, size.cy + 2, false);
 
-	/* if this component is active or focused, indicate it with further
+	/* if this component is active, focused, or hovered, indicate it with further
 	   borders */
 
 	if (component->isInteractive()) {
@@ -275,6 +287,11 @@ void paint_tool::Window::drawDebugComponentBorder(const Component *component) {
 		if (temp->isFocused()) {
 			setPenColour(0xf0f0f0, 1);
 			drawRectangle(pos.x - 3, pos.y - 3, size.cx + 6, size.cy + 6, false);
+		}
+
+		if (temp->isHovered()) {
+			setPenColour(0x00ff00, 1);
+			drawRectangle(pos.x - 7, pos.y - 7, size.cx + 14, size.cy + 14, false);
 		}
 	}
 }
