@@ -159,6 +159,11 @@ namespace paint_tool {
 		);
 
 		//
+		// Returns the pointer to the style property
+		//
+		inline const ComponentStyle *getStyle() const;
+
+		//
 		// Gives the Component a new width, height, and position
 		//
 		inline void setRect(const RECT &_rect);
@@ -284,6 +289,10 @@ void paint_tool::Component::positionTop() {
 		getPosition().x,
 		0
 	});
+}
+
+const paint_tool::ComponentStyle *paint_tool::Component::getStyle() const {
+	return style;
 }
 
 void paint_tool::Component::setRect(const RECT &_rect) {
