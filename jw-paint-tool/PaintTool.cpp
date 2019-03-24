@@ -148,7 +148,7 @@ void paint_tool::PaintTool::createLeftPanel() {
 
 	/* the x coordinate of each group within the panel */
 
-	const int left_margin = 15;
+	const int left_margin = 30;
 
 
 	/* 2. create the tools heading label with spacing above and below */
