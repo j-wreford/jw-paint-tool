@@ -117,14 +117,12 @@ namespace paint_tool {
 	protected:
 
 		InteractiveComponent(
-			const	std::string	&id,
-			const	std::string &style_set_id = "default"
+			const	std::string	&id
 		);
 
 		InteractiveComponent(
 			const	std::string	&id,
-			const	SIZE		&size,
-			const	std::string &style_set_id = "default"
+			const	SIZE		&size
 		);
 
 	private:
