@@ -1,6 +1,10 @@
 #include "ComponentStyle.h"
 
-paint_tool::ComponentStyle::ComponentStyle() {
+paint_tool::ComponentStyle::ComponentStyle() :
+	normal(std::make_unique<StyleSet>()),
+	active(std::make_unique<StyleSet>()), 
+	focused(std::make_unique<StyleSet>()), 
+	hovered(std::make_unique<StyleSet>()) {
 	//
 }
 
@@ -35,6 +39,15 @@ const paint_tool::ComponentStyle::StyleSet *paint_tool::ComponentStyle::getStyle
 }
 
 paint_tool::ComponentStyle::StyleSet *paint_tool::ComponentStyle::getStyleSet(ComponentState state) {
+
+	/* instead of re-writing the above code:
+	   
+	   1. call the const version of this method by casting this to a (const ComponentStyle *>
+
+	   2. return the result as a const by const casting the returned StyleSet
+
+	*/
+
 	return const_cast<ComponentStyle::StyleSet *>(const_cast<const ComponentStyle *>(this)->getStyleSet(state));
 }
 

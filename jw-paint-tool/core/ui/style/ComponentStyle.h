@@ -10,14 +10,11 @@
 // ComponentStyle.
 //
 // A Style describes how to modify the brush when a Component is being drawn.
+// 
+// It is built up of 4 individual StyleSets, each attrributed to a certain
+// state of a Component.
 //
-// The StyleManager will chose which StyleSet to get depending on the
-// Component's state.
-//
-// If a particular property within a StyleSet hasn't been set, then this
-// property is skipped when the StyleManager is setting colours, making the
-// colour used be the last one set. This effectively means that whatever colours
-// the Component's parent used will be passed on to the current Component.
+// Any unset properties within a StyleSet will be inherited from its parent.
 //
 
 namespace paint_tool {
@@ -74,21 +71,21 @@ namespace paint_tool {
 		//
 		// A StyleSet for when the Component is drawn under normal conditions
 		//
-		std::unique_ptr<StyleSet> normal = std::make_unique<StyleSet>();
+		std::unique_ptr<StyleSet> normal;
 
 		//
 		// A StyleSet for when the Component is drawn when it's active
 		//
-		std::unique_ptr<StyleSet> active = std::make_unique<StyleSet>();
+		std::unique_ptr<StyleSet> active;
 
 		//
 		// A StyleSet for when the Component is drawn when it's focused
 		//
-		std::unique_ptr<StyleSet> focused = std::make_unique<StyleSet>();
+		std::unique_ptr<StyleSet> focused;
 
 		//
 		// A StyleSet for when the Component is drawn when it's hovered
 		//
-		std::unique_ptr<StyleSet> hovered = std::make_unique<StyleSet>();
+		std::unique_ptr<StyleSet> hovered;
 	};
 }
