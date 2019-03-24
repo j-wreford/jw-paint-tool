@@ -18,10 +18,6 @@
 // effectively means that whatever colours the Component's parent used will be
 // passed on to the current Component.
 //
-// A Component can have multiple states at once (for example, hovered & active).
-// In these cases, the style priority order is:
-// active > focused > hovered > normal.
-//
 
 namespace paint_tool {
 
@@ -39,6 +35,13 @@ namespace paint_tool {
 		// colour.
 		//
 		struct StyleSet {
+
+			inline ~StyleSet() {
+				delete text_colour;
+				delete bg_colour;
+				delete line_colour;
+				delete line_thickness;
+			}
 
 			//
 			// The colour of drawn text
@@ -64,7 +67,12 @@ namespace paint_tool {
 		//
 		// Returns the StyleSet for the given state
 		//
-		inline StyleSet *getStyle(ComponentState state);
+		inline StyleSet *getStyleSet(ComponentState state);
+
+		//
+		// Sets the StyleSet for the given state
+		//
+		inline void setStyleSet(StyleSet *style_set, ComponentState state);
 
 	private:
 
