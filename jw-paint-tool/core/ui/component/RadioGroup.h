@@ -86,7 +86,7 @@ paint_tool::RadioGroup<ValT, ItemComponentT>::RadioGroup(
 	const	std::string &item_font_attr_set_id
 ) :
 	ComponentGroup(id, style_set_id),
-	selected(nullptr),
+	selected_component(nullptr),
 	item_font_attr_set_id(item_font_attr_set_id) {
 	//
 }
@@ -117,7 +117,7 @@ void paint_tool::RadioGroup<ValT, ItemComponentT>::onLeftMouseUpHit(const POINT 
 		/* 3.1 notify the current selected that it's no longer chosen */
 
 		if (selected_component)
-			selected->setChosen(false);
+			selected_component->setChosen(false);
 
 		/* 3.2 set this RadioItem as the new selected */
 
@@ -158,8 +158,8 @@ ValT paint_tool::RadioGroup<ValT, ItemComponentT>::getValue() const {
 
 	ValT value;
 
-	if (selected)
-		value = selected->getValue();
+	if (selected_component)
+		value = selected_component->getValue();
 
 	return value;
 }
