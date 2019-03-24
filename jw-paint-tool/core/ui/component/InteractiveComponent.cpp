@@ -18,6 +18,7 @@ paint_tool::InteractiveComponent::InteractiveComponent(
 ) : Component(id, size, style_set_id),
 	focused(false),
 	active(false),
+	hovered(false),
 	draggable(false) {
 	//
 }
