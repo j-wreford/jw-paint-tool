@@ -94,6 +94,7 @@ void paint_tool::PaintTool::createLeftPanel() {
 
 	p_panel->setBgColour(ui_panel_bg);
 	p_panel->setTextColour(ui_panel_text);
+	p_panel->setLineColour(ui_panel_bg);
 
 
 	/* the x coordinate of each group within the panel */
