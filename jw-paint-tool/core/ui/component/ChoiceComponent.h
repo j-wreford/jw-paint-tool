@@ -20,22 +20,13 @@ namespace paint_tool {
 		//
 		// Sets the chosen property
 		//
-		inline void setChosen(const bool &_chosen);
-
-	private:
-
-		//
-		// True when the ChoiceComponent was the last one clicked inside its
-		// containing ChoiceGroup
-		//
-		bool chosen;
+		inline void setChosen(const bool &chosen);
 	};
 }
 
 template <typename T>
 paint_tool::ChoiceComponent<T>::ChoiceComponent(const std::string &id, T value) :
-	ValueComponent<T>(id, value),
-	chosen(false) {
+	ValueComponent<T>(id, value) {
 	//
 }
 
@@ -46,10 +37,13 @@ paint_tool::ChoiceComponent<T>::~ChoiceComponent() {
 
 template <typename T>
 bool paint_tool::ChoiceComponent<T>::isChosen() const {
-	return chosen;
+	return this->hasState(COMPONENT_STATE_CHOSEN);
 }
 
 template <typename T>
-void paint_tool::ChoiceComponent<T>::setChosen(const bool &_chosen) {
-	chosen = _chosen;
+void paint_tool::ChoiceComponent<T>::setChosen(const bool &chosen) {
+	if (chosen)
+		this->setState(COMPONENT_STATE_CHOSEN);
+	else
+		this->unsetState(COMPONENT_STATE_CHOSEN);
 }
