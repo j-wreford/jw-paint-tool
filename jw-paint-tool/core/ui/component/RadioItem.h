@@ -25,7 +25,6 @@ namespace paint_tool {
 			const	std::string		&id,
 			ValT					value,
 			const	std::wstring	&text,
-			const	std::string		&style_set_id = "default",
 			const	std::string		&font_attr_set_id = "default"
 		);
 
@@ -87,10 +86,9 @@ paint_tool::RadioItem<ValT>::RadioItem(
 	const	std::string		&id,
 	ValT					value,
 	const	std::wstring	&text,
-	const	std::string		&style_set_id,
 	const	std::string		&font_attr_set_id
 ) :
-	ComponentGroup(id, style_set_id),
+	ComponentGroup(id),
 	value(value),
 	chosen(false){
 
@@ -118,7 +116,6 @@ paint_tool::RadioItem<ValT>::RadioItem(
 	p_component_t label = std::make_unique<StaticLabel>(
 		LABEL_ID,
 		text,
-		style_set_id,
 		font_attr_set_id
 	);
 	addComponent(label);
