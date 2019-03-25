@@ -11,12 +11,11 @@
 //
 // ComponentStyle.
 //
-// A Style describes how to modify the brush when a Component is being drawn.
-// 
-// It is built up of 4 individual StyleSets, each attrributed to a certain
-// state of a Component.
+// A Style describes how to modify the brush when a Component is being drawn,
+// depending on its ComponentState.
 //
-// Any unset properties within a StyleSet will be inherited from its parent.
+// Any unset properties within the StyleSet returned from calling
+// getEffectiveStyleSet will be inherited from the component hierarchy.
 //
 
 namespace paint_tool {
