@@ -21,9 +21,6 @@
     <ClInclude Include="core\ui\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PaintTool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="core\ui\component\StaticLabel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -51,9 +48,6 @@
     <ClInclude Include="core\ui\component\RadioGroup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TestUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="core\ui\component\FixedSpace.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -75,6 +69,12 @@
     <ClInclude Include="core\ui\LayoutManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\PaintTool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TestUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\ui\component\Component.cpp">
@@ -84,9 +84,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="core\ui\Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PaintTool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="core\ui\component\StaticLabel.cpp">
@@ -110,9 +107,6 @@
     <ClCompile Include="core\ui\component\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="core\ui\component\FixedSpace.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -123,6 +117,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="core\ui\LayoutManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PaintTool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TestUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,8 +1,8 @@
 #include <Windows.h>
 #include <crtdbg.h>
 
-#include "TestUI.h"
-#include "PaintTool.h"
+#include "src\TestUI.h"
+#include "src\PaintTool.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 

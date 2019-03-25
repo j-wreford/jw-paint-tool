@@ -164,9 +164,9 @@
     <ClInclude Include="core\enum\LayoutManagerEnum.h" />
     <ClInclude Include="core\ui\style\ComponentStyle.h" />
     <ClInclude Include="dependencies\easy-graphics\EasyGraphics.h" />
-    <ClInclude Include="PaintTool.h" />
+    <ClInclude Include="src\PaintTool.h" />
     <ClInclude Include="core\ui\Window.h" />
-    <ClInclude Include="TestUI.h" />
+    <ClInclude Include="src\TestUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\ui\component\Button.cpp" />
@@ -181,10 +181,10 @@
     <ClCompile Include="core\ui\LayoutManager.cpp" />
     <ClCompile Include="core\ui\style\ComponentStyle.cpp" />
     <ClCompile Include="dependencies\easy-graphics\EasyGraphics.cpp" />
-    <ClCompile Include="PaintTool.cpp" />
+    <ClCompile Include="src\PaintTool.cpp" />
     <ClCompile Include="core\ui\Window.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="TestUI.cpp" />
+    <ClCompile Include="src\TestUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\Elephant.bmp" />
