@@ -9,7 +9,7 @@ namespace paint_tool {
 		public ValueComponent<T> {
 	public:
 
-		ChoiceComponent(const std::string &id);
+		ChoiceComponent(const std::string &id, T value);
 		~ChoiceComponent();
 
 		//
@@ -33,8 +33,8 @@ namespace paint_tool {
 }
 
 template <typename T>
-paint_tool::ChoiceComponent<T>::ChoiceComponent(const std::string &id) :
-	ValueComponent<T>(id),
+paint_tool::ChoiceComponent<T>::ChoiceComponent(const std::string &id, T value) :
+	ValueComponent<T>(id, value),
 	chosen(false) {
 	//
 }
