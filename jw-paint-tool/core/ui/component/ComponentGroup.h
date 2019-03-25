@@ -143,6 +143,11 @@ namespace paint_tool {
 		//
 		inline InteractiveComponent *getHoveredComponent();
 
+		//
+		// Sets the fill_background property
+		//
+		inline void setFillBackground(const bool &_fill_background);
+
 	private:
 
 		//
@@ -250,4 +255,8 @@ paint_tool::Component *paint_tool::ComponentGroup::getComponent(const std::strin
 		component = it->get();
 
 	return component;
+}
+
+void paint_tool::ComponentGroup::setFillBackground(const bool &_fill_background) {
+	fill_background = _fill_background;
 }

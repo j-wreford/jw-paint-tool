@@ -166,6 +166,8 @@
     <ClInclude Include="core\enum\LayoutManagerEnum.h" />
     <ClInclude Include="core\ui\style\ComponentStyle.h" />
     <ClInclude Include="dependencies\easy-graphics\EasyGraphics.h" />
+    <ClInclude Include="src\component\ToolChoiceItem.h" />
+    <ClInclude Include="src\enum\ToolChoiceEnum.h" />
     <ClInclude Include="src\PaintTool.h" />
     <ClInclude Include="core\ui\Window.h" />
     <ClInclude Include="src\TestUI.h" />
@@ -183,6 +185,7 @@
     <ClCompile Include="core\ui\LayoutManager.cpp" />
     <ClCompile Include="core\ui\style\ComponentStyle.cpp" />
     <ClCompile Include="dependencies\easy-graphics\EasyGraphics.cpp" />
+    <ClCompile Include="src\component\ToolChoiceItem.cpp" />
     <ClCompile Include="src\PaintTool.cpp" />
     <ClCompile Include="core\ui\Window.cpp" />
     <ClCompile Include="Source.cpp" />

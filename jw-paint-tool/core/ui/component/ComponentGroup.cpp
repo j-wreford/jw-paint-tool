@@ -23,7 +23,7 @@ void paint_tool::ComponentGroup::drawComponent(EasyGraphics *ctx) const {
 
 	if (fill_background) {
 
-		POINT position = getPosition();
+		POINT position = getAbsolutePosition();
 		SIZE size = getSize();
 
 		ctx->drawRectangle(position.x, position.y, size.cx, size.cy, true);
