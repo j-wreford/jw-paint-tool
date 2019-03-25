@@ -3,6 +3,8 @@
 #include <Windows.h>
 #include <memory>
 #include <string>
+#include <unordered_map>
+#include <algorithm>
 
 #include "core\enum\ComponentStateEnum.h"
 
@@ -78,23 +80,8 @@ namespace paint_tool {
 	private:
 
 		//
-		// A StyleSet for when the Component is drawn under normal conditions
+		// A map of StyleSets belonging to a certain ComponentState
 		//
-		std::unique_ptr<StyleSet> normal;
-
-		//
-		// A StyleSet for when the Component is drawn when it's active
-		//
-		std::unique_ptr<StyleSet> active;
-
-		//
-		// A StyleSet for when the Component is drawn when it's focused
-		//
-		std::unique_ptr<StyleSet> focused;
-
-		//
-		// A StyleSet for when the Component is drawn when it's hovered
-		//
-		std::unique_ptr<StyleSet> hovered;
+		std::unordered_map<ComponentState, std::unique_ptr<StyleSet> > state_styleset_map;
 	};
 }
