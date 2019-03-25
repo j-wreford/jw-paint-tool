@@ -137,6 +137,12 @@ namespace paint_tool {
 		inline virtual bool isComponentGroup() const;
 
 		//
+		// Returns true when the given state is within the Component's states
+		// vector
+		//
+		inline bool hasState(ComponentState state) const;
+
+		//
 		// Instructs the Component to recalculate its size.
 		//
 		// This virtual method is useful for scenarios where the the phsyical
@@ -353,6 +359,10 @@ bool paint_tool::Component::isInteractive() const {
 
 bool paint_tool::Component::isComponentGroup() const {
 	return false;
+}
+
+bool paint_tool::Component::hasState(ComponentState state) const {
+	return (std::find(states.begin(), states.end(), state) != states.end());
 }
 
 void paint_tool::Component::recalculateSize() {
