@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core\ui\layout\LayoutManagerEnum.h"
+#include "core\enum\LayoutManagerEnum.h"
 #include "core\ui\component\Component.h"
 #include "core\ui\component\ComponentGroup.h"
 

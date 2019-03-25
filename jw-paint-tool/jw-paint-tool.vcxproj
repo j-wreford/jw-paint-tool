@@ -161,7 +161,7 @@
     <ClInclude Include="core\enum\ComponentStateEnum.h" />
     <ClInclude Include="core\ui\FontManager.h" />
     <ClInclude Include="core\ui\layout\LayoutManager.h" />
-    <ClInclude Include="core\ui\layout\LayoutManagerEnum.h" />
+    <ClInclude Include="core\enum\LayoutManagerEnum.h" />
     <ClInclude Include="core\ui\style\ComponentStyle.h" />
     <ClInclude Include="dependencies\easy-graphics\EasyGraphics.h" />
     <ClInclude Include="PaintTool.h" />

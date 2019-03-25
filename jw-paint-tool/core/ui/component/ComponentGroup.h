@@ -5,7 +5,6 @@
 
 #include "core\ui\component\InteractiveComponent.h"
 #include "core\ui\component\FixedSpace.h"
-#include "core\ui\layout\LayoutManagerEnum.h"
 
 //
 // ComponentGroup

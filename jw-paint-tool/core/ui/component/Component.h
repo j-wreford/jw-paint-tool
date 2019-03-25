@@ -5,7 +5,7 @@
 #include <algorithm>
 
 #include "EasyGraphics.h"
-#include "core\ui\layout\LayoutManagerEnum.h"
+#include "core\enum\LayoutManagerEnum.h"
 #include "core\enum\ComponentStateEnum.h"
 #include "core\ui\style\ComponentStyle.h"
 

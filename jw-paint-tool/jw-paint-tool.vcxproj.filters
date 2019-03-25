@@ -57,9 +57,6 @@
     <ClInclude Include="core\ui\layout\LayoutManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="core\ui\layout\LayoutManagerEnum.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="core\ui\component\FixedSpace.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -73,6 +70,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="core\ui\style\ComponentStyle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\enum\LayoutManagerEnum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
