@@ -105,10 +105,14 @@ paint_tool::TestUI::TestUI(HINSTANCE hInstance) :
 
 	p_choice_group->addHorizontalSpace(10);
 
+	p_component_t choice_group_item_2 = std::make_unique<RadioChoice<int>>("choice_option_2", 200);
+	p_choice_group->addComponent(choice_group_item_2);
 	//p_choice_group->addChoice(200, "choice_2", L"Choice 2");
 
 	p_choice_group->addHorizontalSpace(10);
 
+	p_component_t choice_group_item_3 = std::make_unique<RadioChoice<int>>("choice_option_3", 300);
+	p_choice_group->addComponent(choice_group_item_3);
 	//p_choice_group->addChoice(300, "choice_3", L"Choice 3");
 
 	addComponent(choice_group);
