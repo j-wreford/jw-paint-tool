@@ -2,6 +2,7 @@
 
 #include <string>
 #include <memory>
+#include <vector>
 #include <algorithm>
 
 #include "EasyGraphics.h"
@@ -71,10 +72,9 @@ namespace paint_tool {
 		inline SIZE getSize() const;
 
 		//
-		// Returns the state of the component
+		// Returns the states of the component
 		//
-		inline ComponentState getState() const;
-
+		inline std::vector<ComponentState> getStates() const;
 
 		//
 		// Returns a pointer to the parent of the Component
@@ -180,9 +180,14 @@ namespace paint_tool {
 		void setSize(SIZE size);
 
 		//
-		// Gives the Component a new state
+		// Adds the state to the Component's states vector
 		//
-		inline void setState(ComponentState _state);
+		void setState(ComponentState state);
+
+		//
+		// Removes the state from the Component's states vector
+		//
+		void unsetState(ComponentState state);
 
 		//
 		// Sets the corresponding uses_ flag to true.
@@ -222,9 +227,9 @@ namespace paint_tool {
 		Component *parent;
 
 		//
-		// The current state of the Component
+		// The states the Component has
 		//
-		ComponentState state;
+		std::vector<ComponentState> states;
 
 		//
 		// The style of the Component
@@ -274,8 +279,8 @@ SIZE paint_tool::Component::getSize() const {
 	};
 }
 
-paint_tool::ComponentState paint_tool::Component::getState() const {
-	return state;
+std::vector<paint_tool::ComponentState> paint_tool::Component::getStates() const {
+	return states;
 }
 
 paint_tool::Component *paint_tool::Component::getParent() const {
@@ -316,10 +321,6 @@ void paint_tool::Component::setRect(const RECT &_rect) {
 
 void paint_tool::Component::setOrigin(const POINT &_origin) {
 	origin = _origin;
-}
-
-void paint_tool::Component::setState(ComponentState _state) {
-	state = _state;
 }
 
 void paint_tool::Component::setParent(Component *_parent) {
