@@ -18,7 +18,7 @@ namespace paint_tool {
 		public ComponentGroup {
 	public:
 
-		ValueComponent(const std::string &id);
+		ValueComponent(const std::string &id, T value);
 		~ValueComponent();
 
 		//
@@ -49,8 +49,9 @@ namespace paint_tool {
 }
 
 template <typename T>
-paint_tool::ValueComponent<T>::ValueComponent(const std::string &id) :
-	ComponentGroup(id) {
+paint_tool::ValueComponent<T>::ValueComponent(const std::string &id, T value) :
+	ComponentGroup(id),
+	value(value) {
 	//
 }
 
