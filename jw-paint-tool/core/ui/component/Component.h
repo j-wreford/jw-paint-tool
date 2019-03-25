@@ -176,6 +176,11 @@ namespace paint_tool {
 		void setSize(SIZE size);
 
 		//
+		// Gives the Component a new state
+		//
+		inline void setState(ComponentState _state);
+
+		//
 		// Sets the corresponding uses_ flag to true.
 		//
 		// Called by a concrete Component class whos draw method uses the
@@ -303,6 +308,10 @@ void paint_tool::Component::setRect(const RECT &_rect) {
 
 void paint_tool::Component::setOrigin(const POINT &_origin) {
 	origin = _origin;
+}
+
+void paint_tool::Component::setState(ComponentState _state) {
+	state = _state;
 }
 
 void paint_tool::Component::setParent(Component *_parent) {
