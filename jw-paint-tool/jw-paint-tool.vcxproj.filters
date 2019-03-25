@@ -75,6 +75,15 @@
     <ClInclude Include="src\TestUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="core\ui\component\ChoiceGroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\ui\component\ValueComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\ui\component\ChoiceComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\ui\component\Component.cpp">

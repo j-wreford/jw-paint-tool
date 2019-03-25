@@ -149,6 +149,8 @@
   <ItemGroup>
     <ClInclude Include="core\Singleton.h" />
     <ClInclude Include="core\ui\component\Button.h" />
+    <ClInclude Include="core\ui\component\ChoiceComponent.h" />
+    <ClInclude Include="core\ui\component\ChoiceGroup.h" />
     <ClInclude Include="core\ui\component\Component.h" />
     <ClInclude Include="core\ui\component\ComponentGroup.h" />
     <ClInclude Include="core\ui\component\FixedSpace.h" />
@@ -159,6 +161,7 @@
     <ClInclude Include="core\ui\component\StaticImage.h" />
     <ClInclude Include="core\ui\component\StaticLabel.h" />
     <ClInclude Include="core\enum\ComponentStateEnum.h" />
+    <ClInclude Include="core\ui\component\ValueComponent.h" />
     <ClInclude Include="core\ui\FontManager.h" />
     <ClInclude Include="core\ui\LayoutManager.h" />
     <ClInclude Include="core\enum\LayoutManagerEnum.h" />
