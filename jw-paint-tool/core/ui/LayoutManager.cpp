@@ -110,7 +110,7 @@ void paint_tool::LayoutManager::layoutHorizontally(ComponentGroup *group) {
 			component->getPosition().y
 			});
 
-		layout(component.get());
+		layout(component.get(), group->getLayoutStrategy());
 
 		last_right = component->getRect().right;
 	}
