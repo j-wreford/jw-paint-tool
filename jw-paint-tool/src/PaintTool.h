@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core\ui\Window.h"
+#include "src\component\Canvas.h"
 #include "src\component\ToolChoiceItem.h"
 
 //

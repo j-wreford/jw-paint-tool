@@ -76,11 +76,14 @@ void paint_tool::PaintTool::createCanvas() {
 
 	/* temporary: create a white box to simulate the canvas */
 
-	p_component_t canvas = std::make_unique<StaticBox>(
-		"simulated_canvas",
-		SIZE{ 1020, 800 }
+	p_component_t canvas = std::make_unique<Canvas>(
+		"simulated_canvas"
 	);
 	canvas->setBgColour(0xffffff);
+
+	(dynamic_cast<Canvas *>(canvas.get()))
+		->setMinimumSize(SIZE{ 1020, 800 });
+
 	addComponent(canvas);
 }
 
