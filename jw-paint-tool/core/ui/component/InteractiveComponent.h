@@ -80,7 +80,7 @@ namespace paint_tool {
 		// Returns active
 		//
 		inline bool isActive() const;
-#
+
 		//
 		// Returns hovered
 		//
@@ -103,17 +103,6 @@ namespace paint_tool {
 		//
 		POINT getRelativePoint(const POINT &point) const;
 
-		//
-		// Returns the StyleSet which relates to the InteractiveComponent's
-		// current state.
-		//
-		// If the InteractiveComponent has multiple states (i.e, hovered and
-		// active), then the following priority order is used:
-		//
-		// active > focused > hovered > normal
-		//
-		const ComponentStyle::StyleSet *getStyleSet() const override;
-
 	protected:
 
 		InteractiveComponent(
@@ -126,21 +115,6 @@ namespace paint_tool {
 		);
 
 	private:
-
-		//
-		// True when a mouse up event occurs on the Component
-		//
-		bool focused;
-
-		//
-		// True when a mouse down event occurs on the Component
-		//
-		bool active;
-
-		//
-		// True when a mouse move event occurs on the Component
-		//
-		bool hovered;
 
 		//
 		// When true, the Component will be moved around when the user
@@ -161,44 +135,43 @@ namespace paint_tool {
 
 void paint_tool::InteractiveComponent::onLeftMouseDownHit(const POINT &mouse) {
 
-	/* this component was mouse down clicked on - make it active and reset focused */
+	/* this component was mouse down clicked on - make it active */
 
-	focused = false;
-	active = true;
+	setState(COMPONENT_STATE_ACTIVE);
+
 	lmd_startpoint = mouse;
 }
 
 void paint_tool::InteractiveComponent::onLeftMouseDownLostHit() {
 
-	/* a new component was mouse down clicked on - reset focused and active to false */
+	/* a new component was mouse down clicked on - reset back to normal */
 
-	focused = false;
-	active = false;
+	setState(COMPONENT_STATE_NORMAL);
+
 	lmd_startpoint = POINT{ -1,-1 };
 }
 
 void paint_tool::InteractiveComponent::onLeftMouseUpHit(const POINT &mouse) {
 
-	/* this component was mouse up clicked on - make it focused, and reset active */
+	/* this component was mouse up clicked on - make it focused */
 
-	focused = true;
-	active = false;
+	setState(COMPONENT_STATE_FOCUSED);
+
 	lmd_startpoint = POINT{ -1,-1 };
 }
 
 void paint_tool::InteractiveComponent::onLeftMouseUpLostHit() {
 
-	/* a new component was mouse up clicked on - reset focused and active to false */
+	/* a new component was mouse up clicked on - reset back to normal */
 
-	focused = false;
-	active = false;
+	setState(COMPONENT_STATE_NORMAL);
 }
 
 void paint_tool::InteractiveComponent::onMouseMoveLostHit() {
 
-	/* a new component was hovered over - reset hovered to false */
+	/* a new component was hovered over - reset to normal */
 
-	hovered = false;
+	setState(COMPONENT_STATE_NORMAL);
 }
 
 void paint_tool::InteractiveComponent::setDraggable(const bool &_draggable) {
@@ -210,15 +183,15 @@ bool paint_tool::InteractiveComponent::isInteractive() const {
 }
 
 bool paint_tool::InteractiveComponent::isFocused() const {
-	return focused;
+	return (getState() == COMPONENT_STATE_FOCUSED);
 }
 
 bool paint_tool::InteractiveComponent::isActive() const {
-	return active;
+	return (getState() == COMPONENT_STATE_ACTIVE);
 }
 
 bool paint_tool::InteractiveComponent::isHovered() const {
-	return hovered;
+	return (getState() == COMPONENT_STATE_HOVERED);
 }
 
 bool paint_tool::InteractiveComponent::isDraggable() const {

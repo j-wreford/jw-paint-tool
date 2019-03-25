@@ -71,16 +71,20 @@ namespace paint_tool {
 		inline SIZE getSize() const;
 
 		//
+		// Returns the state of the component
+		//
+		inline ComponentState getState() const;
+
+
+		//
 		// Returns a pointer to the parent of the Component
 		//
 		inline Component *getParent() const;
 
 		//
-		// Returns a pointer to the appropriate style set.
+		// Returns a pointer to the effective StyleSet
 		//
-		// This version will always return the normal state.
-		//
-		inline virtual const ComponentStyle::StyleSet *getStyleSet() const;
+		inline const ComponentStyle::StyleSet *getStyleSet() const;
 
 		//
 		// Returns the alignment of the Component
@@ -121,7 +125,6 @@ namespace paint_tool {
 		inline void setBgColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
 		inline void setLineColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
 		inline void setLineThickness(const int &thickness, ComponentState state = COMPONENT_STATE_NORMAL);
-		inline void setStyleSet(ComponentStyle::StyleSet *style_set, ComponentState state = COMPONENT_STATE_NORMAL);
 
 		//
 		// Returns false; the base Component is not interactive
@@ -177,6 +180,11 @@ namespace paint_tool {
 		void setSize(SIZE size);
 
 		//
+		// Gives the Component a new state
+		//
+		inline void setState(ComponentState _state);
+
+		//
 		// Sets the corresponding uses_ flag to true.
 		//
 		// Called by a concrete Component class whos draw method uses the
@@ -212,6 +220,11 @@ namespace paint_tool {
 		// ComponentGroup.
 		//
 		Component *parent;
+
+		//
+		// The current state of the Component
+		//
+		ComponentState state;
 
 		//
 		// The style of the Component
@@ -261,12 +274,16 @@ SIZE paint_tool::Component::getSize() const {
 	};
 }
 
+paint_tool::ComponentState paint_tool::Component::getState() const {
+	return state;
+}
+
 paint_tool::Component *paint_tool::Component::getParent() const {
 	return parent;
 }
 
 const paint_tool::ComponentStyle::StyleSet *paint_tool::Component::getStyleSet() const {
-	return style->getStyleSet(COMPONENT_STATE_NORMAL);
+	return style->getEffectiveStyleSet(state);
 }
 
 paint_tool::AlignStrategy paint_tool::Component::getAlignment() const {
@@ -301,6 +318,10 @@ void paint_tool::Component::setOrigin(const POINT &_origin) {
 	origin = _origin;
 }
 
+void paint_tool::Component::setState(ComponentState _state) {
+	state = _state;
+}
+
 void paint_tool::Component::setParent(Component *_parent) {
 	parent = _parent;
 }
@@ -323,10 +344,6 @@ void paint_tool::Component::setLineColour(const int &colour, ComponentState stat
 
 void paint_tool::Component::setLineThickness(const int &thickness, ComponentState state) {
 	style->setLineThickness(thickness, state);
-}
-
-void paint_tool::Component::setStyleSet(ComponentStyle::StyleSet *style_set, ComponentState state) {
-	style->setStyleSet(style_set, state);
 }
 
 bool paint_tool::Component::isInteractive() const {

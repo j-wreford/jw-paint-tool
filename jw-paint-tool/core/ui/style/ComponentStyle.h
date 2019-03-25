@@ -3,18 +3,19 @@
 #include <Windows.h>
 #include <memory>
 #include <string>
+#include <unordered_map>
+#include <algorithm>
 
 #include "core\enum\ComponentStateEnum.h"
 
 //
 // ComponentStyle.
 //
-// A Style describes how to modify the brush when a Component is being drawn.
-// 
-// It is built up of 4 individual StyleSets, each attrributed to a certain
-// state of a Component.
+// A Style describes how to modify the brush when a Component is being drawn,
+// depending on its ComponentState.
 //
-// Any unset properties within a StyleSet will be inherited from its parent.
+// Any unset properties within the StyleSet returned from calling
+// getEffectiveStyleSet will be inherited from the component hierarchy.
 //
 
 namespace paint_tool {
@@ -56,45 +57,60 @@ namespace paint_tool {
 		};
 
 		//
-		// Returns the StyleSet for the given state
+		// Updates and returns the effective styleset, which is the combination
+		// StyleSet of the normal and given state
 		//
-		const StyleSet *getStyleSet(ComponentState state) const;
-		StyleSet *getStyleSet(ComponentState state);
+		const StyleSet *getEffectiveStyleSet(ComponentState state);
 
 		//
 		// Sets the corresponding style property for the given component state.
 		//
 		// If state is not given, then the default style set is updated.
 		//
-		// If the default state is being updated, then the special states will
-		// also be updated (if they have not been set before).
-		//
-		void setTextColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
-		void setBgColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
-		void setLineColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
-		void setLineThickness(const int &thickness, ComponentState state = COMPONENT_STATE_NORMAL);
-		void setStyleSet(StyleSet *style_set, ComponentState state);
+		inline void setTextColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setBgColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setLineColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setLineThickness(const int &thickness, ComponentState state = COMPONENT_STATE_NORMAL);
 
 	private:
 
 		//
-		// A StyleSet for when the Component is drawn under normal conditions
+		// A map of StyleSets belonging to a certain ComponentState
 		//
-		std::unique_ptr<StyleSet> normal;
+		std::unordered_map<ComponentState, std::unique_ptr<StyleSet> > state_styleset_map;
 
 		//
-		// A StyleSet for when the Component is drawn when it's active
+		// The StyleSet object that's the result of a merge between the
+		// stylesets of the default and the most recently requested state, with
+		// the requested state styleset taking priority.
 		//
-		std::unique_ptr<StyleSet> active;
-
+		// For example:
 		//
-		// A StyleSet for when the Component is drawn when it's focused
+		// NORMAL STATE         REQUESTED STATE          RETURN STATE
+		// ------------         ---------------          ------------
+		// bg_colour  0xffffff  bg_colour      0x000000  bg_color       0x000000
+		// text_color 0x000000  text_colour    0xffffff  text_color     0xffffff
+		// line_color 0x0000ff                           line_color     0x0000ff
+		//                      line_thickness 2         line_thickness 2
 		//
-		std::unique_ptr<StyleSet> focused;
-
+		// This property is updated every time getEffectiveStyleSet is called.
 		//
-		// A StyleSet for when the Component is drawn when it's hovered
-		//
-		std::unique_ptr<StyleSet> hovered;
+		std::unique_ptr<StyleSet> effective_styleset;
 	};
+}
+
+void paint_tool::ComponentStyle::setTextColour(const int &colour, ComponentState state) {
+	state_styleset_map[state]->text_colour = std::make_unique<int>(colour);
+}
+
+void paint_tool::ComponentStyle::setBgColour(const int &colour, ComponentState state) {
+	state_styleset_map[state]->bg_colour = std::make_unique<int>(colour);
+}
+
+void paint_tool::ComponentStyle::setLineColour(const int &colour, ComponentState state) {
+	state_styleset_map[state]->line_colour = std::make_unique<int>(colour);
+}
+
+void paint_tool::ComponentStyle::setLineThickness(const int &thickness, ComponentState state) {
+	state_styleset_map[state]->line_thickness = std::make_unique<int>(thickness);
 }

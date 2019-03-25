@@ -3,9 +3,6 @@
 paint_tool::InteractiveComponent::InteractiveComponent(
 	const	std::string	&id
 ) : Component(id),
-	focused(false),
-	active(false),
-	hovered(false),
 	draggable(false) {
 	//
 }
@@ -14,9 +11,6 @@ paint_tool::InteractiveComponent::InteractiveComponent(
 	const	std::string	&id,
 	const	SIZE		&size
 ) : Component(id, size),
-	focused(false),
-	active(false),
-	hovered(false),
 	draggable(false) {
 	//
 }
@@ -29,11 +23,13 @@ paint_tool::InteractiveComponent::~InteractiveComponent() {
 // Does lmouse_down need to be a parameter here?
 void paint_tool::InteractiveComponent::onMouseMoveHit(const POINT &mouse, const bool& lmouse_down) {
 
-	/* this component was hovered over - set hovered to true and handle dragging if warrented */
+	/* this component was hovered over - set hovered to true (if it's not active)
+	   and handle component dragging */
 
-	hovered = true;
+	if (getState() != COMPONENT_STATE_ACTIVE)
+		setState(COMPONENT_STATE_HOVERED);
 
-	if (active && draggable) {
+	if (isActive() && draggable) {
 
 		setPosition(POINT{
 			mouse.x + getPosition().x - lmd_startpoint.x,
@@ -57,21 +53,4 @@ POINT paint_tool::InteractiveComponent::getRelativePoint(const POINT &mouse) con
 		mouse.x - par_pos.x,//pos.x - par_origin.x,
 		mouse.y - par_pos.y//pos.y - par_origin.y
 	};*/
-}
-
-const paint_tool::ComponentStyle::StyleSet *paint_tool::InteractiveComponent::getStyleSet() const {
-
-	const ComponentStyle *style = getStyle();
-	const ComponentStyle::StyleSet *style_set = nullptr;
-
-	if (active)
-		style_set = style->getStyleSet(COMPONENT_STATE_ACTIVE);
-	else if (focused)
-		style_set = style->getStyleSet(COMPONENT_STATE_FOCUSED);
-	else if (hovered)
-		style_set = style->getStyleSet(COMPONENT_STATE_HOVERED);
-	else
-		style_set = style->getStyleSet(COMPONENT_STATE_NORMAL);
-
-	return style_set;
 }
