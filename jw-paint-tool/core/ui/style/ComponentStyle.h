@@ -75,7 +75,6 @@ namespace paint_tool {
 		void setBgColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
 		void setLineColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
 		void setLineThickness(const int &thickness, ComponentState state = COMPONENT_STATE_NORMAL);
-		void setStyleSet(StyleSet *style_set, ComponentState state);
 
 	private:
 
