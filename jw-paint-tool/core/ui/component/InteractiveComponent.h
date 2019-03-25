@@ -80,7 +80,7 @@ namespace paint_tool {
 		// Returns active
 		//
 		inline bool isActive() const;
-#
+
 		//
 		// Returns hovered
 		//
@@ -115,21 +115,6 @@ namespace paint_tool {
 		);
 
 	private:
-
-		//
-		// True when a mouse up event occurs on the Component
-		//
-		bool focused;
-
-		//
-		// True when a mouse down event occurs on the Component
-		//
-		bool active;
-
-		//
-		// True when a mouse move event occurs on the Component
-		//
-		bool hovered;
 
 		//
 		// When true, the Component will be moved around when the user
@@ -198,15 +183,15 @@ bool paint_tool::InteractiveComponent::isInteractive() const {
 }
 
 bool paint_tool::InteractiveComponent::isFocused() const {
-	return focused;
+	return (getState() == COMPONENT_STATE_FOCUSED);
 }
 
 bool paint_tool::InteractiveComponent::isActive() const {
-	return active;
+	return (getState() == COMPONENT_STATE_ACTIVE);
 }
 
 bool paint_tool::InteractiveComponent::isHovered() const {
-	return hovered;
+	return (getState() == COMPONENT_STATE_HOVERED);
 }
 
 bool paint_tool::InteractiveComponent::isDraggable() const {
