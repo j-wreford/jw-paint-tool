@@ -28,7 +28,6 @@ namespace paint_tool {
 			const	std::string					&id,
 			const	SIZE						&size,
 			const	std::wstring				&text,
-			const	std::string					&style_set_id = "default",
 			const	std::function<void(void)>	callback = []() -> bool {}
 		);
 		~Button();

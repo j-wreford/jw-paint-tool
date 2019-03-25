@@ -24,24 +24,14 @@ paint_tool::Window::Window(
 
 	root_component = std::make_unique<ComponentGroup>(
 		"root",
-		"window_style",
 		true
 	);
 	root_component->setMinimumSize(SIZE{ width, height });
-
-	StyleManager::getInstance()->addStyleSet(
-		"window_style",
-		0x000000,
-		0x090909,
-		0x090909,
-		1
-	);
 }
 
 paint_tool::Window::~Window() {
 	
 	FontManager::destroyInstance();
-	StyleManager::destroyInstance();
 }
 
 void paint_tool::Window::onDraw() {
@@ -53,11 +43,8 @@ void paint_tool::Window::onDraw() {
 
 	LayoutManager *layout_manager = new LayoutManager();
 	layout_manager->layout(root_component.get());
-	
-	Window::componentWalker(
-		root_component.get(),
-		std::bind(&Window::drawSingleComponent, this, std::placeholders::_1)
-	);
+
+	componentDrawer(root_component.get(), 0x000000, 0xffffff, 0xffffff, 1);
 
 	EasyGraphics::onDraw();
 
@@ -157,14 +144,48 @@ void paint_tool::Window::addComponent(paint_tool::p_component_t &component) {
 	root_component->addComponent(component);
 }
 
-void paint_tool::Window::drawSingleComponent(const Component *component) {
+void paint_tool::Window::componentDrawer(
+	const Component *component,
+	int	current_text_col,
+	int	current_bg_col,
+	int	current_line_col,
+	int	current_line_thickness
+) {
 
-	/* adjust the style set being used */
+	/* adjust the colours being used and update the current_ variables
+		  so these can be set again after a child component changes them */
 
-	StyleManager::getInstance()->applyStyleSet(
-		component->getStyleSetId(),
-		this
-	);
+	const ComponentStyle::StyleSet *style_set = component->getStyleSet();
+
+	/* adjust text colour */
+
+	if (style_set->text_colour) {
+		selectTextColour(*style_set->text_colour);
+		current_text_col = *style_set->text_colour;
+	}
+
+	/* adjust background colour */
+
+	if (style_set->bg_colour) {
+		selectBackColour(*style_set->bg_colour);
+		current_bg_col = *style_set->bg_colour;
+	}
+
+	/* adjust pen colour & thickness */
+
+	if (style_set->line_colour && style_set->line_thickness) {
+		setPenColour(*style_set->line_colour, *style_set->line_thickness);
+		current_line_col = *style_set->line_colour;
+		current_line_thickness = *style_set->line_thickness;
+	}
+	else if (style_set->line_colour) {
+		setPenColour(*style_set->line_colour, current_line_thickness);
+		current_line_col = *style_set->line_colour;
+	}
+	else if (style_set->line_thickness) {
+		setPenColour(current_line_col, *style_set->line_thickness);
+		current_line_thickness = *style_set->line_thickness;
+	}
 
 	/* adjust the font being used if this component is a label */
 
@@ -181,6 +202,8 @@ void paint_tool::Window::drawSingleComponent(const Component *component) {
 			);
 	}
 
+	/* draw the component */
+
 	component->drawComponent(this);
 
 	/* draw debug graphics if the corresponding flag is set */
@@ -196,6 +219,27 @@ void paint_tool::Window::drawSingleComponent(const Component *component) {
 
 	if (debug_show_position_lines)
 		drawDebugComponentPositionLines(component);
+
+	/* draw child components, if any */
+
+	if (component->isComponentGroup()) {
+
+		const ComponentGroup *group =
+			dynamic_cast<const ComponentGroup *>(component);
+
+		for (const p_component_t &child : *group->getChildComponents()) {
+
+			/* draw the child component */
+
+			componentDrawer(child.get(), current_text_col, current_bg_col, current_line_col, current_line_thickness);
+
+			/* reset the colours for the next child component to use */
+
+			selectTextColour(current_text_col);
+			selectBackColour(current_bg_col);
+			setPenColour(current_line_col, current_line_thickness);
+		}
+	}
 }
 
 void paint_tool::Window::drawDebugComponentId(const Component *component) {
@@ -328,26 +372,4 @@ void paint_tool::Window::drawDebugComponentPositionLines(const Component *compon
 	drawLine(rect.left + half_w, rect.bottom + 1, rect.left + half_w, parent_rect.bottom);
 	drawLine(rect.left - 1, rect.top + half_h, parent_rect.left, rect.top + half_h);
 	drawLine(rect.right + 1, rect.top + half_h, parent_rect.right, rect.top + half_h);
-}
-
-void paint_tool::Window::componentWalker(
-	Component *component,
-	std::function<void(Component *component)> fn
-) {
-
-	/* execute the function given with the currently visited component
-	   as its argument */
-
-	fn(component);
-
-	/* decend into this components children if it's a ComponentGroup */
-
-	if (component->isComponentGroup()) {
-
-		const ComponentGroup *group =
-			dynamic_cast<const ComponentGroup *>(component);
-
-		for (const p_component_t &child : *group->getChildComponents())
-			Window::componentWalker(child.get(), fn);
-	}
 }

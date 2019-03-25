@@ -45,9 +45,6 @@
     <ClInclude Include="core\ui\component\ComponentGroup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="core\ui\StyleManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="core\ui\component\Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -70,6 +67,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="core\ui\component\StaticImage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\enum\ComponentStateEnum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\ui\style\ComponentStyle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -104,9 +107,6 @@
     <ClCompile Include="core\ui\component\ComponentGroup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="core\ui\StyleManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="core\ui\component\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -120,6 +120,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="core\ui\component\StaticImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\ui\style\ComponentStyle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

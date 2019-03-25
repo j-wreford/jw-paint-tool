@@ -1,13 +1,16 @@
 #include "PaintTool.h"
 
 paint_tool::PaintTool::PaintTool(HINSTANCE hInstance) :
-	Window(hInstance, 1280, 800) {
+	Window(hInstance, 1280, 800),
+	ui_panel_bg(0x101010),
+	ui_panel_text(0xffffff),
+	ui_panel_heading(RGB(0xff, 0x93, 0x3b)),
+	ui_panel_sub_heading(RGB(0x5b, 0xd2, 0xfe)) {
 
 	::SetWindowText(getHWND(), L"Paint Tool");
 
 	getRootComponent()->setLayoutStrategy(LAYOUT_HORIZONTAL);
 
-	createStyles();
 	createFonts();
 	createUI();
 	
@@ -16,61 +19,6 @@ paint_tool::PaintTool::PaintTool(HINSTANCE hInstance) :
 
 paint_tool::PaintTool::~PaintTool() {
 	//
-}
-
-void paint_tool::PaintTool::createStyles() {
-
-	StyleManager *manager = StyleManager::getInstance();
-	
-	/* dark-grey background with white text */
-
-	manager->addStyleSet(
-		"ui_panel",
-		0xffffff,
-		0x101010,
-		0x101010,
-		1
-	);
-
-	/* orange text colour */
-
-	manager->addStyleSet(
-		"ui_panel_header",
-		0x3b93ff,
-		0x101010,
-		0x101010,
-		1
-	);
-
-	/* blue text colour */
-
-	manager->addStyleSet(
-		"ui_panel_sub_header",
-		0xfed25b,
-		0x101010,
-		0x101010,
-		1
-	);
-
-	/* white text colour, white line colour, 1px line thickness */
-
-	manager->addStyleSet(
-		"ui_panel_text",
-		0xffffff,
-		0x101010,
-		0xffffff,
-		1
-	);
-
-	/* canvas white background */
-
-	manager->addStyleSet(
-		"canvas_background",
-		0xffffff,
-		0xffffff,
-		0xffffff,
-		1
-	);
 }
 
 void paint_tool::PaintTool::createFonts() {
@@ -126,9 +74,9 @@ void paint_tool::PaintTool::createCanvas() {
 
 	p_component_t canvas = std::make_unique<StaticBox>(
 		"simulated_canvas",
-		SIZE{ 1020, 800 },
-		"canvas_background"
+		SIZE{ 1020, 800 }
 	);
+	canvas->setBgColour(0xffffff);
 	addComponent(canvas);
 }
 
@@ -138,12 +86,15 @@ void paint_tool::PaintTool::createLeftPanel() {
 
 	p_component_t panel = std::make_unique<ComponentGroup>(
 		"left_panel",
-		"ui_panel",
 		true // fill background
 	);
 	ComponentGroup *p_panel = dynamic_cast<ComponentGroup *>(panel.get());
 	p_panel->setMinimumSize(SIZE{ 260, 800 });
 	p_panel->setLayoutStrategy(LAYOUT_VERTICAL);
+
+	p_panel->setBgColour(ui_panel_bg);
+	p_panel->setTextColour(ui_panel_text);
+	p_panel->setLineColour(ui_panel_bg);
 
 
 	/* the x coordinate of each group within the panel */
@@ -156,17 +107,16 @@ void paint_tool::PaintTool::createLeftPanel() {
 	p_component_t label_tools = std::make_unique<StaticLabel>(
 		"left_panel_label_tools",
 		L"Tools",
-		"ui_panel_header",
 		"ui_panel_header"
 	);
 	label_tools->setPosition(POINT{ left_margin, 0 });
+	label_tools->setTextColour(ui_panel_heading);
 
 
 	/* 2.1 create the tool choice option group */
 
 	p_component_t tools_choice = std::make_unique<RadioGroup<int>>(
 		"tools_choice",
-		"ui_panel_text",
 		"ui_panel_body"
 	);
 	tools_choice->setPosition(POINT{ left_margin, 0 });
@@ -181,9 +131,9 @@ void paint_tool::PaintTool::createLeftPanel() {
 	p_component_t label_tools_management = std::make_unique<StaticLabel>(
 		"label_tools_management",
 		L"Management",
-		"ui_panel_sub_header",
 		"ui_panel_sub_header"
 	);
+	label_tools_management->setTextColour(ui_panel_sub_heading);
 
 	p_tools_choice->addComponent(label_tools_management);
 	p_tools_choice->addVerticalSpace(10);
@@ -198,9 +148,9 @@ void paint_tool::PaintTool::createLeftPanel() {
 	p_component_t label_tools_pens = std::make_unique<StaticLabel>(
 		"label_tools_pens",
 		L"Pens",
-		"ui_panel_sub_header",
 		"ui_panel_sub_header"
 	);
+	label_tools_pens->setTextColour(ui_panel_sub_heading);
 
 	p_tools_choice->addVerticalSpace(25);
 	p_tools_choice->addComponent(label_tools_pens);
@@ -215,9 +165,9 @@ void paint_tool::PaintTool::createLeftPanel() {
 	p_component_t label_tools_shapes = std::make_unique<StaticLabel>(
 		"label_tools_shapes",
 		L"Shapes",
-		"ui_panel_sub_header",
 		"ui_panel_sub_header"
 	);
+	label_tools_shapes->setTextColour(ui_panel_sub_heading);
 
 	p_tools_choice->addVerticalSpace(25);
 	p_tools_choice->addComponent(label_tools_shapes);

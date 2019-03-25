@@ -1,29 +1,28 @@
 #include "Component.h"
 
 paint_tool::Component::Component(
-	const	std::string	&id,
-	const	std::string &style_set_id
+	const	std::string	&id
 ) :
 	id(id),
 	rect(RECT{ 0, 0, 0, 0 }),
 	origin(POINT{ 0, 0 }),
 	parent(nullptr),
-	style_set_id(style_set_id),
+	style(new ComponentStyle()),
 	alignment(ALIGN_MANUAL) {
 	//
 }
 
 paint_tool::Component::Component(
 	const	std::string	&id,
-	const	SIZE		&size,
-	const	std::string &style_set_id
-) : Component(id, style_set_id) {
+	const	SIZE		&size
+) : Component(id) {
 
 	setSize(size);
 }
 
 paint_tool::Component::~Component() {
-	//
+	
+	delete style;
 }
 
 RECT paint_tool::Component::getAbsoluteRect() const {

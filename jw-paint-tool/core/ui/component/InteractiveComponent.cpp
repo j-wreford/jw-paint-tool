@@ -1,9 +1,8 @@
 #include "InteractiveComponent.h"
 
 paint_tool::InteractiveComponent::InteractiveComponent(
-	const	std::string	&id,
-	const	std::string &style_set_id
-) : Component(id, style_set_id),
+	const	std::string	&id
+) : Component(id),
 	focused(false),
 	active(false),
 	hovered(false),
@@ -13,9 +12,8 @@ paint_tool::InteractiveComponent::InteractiveComponent(
 
 paint_tool::InteractiveComponent::InteractiveComponent(
 	const	std::string	&id,
-	const	SIZE		&size,
-	const	std::string &style_set_id
-) : Component(id, size, style_set_id),
+	const	SIZE		&size
+) : Component(id, size),
 	focused(false),
 	active(false),
 	hovered(false),
@@ -59,4 +57,21 @@ POINT paint_tool::InteractiveComponent::getRelativePoint(const POINT &mouse) con
 		mouse.x - par_pos.x,//pos.x - par_origin.x,
 		mouse.y - par_pos.y//pos.y - par_origin.y
 	};*/
+}
+
+const paint_tool::ComponentStyle::StyleSet *paint_tool::InteractiveComponent::getStyleSet() const {
+
+	const ComponentStyle *style = getStyle();
+	const ComponentStyle::StyleSet *style_set = nullptr;
+
+	if (active)
+		style_set = style->getStyleSet(COMPONENT_STATE_ACTIVE);
+	else if (focused)
+		style_set = style->getStyleSet(COMPONENT_STATE_FOCUSED);
+	else if (hovered)
+		style_set = style->getStyleSet(COMPONENT_STATE_HOVERED);
+	else
+		style_set = style->getStyleSet(COMPONENT_STATE_NORMAL);
+
+	return style_set;
 }

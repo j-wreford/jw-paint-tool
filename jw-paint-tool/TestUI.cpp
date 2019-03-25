@@ -8,13 +8,9 @@ paint_tool::TestUI::TestUI(HINSTANCE hInstance) :
 	FontManager::getInstance()->addFontAttributeSet("large_font", 50, FW_THIN, false, true, false, "Segoe UI");
 	FontManager::getInstance()->addFontAttributeSet("small_font", 20, FW_THIN, false, false, false, "Times New Roman");
 
-	StyleManager::getInstance()->addStyleSet("test_style", 0xf9f9f9, 0xff00ff, 0x00ff00, 1);
-	StyleManager::getInstance()->addStyleSet("test_style_2", 0xf9f9f9, 0x45a5ff, 0x4583ff, 1);
-
 	paint_tool::p_component_t test_label = std::make_unique<StaticLabel>(
 		"test_label",
 		L"Hello, world!",
-		"test_style",
 		"large_font"
 		);
 	test_label->setPosition(POINT{ 50,50 });
@@ -23,24 +19,21 @@ paint_tool::TestUI::TestUI(HINSTANCE hInstance) :
 	paint_tool::p_component_t test_label_2 = std::make_unique<StaticLabel>(
 		"test_label_2",
 		L"A label with different font",
-		"test_style",
 		"small_font"
-		);
+	);
 	test_label_2->setPosition(POINT{ 50, 115 });
 	addComponent(test_label_2);
 
 	paint_tool::p_component_t test_box = std::make_unique<StaticBox>(
 		"test_box",
-		SIZE{ 50, 25 },
-		"test_style"
-		);
+		SIZE{ 50, 25 }
+	);
 	test_box->setPosition(POINT{ 150, 500 });
 	addComponent(test_box);
 
 	// Add a group
 	paint_tool::p_component_t test_group_c = std::make_unique<ComponentGroup>(
 		"test_group",
-		"default",
 		false // transparent background
 	);
 	test_group_c->setPosition(POINT{ 500, 150 });
@@ -52,27 +45,24 @@ paint_tool::TestUI::TestUI(HINSTANCE hInstance) :
 	// Add a box to the group
 	paint_tool::p_component_t test_box_group = std::make_unique<StaticBox>(
 		"test_box_group",
-		SIZE{ 15, 25 },
-		"test_style_2"
-		);
+		SIZE{ 15, 25 }
+	);
 	test_box_group->setPosition(POINT{ 200, 200 });
 	test_group->addComponent(test_box_group);
 
 	// Add another box to the group
 	paint_tool::p_component_t group_box_2 = std::make_unique<StaticBox>(
 		"test_box_group_2",
-		SIZE{ 15, 25 },
-		"test_style"
-		);
+		SIZE{ 15, 25 }
+	);
 	group_box_2->setPosition(POINT{ 0, 200 });
 	test_group->addComponent(group_box_2);
 
 	// Add a final box to the group that has negative coords
 	paint_tool::p_component_t group_box_3 = std::make_unique<StaticBox>(
 		"test_box_group_3",
-		SIZE{ 15, 25 },
-		"test_style"
-		);
+		SIZE{ 15, 25 }
+	);
 	group_box_3->setPosition(POINT{ -30, -50 });
 	test_group->addComponent(group_box_3);
 
@@ -81,7 +71,6 @@ paint_tool::TestUI::TestUI(HINSTANCE hInstance) :
 		"test_button_in_group",
 		SIZE{ 125, 30 },
 		L"Test button!",
-		"test_style",
 		[]() -> void {
 			bool a = true;
 		}
@@ -95,7 +84,6 @@ paint_tool::TestUI::TestUI(HINSTANCE hInstance) :
 	paint_tool::p_component_t radio_group =
 		std::make_unique<RadioGroup<int>>(
 		"radio_group",
-		"test_style",
 		"small_font"
 	);
 	radio_group->setPosition(POINT{ 50, 200 });
@@ -119,7 +107,6 @@ paint_tool::TestUI::TestUI(HINSTANCE hInstance) :
 	// Make the group
 	paint_tool::p_component_t layout_test_group = std::make_unique<ComponentGroup>(
 		"layout_test_group",
-		"default",
 		false // transparent background
 	);
 	layout_test_group->setPosition(POINT{ 50, 400 });
@@ -133,8 +120,7 @@ paint_tool::TestUI::TestUI(HINSTANCE hInstance) :
 
 		paint_tool::p_component_t layout_test_box = std::make_unique<StaticBox>(
 			"layout_test_box_" + std::to_string(i),
-			SIZE{ 15, 25 },
-			"test_style"
+			SIZE{ 15, 25 }
 		);
 		p_layout_test_group->addComponent(layout_test_box);
 		

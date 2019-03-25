@@ -6,6 +6,8 @@
 
 #include "EasyGraphics.h"
 #include "core\ui\layout\LayoutManagerEnum.h"
+#include "core\enum\ComponentStateEnum.h"
+#include "core\ui\style\ComponentStyle.h"
 
 //
 // Component
@@ -74,9 +76,11 @@ namespace paint_tool {
 		inline Component *getParent() const;
 
 		//
-		// Returns the id of the style set the Component will use
+		// Returns a pointer to the appropriate style set.
 		//
-		inline std::string getStyleSetId() const;
+		// This version will always return the normal state.
+		//
+		inline virtual const ComponentStyle::StyleSet *getStyleSet() const;
 
 		//
 		// Returns the alignment of the Component
@@ -109,6 +113,17 @@ namespace paint_tool {
 		inline void setAlignment(AlignStrategy _alignment);
 
 		//
+		// Sets the corresponding style property for the given component state.
+		//
+		// If state is not given, then the default style set is updated.
+		//
+		inline void setTextColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setBgColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setLineColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setLineThickness(const int &thickness, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setStyleSet(ComponentStyle::StyleSet *style_set, ComponentState state = COMPONENT_STATE_NORMAL);
+
+		//
 		// Returns false; the base Component is not interactive
 		//
 		inline virtual bool isInteractive() const;
@@ -133,15 +148,18 @@ namespace paint_tool {
 	protected:
 
 		Component(
-			const	std::string	&id,
-			const	std::string &style_set_id = "default"
+			const	std::string	&id
 		);
 
 		Component(
 			const	std::string	&id,
-			const	SIZE		&size,
-			const	std::string &style_set_id = "default"
+			const	SIZE		&size
 		);
+
+		//
+		// Returns the pointer to the style property
+		//
+		inline const ComponentStyle *getStyle() const;
 
 		//
 		// Gives the Component a new width, height, and position
@@ -196,9 +214,9 @@ namespace paint_tool {
 		Component *parent;
 
 		//
-		// The id of the style set the Component will use
+		// The style of the Component
 		//
-		std::string style_set_id;
+		ComponentStyle *style;
 
 		//
 		// Determines how the Component will be aligned within its parent rect
@@ -247,8 +265,8 @@ paint_tool::Component *paint_tool::Component::getParent() const {
 	return parent;
 }
 
-std::string paint_tool::Component::getStyleSetId() const {
-	return style_set_id;
+const paint_tool::ComponentStyle::StyleSet *paint_tool::Component::getStyleSet() const {
+	return style->getStyleSet(COMPONENT_STATE_NORMAL);
 }
 
 paint_tool::AlignStrategy paint_tool::Component::getAlignment() const {
@@ -271,6 +289,10 @@ void paint_tool::Component::positionTop() {
 	});
 }
 
+const paint_tool::ComponentStyle *paint_tool::Component::getStyle() const {
+	return style;
+}
+
 void paint_tool::Component::setRect(const RECT &_rect) {
 	rect = _rect;
 }
@@ -285,6 +307,26 @@ void paint_tool::Component::setParent(Component *_parent) {
 
 void paint_tool::Component::setAlignment(AlignStrategy _alignment) {
 	alignment = _alignment;
+}
+
+void paint_tool::Component::setTextColour(const int &colour, ComponentState state) {
+	style->setTextColour(colour, state);
+}
+
+void paint_tool::Component::setBgColour(const int &colour, ComponentState state) {
+	style->setBgColour(colour, state);
+}
+
+void paint_tool::Component::setLineColour(const int &colour, ComponentState state) {
+	style->setLineColour(colour, state);
+}
+
+void paint_tool::Component::setLineThickness(const int &thickness, ComponentState state) {
+	style->setLineThickness(thickness, state);
+}
+
+void paint_tool::Component::setStyleSet(ComponentStyle::StyleSet *style_set, ComponentState state) {
+	style->setStyleSet(style_set, state);
 }
 
 bool paint_tool::Component::isInteractive() const {

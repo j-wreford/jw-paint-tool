@@ -21,8 +21,7 @@ namespace paint_tool {
 
 		StaticBox(
 			const	std::string	&id,
-			const	SIZE		&size,
-			const	std::string &style_set_id = "default"
+			const	SIZE		&size
 		);
 		~StaticBox();
 

@@ -2,10 +2,9 @@
 
 paint_tool::StaticBox::StaticBox(
 	const	std::string	&id,
-	const	SIZE		&size,
-	const	std::string &style_set_id
+	const	SIZE		&size
 ) :
-	Component(id, size, style_set_id) {
+	Component(id, size) {
 	
 	willUseBackColour();
 	willUsePen();

@@ -3,10 +3,9 @@
 paint_tool::StaticLabel::StaticLabel(
 	const	std::string		&id,
 	const	std::wstring	&text,
-	const	std::string		&style_set_id ,
 	const	std::string		&font_attr_set_id
 ) :
-	Component(id, style_set_id),
+	Component(id),
 	font_attr_set_id(font_attr_set_id),
 	text(text) {
 
