@@ -6,7 +6,7 @@
 
 #include "EasyGraphics.h"
 #include "core\ui\component\ComponentGroup.h"
-#include "core\ui\component\RadioGroup.h"
+#include "core\ui\component\ChoiceGroup.h"
 #include "core\ui\component\StaticBox.h"
 #include "core\ui\component\StaticLabel.h"
 #include "core\ui\component\StaticImage.h"
