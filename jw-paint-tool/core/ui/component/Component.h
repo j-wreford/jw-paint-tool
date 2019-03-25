@@ -76,10 +76,9 @@ namespace paint_tool {
 		inline Component *getParent() const;
 
 		//
-		// Returns a pointer to the StyleSet depending on the Component's
-		// current state
+		// Returns a pointer to the effective StyleSet
 		//
-		inline virtual const ComponentStyle::StyleSet *getStyleSet() const;
+		inline const ComponentStyle::StyleSet *getStyleSet() const;
 
 		//
 		// Returns the alignment of the Component

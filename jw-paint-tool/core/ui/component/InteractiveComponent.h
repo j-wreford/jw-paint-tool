@@ -103,17 +103,6 @@ namespace paint_tool {
 		//
 		POINT getRelativePoint(const POINT &point) const;
 
-		//
-		// Returns the StyleSet which relates to the InteractiveComponent's
-		// current state.
-		//
-		// If the InteractiveComponent has multiple states (i.e, hovered and
-		// active), then the following priority order is used:
-		//
-		// active > focused > hovered > normal
-		//
-		const ComponentStyle::StyleSet *getStyleSet() const override;
-
 	protected:
 
 		InteractiveComponent(
