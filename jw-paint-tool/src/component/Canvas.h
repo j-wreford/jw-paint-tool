@@ -20,6 +20,6 @@ namespace paint_tool {
 		//
 		// Draws the chequered background
 		//
-		virtual void drawComponent(EasyGraphics *ctx);
+		virtual void drawComponent(EasyGraphics *ctx) const override;
 	};
 }
