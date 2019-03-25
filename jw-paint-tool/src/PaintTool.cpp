@@ -119,12 +119,12 @@ void paint_tool::PaintTool::createLeftPanel() {
 
 	/* 2.1 create the tool choice option group */
 
-	p_component_t tools_choice = std::make_unique<ChoiceGroup<int>>(
+	p_component_t tools_choice = std::make_unique<ChoiceGroup<ToolChoice>>(
 		"tools_choice", TOOL_MOVE
 	);
 	tools_choice->setPosition(POINT{ left_margin, 0 });
 
-	ChoiceGroup<int> *p_tools_choice = dynamic_cast<ChoiceGroup<int> *>(tools_choice.get());
+	ChoiceGroup<ToolChoice> *p_tools_choice = dynamic_cast<ChoiceGroup<ToolChoice> *>(tools_choice.get());
 	p_tools_choice->setLayoutStrategy(LAYOUT_VERTICAL);
 
 
@@ -231,7 +231,9 @@ paint_tool::p_component_t paint_tool::PaintTool::makeToolChoiceItem(
 	tool_choice->setBgColour(ui_panel_hover, COMPONENT_STATE_HOVERED);
 
 	tool_choice->setLineColour(ui_panel_active, COMPONENT_STATE_FOCUSED);
+	tool_choice->setLineColour(ui_panel_active, COMPONENT_STATE_CHOSEN);
 	tool_choice->setLineThickness(2, COMPONENT_STATE_FOCUSED);
+	tool_choice->setLineThickness(2, COMPONENT_STATE_CHOSEN);
 
 	return tool_choice;
 }
