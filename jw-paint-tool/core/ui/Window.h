@@ -13,7 +13,6 @@
 #include "core\ui\component\Button.h"
 #include "core\ui\layout\LayoutManager.h"
 #include "core\ui\FontManager.h"
-#include "core\ui\StyleManager.h"
 
 //
 // Window
@@ -113,11 +112,6 @@ namespace paint_tool {
 		bool debug_show_position_lines;
 
 		//
-		// Draws a single Component
-		//
-		void drawSingleComponent(const Component *component);
-
-		//
 		// Draws the given Component and draws child Components recursively.
 		//
 		// The current_ parameters are the colours currently being used. After
@@ -157,14 +151,5 @@ namespace paint_tool {
 		// drawn to the screen boundaries.
 		//
 		void drawDebugComponentPositionLines(const Component *component);
-
-		//
-		// Walks the Component tree and executes the given function each time
-		// it visits a branch or leaf
-		//
-		static void componentWalker(
-			Component *component,
-			std::function<void(Component *component)> fn
-		);
 	};
 }

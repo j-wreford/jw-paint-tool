@@ -28,11 +28,6 @@ namespace paint_tool {
 		const COLORREF ui_panel_sub_heading;
 
 		//
-		// Creates all the style sets for use in the application
-		//
-		void createStyles();
-
-		//
 		// Creates all the font sets for use in the application
 		//
 		void createFonts();

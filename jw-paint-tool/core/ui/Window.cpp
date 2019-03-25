@@ -24,24 +24,14 @@ paint_tool::Window::Window(
 
 	root_component = std::make_unique<ComponentGroup>(
 		"root",
-		"window_style",
 		true
 	);
 	root_component->setMinimumSize(SIZE{ width, height });
-
-	StyleManager::getInstance()->addStyleSet(
-		"window_style",
-		0x000000,
-		0x090909,
-		0x090909,
-		1
-	);
 }
 
 paint_tool::Window::~Window() {
 	
 	FontManager::destroyInstance();
-	StyleManager::destroyInstance();
 }
 
 void paint_tool::Window::onDraw() {
@@ -152,69 +142,6 @@ paint_tool::ComponentGroup *paint_tool::Window::getRootComponent() {
 
 void paint_tool::Window::addComponent(paint_tool::p_component_t &component) {
 	root_component->addComponent(component);
-}
-
-void paint_tool::Window::drawSingleComponent(const Component *component) {
-
-	/* adjust the colours being used */
-
-	const ComponentStyle::StyleSet *style_set = component->getStyleSet();
-
-	if (style_set->text_colour)
-		selectTextColour(*style_set->text_colour);
-
-	if (style_set->bg_colour)
-		selectBackColour(*style_set->bg_colour);
-
-	if (style_set->line_colour && style_set->line_thickness)
-		setPenColour(*style_set->line_colour, *style_set->line_thickness);
-	else {
-
-		HDC hdc = GetDC(getHWND());
-
-		if (style_set->line_colour)
-			::SetDCPenColor(hdc, *style_set->line_colour);
-		else if (style_set->line_thickness) {
-
-			COLORREF current_line_colour = ::GetDCPenColor(hdc);
-
-			setPenColour(current_line_colour, *style_set->line_thickness);
-		}
-
-		::ReleaseDC(getHWND(), hdc);
-	}
-
-
-	/* adjust the font being used if this component is a label */
-
-	if (component->getComponentType() == paint_tool::CPMNT_STATIC_LABEL) {
-
-		const StaticLabel *label =
-			dynamic_cast<const StaticLabel *>(component);
-
-		if (label)
-			setHDEFFont(
-				FontManager::getInstance()->getFontHandle(
-					label->getFontAttributeSetId()
-				)
-			);
-	}
-
-	component->drawComponent(this);
-
-	/* draw debug graphics if the corresponding flag is set */
-
-	if (debug_show_ids)
-		drawDebugComponentId(component);
-
-	if (debug_show_pos)
-		drawDebugComponentPos(component);
-
-	if (debug_show_borders)
-		drawDebugComponentBorder(component);
-
-	if (debug_show_position_lines)
-		drawDebugComponentPositionLines(component);
 }
 
 void paint_tool::Window::componentDrawer(
@@ -445,26 +372,4 @@ void paint_tool::Window::drawDebugComponentPositionLines(const Component *compon
 	drawLine(rect.left + half_w, rect.bottom + 1, rect.left + half_w, parent_rect.bottom);
 	drawLine(rect.left - 1, rect.top + half_h, parent_rect.left, rect.top + half_h);
 	drawLine(rect.right + 1, rect.top + half_h, parent_rect.right, rect.top + half_h);
-}
-
-void paint_tool::Window::componentWalker(
-	Component *component,
-	std::function<void(Component *component)> fn
-) {
-
-	/* execute the function given with the currently visited component
-	   as its argument */
-
-	fn(component);
-
-	/* decend into this components children if it's a ComponentGroup */
-
-	if (component->isComponentGroup()) {
-
-		const ComponentGroup *group =
-			dynamic_cast<const ComponentGroup *>(component);
-
-		for (const p_component_t &child : *group->getChildComponents())
-			Window::componentWalker(child.get(), fn);
-	}
 }
