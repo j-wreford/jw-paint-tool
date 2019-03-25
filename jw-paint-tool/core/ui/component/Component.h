@@ -274,7 +274,7 @@ paint_tool::Component *paint_tool::Component::getParent() const {
 }
 
 const paint_tool::ComponentStyle::StyleSet *paint_tool::Component::getStyleSet() const {
-	return style->getStyleSet(state);
+	return style->getEffectiveStyleSet(state);
 }
 
 paint_tool::AlignStrategy paint_tool::Component::getAlignment() const {
