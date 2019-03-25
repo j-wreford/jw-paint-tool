@@ -58,25 +58,20 @@ namespace paint_tool {
 		};
 
 		//
-		// Returns the StyleSet for the given state
+		// Updates and returns the effective styleset, which is the combination
+		// StyleSet of the normal and given state
 		//
-		const StyleSet *getStyleSet(ComponentState state) const;
-		StyleSet *getStyleSet(ComponentState state);
+		const StyleSet *getEffectiveStyleSet(ComponentState state);
 
 		//
 		// Sets the corresponding style property for the given component state.
 		//
 		// If state is not given, then the default style set is updated.
 		//
-		// If the default state is being updated, then the special states will
-		// also be updated (if they have not been set before). This fixes
-		// an issue where unexpected colours were being used when the component
-		// was hovered (for example) when its normal state colour was set.
-		//
-		void setTextColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
-		void setBgColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
-		void setLineColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
-		void setLineThickness(const int &thickness, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setTextColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setBgColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setLineColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setLineThickness(const int &thickness, ComponentState state = COMPONENT_STATE_NORMAL);
 
 	private:
 
@@ -84,5 +79,39 @@ namespace paint_tool {
 		// A map of StyleSets belonging to a certain ComponentState
 		//
 		std::unordered_map<ComponentState, std::unique_ptr<StyleSet> > state_styleset_map;
+
+		//
+		// The StyleSet object that's the result of a merge between the
+		// stylesets of the default and the most recently requested state, with
+		// the requested state styleset taking priority.
+		//
+		// For example:
+		//
+		// NORMAL STATE         REQUESTED STATE          RETURN STATE
+		// ------------         ---------------          ------------
+		// bg_colour  0xffffff  bg_colour      0x000000  bg_color       0x000000
+		// text_color 0x000000  text_colour    0xffffff  text_color     0xffffff
+		// line_color 0x0000ff                           line_color     0x0000ff
+		//                      line_thickness 2         line_thickness 2
+		//
+		// This property is updated every time getEffectiveStyleSet is called.
+		//
+		std::unique_ptr<StyleSet> effective_styleset;
 	};
+}
+
+void paint_tool::ComponentStyle::setTextColour(const int &colour, ComponentState state) {
+	state_styleset_map[state]->text_colour = std::make_unique<int>(colour);
+}
+
+void paint_tool::ComponentStyle::setBgColour(const int &colour, ComponentState state) {
+	state_styleset_map[state]->bg_colour = std::make_unique<int>(colour);
+}
+
+void paint_tool::ComponentStyle::setLineColour(const int &colour, ComponentState state) {
+	state_styleset_map[state]->line_colour = std::make_unique<int>(colour);
+}
+
+void paint_tool::ComponentStyle::setLineThickness(const int &thickness, ComponentState state) {
+	state_styleset_map[state]->line_thickness = std::make_unique<int>(thickness);
 }

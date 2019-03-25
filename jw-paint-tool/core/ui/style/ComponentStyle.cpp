@@ -1,89 +1,71 @@
 #include "ComponentStyle.h"
 
 paint_tool::ComponentStyle::ComponentStyle() {
-	//
+	
+	/* initialise the StyleSet for each ComponentState to guarantee that
+	   accessing a map item using ComponentState won't fail */
+
+	state_styleset_map.insert(
+		std::make_pair(COMPONENT_STATE_NORMAL, std::make_unique<StyleSet>())
+	);
+
+	state_styleset_map.insert(
+		std::make_pair(COMPONENT_STATE_ACTIVE, std::make_unique<StyleSet>())
+	);
+
+	state_styleset_map.insert(
+		std::make_pair(COMPONENT_STATE_FOCUSED, std::make_unique<StyleSet>())
+	);
+
+	state_styleset_map.insert(
+		std::make_pair(COMPONENT_STATE_HOVERED, std::make_unique<StyleSet>())
+	);
 }
 
 paint_tool::ComponentStyle::~ComponentStyle() {
 	//
 }
 
-const paint_tool::ComponentStyle::StyleSet *paint_tool::ComponentStyle::getStyleSet(ComponentState state) const {
+const paint_tool::ComponentStyle::StyleSet *paint_tool::ComponentStyle::getEffectiveStyleSet(ComponentState state) {
 
-	StyleSet *style_set = nullptr;
+	/* make a new styleset & populate the styleset with values frrom the
+	   normal state */
 
-	auto it = std::find(state_styleset_map.begin(), state_styleset_map.end(), state);
+	auto styleset = std::make_unique<StyleSet>();
 
-	if (it != state_styleset_map.end())
-		style_set = it->second.get();
-	
-	return style_set;
-}
+	StyleSet *normal_styleset = state_styleset_map[COMPONENT_STATE_NORMAL].get();
 
-paint_tool::ComponentStyle::StyleSet *paint_tool::ComponentStyle::getStyleSet(ComponentState state) {
-	return const_cast<ComponentStyle::StyleSet *>(const_cast<const ComponentStyle *>(this)->getStyleSet(state));
-}
+	if (normal_styleset->text_colour)
+		styleset->text_colour = std::make_unique<int>(*normal_styleset->text_colour);
 
-void paint_tool::ComponentStyle::setTextColour(const int &colour, ComponentState state) {
+	if (normal_styleset->bg_colour)
+		styleset->bg_colour = std::make_unique<int>(*normal_styleset->bg_colour);
 
-	StyleSet *style_set = getStyleSet(state);
-	if (style_set)
-		style_set->text_colour = std::make_unique<int>(colour);
+	if (normal_styleset->line_colour)
+		styleset->line_colour = std::make_unique<int>(*normal_styleset->line_colour);
 
-	if (state == COMPONENT_STATE_NORMAL) {
+	if (normal_styleset->line_thickness)
+		styleset->line_thickness = std::make_unique<int>(*normal_styleset->line_thickness);
 
-		for (auto &pair : state_styleset_map) {
+	/* now merge the styles of the given state into the newly made styleset */
 
-			if (!pair.second->text_colour)
-				pair.second->text_colour = std::make_unique<int>(colour);
-		}
-	}
-}
+	StyleSet *state_styleset = state_styleset_map[state].get();
 
-void paint_tool::ComponentStyle::setBgColour(const int &colour, ComponentState state) {
+	if (state_styleset->text_colour)
+		styleset->text_colour = std::make_unique<int>(*state_styleset->text_colour);
 
-	StyleSet *style_set = getStyleSet(state);
-	if (style_set)
-		style_set->bg_colour = std::make_unique<int>(colour);
+	if (state_styleset->bg_colour)
+		styleset->bg_colour = std::make_unique<int>(*state_styleset->bg_colour);
 
-	if (state == COMPONENT_STATE_NORMAL) {
+	if (state_styleset->line_colour)
+		styleset->line_colour = std::make_unique<int>(*state_styleset->line_colour);
 
-		for (auto &pair : state_styleset_map) {
+	if (state_styleset->line_thickness)
+		styleset->line_thickness = std::make_unique<int>(*state_styleset->line_thickness);
 
-			if (!pair.second->bg_colour)
-				pair.second->bg_colour = std::make_unique<int>(colour);
-		}
-	}
-}
+	/* update the effective styleset property and return the pointer to it */
 
-void paint_tool::ComponentStyle::setLineColour(const int &colour, ComponentState state) {
+	effective_styleset = std::move(styleset);
 
-	StyleSet *style_set = getStyleSet(state);
-	if (style_set)
-		style_set->line_colour = std::make_unique<int>(colour);
-
-	if (state == COMPONENT_STATE_NORMAL) {
-
-		for (auto &pair : state_styleset_map) {
-
-			if (!pair.second->line_colour)
-				pair.second->line_colour = std::make_unique<int>(colour);
-		}
-	}
-}
-
-void paint_tool::ComponentStyle::setLineThickness(const int &thickness, ComponentState state) {
-
-	StyleSet *style_set = getStyleSet(state);
-	if (style_set)
-		style_set->line_thickness = std::make_unique<int>(thickness);
-
-	if (state == COMPONENT_STATE_NORMAL) {
-
-		for (auto &pair : state_styleset_map) {
-
-			if (!pair.second->line_thickness)
-				pair.second->line_thickness = std::make_unique<int>(thickness);
-		}
-	}
+	return effective_styleset.get();
 }
