@@ -14,6 +14,15 @@ namespace paint_tool {
 
 	class ToolChoiceItem :
 		public RadioItem<ToolChoice> {
+	public:
 
+		ToolChoiceItem(
+			const	std::string		&id,
+					ToolChoice		value,
+			const	std::wstring	&text,
+			const	std::string		&font_attr_set_id = "default"
+		);
+
+		~ToolChoiceItem();
 	};
 }
