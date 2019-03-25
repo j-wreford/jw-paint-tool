@@ -7,6 +7,7 @@ paint_tool::Component::Component(
 	rect(RECT{ 0, 0, 0, 0 }),
 	origin(POINT{ 0, 0 }),
 	parent(nullptr),
+	state(COMPONENT_STATE_NORMAL),
 	style(new ComponentStyle()),
 	alignment(ALIGN_MANUAL) {
 	//

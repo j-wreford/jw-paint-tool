@@ -76,9 +76,8 @@ namespace paint_tool {
 		inline Component *getParent() const;
 
 		//
-		// Returns a pointer to the appropriate style set.
-		//
-		// This version will always return the normal state.
+		// Returns a pointer to the StyleSet depending on the Component's
+		// current state
 		//
 		inline virtual const ComponentStyle::StyleSet *getStyleSet() const;
 
@@ -214,6 +213,11 @@ namespace paint_tool {
 		Component *parent;
 
 		//
+		// The current state of the Component
+		//
+		ComponentState state;
+
+		//
 		// The style of the Component
 		//
 		ComponentStyle *style;
@@ -266,7 +270,7 @@ paint_tool::Component *paint_tool::Component::getParent() const {
 }
 
 const paint_tool::ComponentStyle::StyleSet *paint_tool::Component::getStyleSet() const {
-	return style->getStyleSet(COMPONENT_STATE_NORMAL);
+	return style->getStyleSet(state);
 }
 
 paint_tool::AlignStrategy paint_tool::Component::getAlignment() const {
