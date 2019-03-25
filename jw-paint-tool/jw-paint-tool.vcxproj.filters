@@ -54,9 +54,6 @@
     <ClInclude Include="TestUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="core\ui\layout\LayoutManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="core\ui\component\FixedSpace.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -73,6 +70,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="core\enum\LayoutManagerEnum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\ui\LayoutManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -113,9 +113,6 @@
     <ClCompile Include="TestUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="core\ui\layout\LayoutManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="core\ui\component\FixedSpace.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -123,6 +120,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="core\ui\style\ComponentStyle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\ui\LayoutManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
