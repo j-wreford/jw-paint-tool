@@ -231,7 +231,9 @@ paint_tool::p_component_t paint_tool::PaintTool::makeToolChoiceItem(
 	tool_choice->setBgColour(ui_panel_hover, COMPONENT_STATE_HOVERED);
 
 	tool_choice->setLineColour(ui_panel_active, COMPONENT_STATE_FOCUSED);
+	tool_choice->setLineColour(ui_panel_active, COMPONENT_STATE_CHOSEN);
 	tool_choice->setLineThickness(2, COMPONENT_STATE_FOCUSED);
+	tool_choice->setLineThickness(2, COMPONENT_STATE_CHOSEN);
 
 	return tool_choice;
 }
