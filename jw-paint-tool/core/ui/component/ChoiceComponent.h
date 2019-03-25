@@ -34,7 +34,8 @@ namespace paint_tool {
 
 template <typename T>
 paint_tool::ChoiceComponent<T>::ChoiceComponent(const std::string &id) :
-	ValueComponent<T>(id) {
+	ValueComponent<T>(id),
+	chosen(false) {
 	//
 }
 
