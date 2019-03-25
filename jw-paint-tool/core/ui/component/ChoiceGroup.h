@@ -51,6 +51,8 @@ namespace paint_tool {
 template <typename T>
 void paint_tool::ChoiceGroup<T>::onLeftMouseUpHit(const POINT& mouse) {
 
+	ComponentGroup::onLeftMouseUpHit(mouse);
+
 	ChoiceComponent<T> *choice =
 		dynamic_cast<ChoiceComponent<T> *>(getFocusedComponent());
 
