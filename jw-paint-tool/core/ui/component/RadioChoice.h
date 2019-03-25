@@ -16,39 +16,41 @@ namespace paint_tool {
 		public ChoiceComponent<T> {
 	public:
 
-		RadioChoice(const std::string &id, T default_value);
+		RadioChoice(const std::string &id, T value);
 		~RadioChoice();
 
 		//
 		// Draws the radio component
 		//
-		virtual void drawComponent(EasyGraphics *ctx) const;
+		virtual void drawComponent(EasyGraphics *ctx) const override;
 	};
 }
 
-template <class T>
-paint_tool::RadioChoice<T>::RadioChoice(const std::string &id, T default_value) :
-	ChoiceComponent(id, default_value) {
-	//
+template <typename T>
+paint_tool::RadioChoice<T>::RadioChoice(const std::string &id, T value) :
+	ChoiceComponent<T>(id, value) {
+	
+	this->setSize(SIZE{ 25,25 });
 }
 
-template <class T>
+template <typename T>
 paint_tool::RadioChoice<T>::~RadioChoice() {
 	//
 }
 
-template <class T>
+template <typename T>
 void paint_tool::RadioChoice<T>::drawComponent(EasyGraphics *ctx) const {
-
-	POINT pos = getAbsolutePosition();
+	
+	POINT pos = this->getAbsolutePosition();
+	SIZE size = this->getSize();
 
 	POINT center = {
-		pos.x + (getSize().cx / 2),
-		pos.y + (getSize().cy / 2)
+		pos.x + (size.cx / 2),
+		pos.y + (size.cy / 2)
 	};
 
-	ctx->drawCircle(center.x, center.y, (getSize().cx / 2), false);
+	ctx->drawCircle(center.x, center.y, (size.cx / 2), false);
 
-	if (isChosen())
-		ctx->drawCircle(center.x, center.y, (getSize().cx / 4), true);
+	if (this->isChosen())
+		ctx->drawCircle(center.x, center.y, (size.cx / 4), true);
 }
