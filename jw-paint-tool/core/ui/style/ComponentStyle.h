@@ -58,9 +58,9 @@ namespace paint_tool {
 
 		//
 		// Updates and returns the effective styleset, which is the combination
-		// StyleSet of the normal and given state
+		// StyleSet of the normal and given states' stylesets
 		//
-		const StyleSet *getEffectiveStyleSet(ComponentState state);
+		const StyleSet *getEffectiveStyleSet(std::vector<ComponentState> states);
 
 		//
 		// Sets the corresponding style property for the given component state.
