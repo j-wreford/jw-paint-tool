@@ -49,6 +49,19 @@ namespace paint_tool {
 }
 
 template <typename T>
+paint_tool::ChoiceGroup<T>::ChoiceGroup(const std::string &id, T default_value) :
+	ComponentGroup(id),
+	default_value(default_value),
+	chosen_component(nullptr) {
+	//
+}
+
+template <typename T>
+paint_tool::ChoiceGroup<T>::~ChoiceGroup() {
+	//
+}
+
+template <typename T>
 void paint_tool::ChoiceGroup<T>::onLeftMouseUpHit(const POINT& mouse) {
 
 	ComponentGroup::onLeftMouseUpHit(mouse);
@@ -76,16 +89,4 @@ T paint_tool::ChoiceGroup<T>::getChosenValue() const {
 		value = chosen_component->getValue();
 
 	return value;
-}
-
-template <typename T>
-paint_tool::ChoiceGroup<T>::ChoiceGroup(const std::string &id, T default_value) :
-	ComponentGroup(id),
-	default_value(default_value) {
-	//
-}
-
-template <typename T>
-paint_tool::ChoiceGroup<T>::~ChoiceGroup() {
-	//
 }
