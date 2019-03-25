@@ -1,7 +1,7 @@
 #pragma once
 
 #include "core\ui\Window.h"
-
+#include "core\ui\component\RadioChoice.h"
 //
 // TestUI
 //

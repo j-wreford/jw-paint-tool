@@ -8,6 +8,13 @@ paint_tool::TestUI::TestUI(HINSTANCE hInstance) :
 	FontManager::getInstance()->addFontAttributeSet("large_font", 50, FW_THIN, false, true, false, "Segoe UI");
 	FontManager::getInstance()->addFontAttributeSet("small_font", 20, FW_THIN, false, false, false, "Times New Roman");
 
+
+	ComponentGroup *root = getRootComponent();
+	root->setBgColour(0xffffff);
+	root->setTextColour(0x101010);
+	root->setLineColour(0xc0c0c0);
+	root->setLineThickness(2);
+
 	paint_tool::p_component_t test_label = std::make_unique<StaticLabel>(
 		"test_label",
 		L"Hello, world!",
@@ -81,24 +88,30 @@ paint_tool::TestUI::TestUI(HINSTANCE hInstance) :
 	addComponent(test_group_c);
 
 	// Add a test radio group
-	paint_tool::p_component_t radio_group =
-		std::make_unique<RadioGroup<int>>(
+
+	paint_tool::p_component_t choice_group = std::make_unique<ChoiceGroup<int>>(
 		"radio_group",
-		"small_font"
+		9999
 	);
-	radio_group->setPosition(POINT{ 50, 200 });
+	choice_group->setPosition(POINT{ 50, 200 });
 
-	RadioGroup<int> *p_radio_group = dynamic_cast<RadioGroup<int> *>(radio_group.get());
-	p_radio_group->setLayoutStrategy(LAYOUT_VERTICAL);
-	p_radio_group->setMinimumSize(SIZE{ 200, 200 });
+	ChoiceGroup<int> *p_choice_group = dynamic_cast<ChoiceGroup<int> *>(choice_group.get());
+	p_choice_group->setLayoutStrategy(LAYOUT_VERTICAL);
+	p_choice_group->setMinimumSize(SIZE{ 200, 200 });
 
-	p_radio_group->addChoice(100, "choice_1", L"Choice 1");
-	p_radio_group->addHorizontalSpace(10);
-	p_radio_group->addChoice(200, "choice_2", L"Choice 2");
-	p_radio_group->addHorizontalSpace(10);
-	p_radio_group->addChoice(300, "choice_3", L"Choice 3");
+	p_component_t choice_group_item_1 = std::make_unique<RadioChoice<int>>("choice_option_1", 100);
+	p_choice_group->addComponent(choice_group_item_1);
+	//p_choice_group->addChoice(100, "choice_1", L"Choice 1");
 
-	addComponent(radio_group);
+	p_choice_group->addHorizontalSpace(10);
+
+	//p_choice_group->addChoice(200, "choice_2", L"Choice 2");
+
+	p_choice_group->addHorizontalSpace(10);
+
+	//p_choice_group->addChoice(300, "choice_3", L"Choice 3");
+
+	addComponent(choice_group);
 
 
 	// Build a group which will have a vertical layout
