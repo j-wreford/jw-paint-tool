@@ -3,9 +3,6 @@
 paint_tool::InteractiveComponent::InteractiveComponent(
 	const	std::string	&id
 ) : Component(id),
-	focused(false),
-	active(false),
-	hovered(false),
 	draggable(false) {
 	//
 }
@@ -14,9 +11,6 @@ paint_tool::InteractiveComponent::InteractiveComponent(
 	const	std::string	&id,
 	const	SIZE		&size
 ) : Component(id, size),
-	focused(false),
-	active(false),
-	hovered(false),
 	draggable(false) {
 	//
 }
