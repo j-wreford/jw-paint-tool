@@ -71,6 +71,12 @@ namespace paint_tool {
 		inline SIZE getSize() const;
 
 		//
+		// Returns the state of the component
+		//
+		inline ComponentState getState() const;
+
+
+		//
 		// Returns a pointer to the parent of the Component
 		//
 		inline Component *getParent() const;
@@ -266,6 +272,10 @@ SIZE paint_tool::Component::getSize() const {
 		rect.right - rect.left,
 		rect.bottom - rect.top
 	};
+}
+
+paint_tool::ComponentState paint_tool::Component::getState() const {
+	return state;
 }
 
 paint_tool::Component *paint_tool::Component::getParent() const {

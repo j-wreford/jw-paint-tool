@@ -150,44 +150,43 @@ namespace paint_tool {
 
 void paint_tool::InteractiveComponent::onLeftMouseDownHit(const POINT &mouse) {
 
-	/* this component was mouse down clicked on - make it active and reset focused */
+	/* this component was mouse down clicked on - make it active */
 
-	focused = false;
-	active = true;
+	setState(COMPONENT_STATE_ACTIVE);
+
 	lmd_startpoint = mouse;
 }
 
 void paint_tool::InteractiveComponent::onLeftMouseDownLostHit() {
 
-	/* a new component was mouse down clicked on - reset focused and active to false */
+	/* a new component was mouse down clicked on - reset back to normal */
 
-	focused = false;
-	active = false;
+	setState(COMPONENT_STATE_NORMAL);
+
 	lmd_startpoint = POINT{ -1,-1 };
 }
 
 void paint_tool::InteractiveComponent::onLeftMouseUpHit(const POINT &mouse) {
 
-	/* this component was mouse up clicked on - make it focused, and reset active */
+	/* this component was mouse up clicked on - make it focused */
 
-	focused = true;
-	active = false;
+	setState(COMPONENT_STATE_FOCUSED);
+
 	lmd_startpoint = POINT{ -1,-1 };
 }
 
 void paint_tool::InteractiveComponent::onLeftMouseUpLostHit() {
 
-	/* a new component was mouse up clicked on - reset focused and active to false */
+	/* a new component was mouse up clicked on - reset back to normal */
 
-	focused = false;
-	active = false;
+	setState(COMPONENT_STATE_NORMAL);
 }
 
 void paint_tool::InteractiveComponent::onMouseMoveLostHit() {
 
-	/* a new component was hovered over - reset hovered to false */
+	/* a new component was hovered over - reset to normal */
 
-	hovered = false;
+	setState(COMPONENT_STATE_NORMAL);
 }
 
 void paint_tool::InteractiveComponent::setDraggable(const bool &_draggable) {

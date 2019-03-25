@@ -29,9 +29,11 @@ paint_tool::InteractiveComponent::~InteractiveComponent() {
 // Does lmouse_down need to be a parameter here?
 void paint_tool::InteractiveComponent::onMouseMoveHit(const POINT &mouse, const bool& lmouse_down) {
 
-	/* this component was hovered over - set hovered to true and handle dragging if warrented */
+	/* this component was hovered over - set hovered to true (if it's not active)
+	   and handle component dragging */
 
-	hovered = true;
+	if (getState() != COMPONENT_STATE_ACTIVE)
+		setState(COMPONENT_STATE_HOVERED);
 
 	if (active && draggable) {
 
