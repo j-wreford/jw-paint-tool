@@ -45,13 +45,7 @@
     <ClInclude Include="core\ui\component\Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="core\ui\component\RadioGroup.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="core\ui\component\FixedSpace.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="core\ui\component\RadioItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="core\ui\component\StaticImage.h">
@@ -73,6 +67,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\TestUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\ui\component\ChoiceGroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\ui\component\ValueComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\ui\component\ChoiceComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\ui\component\RadioChoice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

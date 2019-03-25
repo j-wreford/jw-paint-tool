@@ -10,7 +10,7 @@
 // ComponentGroup
 //
 // Collects a group of Components into one single Component.
-//,
+//
 // The collection is stored as a List. Originally, this project had used an
 // associative container but this was changed when the order of which Components
 // were addded became important.

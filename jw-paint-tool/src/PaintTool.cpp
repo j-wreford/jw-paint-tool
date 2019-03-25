@@ -115,13 +115,13 @@ void paint_tool::PaintTool::createLeftPanel() {
 
 	/* 2.1 create the tool choice option group */
 
-	p_component_t tools_choice = std::make_unique<RadioGroup<int>>(
-		"tools_choice",
-		"ui_panel_body"
+
+	p_component_t tools_choice = std::make_unique<ChoiceGroup<int>>(
+		"tools_choice", 9999
 	);
 	tools_choice->setPosition(POINT{ left_margin, 0 });
 
-	RadioGroup<int> *p_tools_choice = dynamic_cast<RadioGroup<int> *>(tools_choice.get());
+	ChoiceGroup<int> *p_tools_choice = dynamic_cast<ChoiceGroup<int> *>(tools_choice.get());
 	p_tools_choice->setLayoutStrategy(LAYOUT_VERTICAL);
 
 
@@ -134,12 +134,7 @@ void paint_tool::PaintTool::createLeftPanel() {
 		"ui_panel_sub_header"
 	);
 	label_tools_management->setTextColour(ui_panel_sub_heading);
-
 	p_tools_choice->addComponent(label_tools_management);
-	p_tools_choice->addVerticalSpace(10);
-	p_tools_choice->addChoice(1, "tool_move", L"Move");
-	p_tools_choice->addVerticalSpace(10);
-	p_tools_choice->addChoice(2, "tool_del", L"Delete");
 
 	
 	/* 2.1.1 create and add the pens sub heading and options to the choice
@@ -154,10 +149,6 @@ void paint_tool::PaintTool::createLeftPanel() {
 
 	p_tools_choice->addVerticalSpace(25);
 	p_tools_choice->addComponent(label_tools_pens);
-	p_tools_choice->addVerticalSpace(10);
-	p_tools_choice->addChoice(3, "tool_pen_freehand", L"Freehand");
-	p_tools_choice->addVerticalSpace(10);
-	p_tools_choice->addChoice(4, "tool_pen_line", L"Line");
 
 
 	/* 2.1.2 create and add the shapes sub heading and options */
@@ -172,13 +163,6 @@ void paint_tool::PaintTool::createLeftPanel() {
 	p_tools_choice->addVerticalSpace(25);
 	p_tools_choice->addComponent(label_tools_shapes);
 	p_tools_choice->addVerticalSpace(10);
-	p_tools_choice->addChoice(5, "tool_shape_tri", L"Triangle");
-	p_tools_choice->addVerticalSpace(10);
-	p_tools_choice->addChoice(6, "tool_shape_rect", L"Rectangle");
-	p_tools_choice->addVerticalSpace(10);
-	p_tools_choice->addChoice(7, "tool_shape_circle", L"Circle");
-	p_tools_choice->addVerticalSpace(10);
-	p_tools_choice->addChoice(8, "tool_shape_star", L"Star");
 
 
 	/* 3. add the created components to the panel */
