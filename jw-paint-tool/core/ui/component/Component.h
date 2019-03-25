@@ -117,10 +117,10 @@ namespace paint_tool {
 		//
 		// If state is not given, then the default style set is updated.
 		//
-		inline void setTextColour(const int &text_colour, ComponentState state = COMPONENT_STATE_NORMAL);
-		inline void setBgColour(const int &bg_colour, ComponentState state = COMPONENT_STATE_NORMAL);
-		inline void setLineColour(const int &line_colour, ComponentState state = COMPONENT_STATE_NORMAL);
-		inline void setLineThickness(const int &line_thickness, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setTextColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setBgColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setLineColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
+		inline void setLineThickness(const int &thickness, ComponentState state = COMPONENT_STATE_NORMAL);
 		inline void setStyleSet(ComponentStyle::StyleSet *style_set, ComponentState state = COMPONENT_STATE_NORMAL);
 
 		//
@@ -310,19 +310,19 @@ void paint_tool::Component::setAlignment(AlignStrategy _alignment) {
 }
 
 void paint_tool::Component::setTextColour(const int &colour, ComponentState state) {
-	style->getStyleSet(state)->text_colour = std::make_unique<int>(colour);
+	style->setTextColour(colour, state);
 }
 
 void paint_tool::Component::setBgColour(const int &colour, ComponentState state) {
-	style->getStyleSet(state)->bg_colour = std::make_unique<int>(colour);
+	style->setBgColour(colour, state);
 }
 
 void paint_tool::Component::setLineColour(const int &colour, ComponentState state) {
-	style->getStyleSet(state)->line_colour = std::make_unique<int>(colour);
+	style->setLineColour(colour, state);
 }
 
-void paint_tool::Component::setLineThickness(const int &line_thickness, ComponentState state) {
-	style->getStyleSet(state)->line_thickness = std::make_unique<int>(line_thickness);
+void paint_tool::Component::setLineThickness(const int &thickness, ComponentState state) {
+	style->setLineThickness(thickness, state);
 }
 
 void paint_tool::Component::setStyleSet(ComponentStyle::StyleSet *style_set, ComponentState state) {

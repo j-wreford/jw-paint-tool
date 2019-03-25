@@ -62,8 +62,17 @@ namespace paint_tool {
 		StyleSet *getStyleSet(ComponentState state);
 
 		//
-		// Sets the StyleSet for the given state
+		// Sets the corresponding style property for the given component state.
 		//
+		// If state is not given, then the default style set is updated.
+		//
+		// If the default state is being updated, then the special states will
+		// also be updated (if they have not been set before).
+		//
+		void setTextColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
+		void setBgColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
+		void setLineColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
+		void setLineThickness(const int &thickness, ComponentState state = COMPONENT_STATE_NORMAL);
 		void setStyleSet(StyleSet *style_set, ComponentState state);
 
 	private:
