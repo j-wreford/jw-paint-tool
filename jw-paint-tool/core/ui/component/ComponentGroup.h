@@ -229,6 +229,7 @@ void paint_tool::ComponentGroup::setLayoutStrategy(LayoutStrategy _layout) {
 
 void paint_tool::ComponentGroup::setMinimumSize(const SIZE &_minimum_size) {
 	minimum_size = _minimum_size;
+	recalculateSize();
 }
 
 paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getFocusedComponent() {
