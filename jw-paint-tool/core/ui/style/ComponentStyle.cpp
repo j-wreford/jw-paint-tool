@@ -20,6 +20,10 @@ paint_tool::ComponentStyle::ComponentStyle() {
 	state_styleset_map.insert(
 		std::make_pair(COMPONENT_STATE_HOVERED, std::make_unique<StyleSet>())
 	);
+
+	state_styleset_map.insert(
+		std::make_pair(COMPONENT_STATE_CHOSEN, std::make_unique<StyleSet>())
+	);
 }
 
 paint_tool::ComponentStyle::~ComponentStyle() {
