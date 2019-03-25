@@ -69,7 +69,9 @@ namespace paint_tool {
 		// If state is not given, then the default style set is updated.
 		//
 		// If the default state is being updated, then the special states will
-		// also be updated (if they have not been set before).
+		// also be updated (if they have not been set before). This fixes
+		// an issue where unexpected colours were being used when the component
+		// was hovered (for example) when its normal state colour was set.
 		//
 		void setTextColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
 		void setBgColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);

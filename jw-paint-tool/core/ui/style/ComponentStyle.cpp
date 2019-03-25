@@ -30,10 +30,6 @@ void paint_tool::ComponentStyle::setTextColour(const int &colour, ComponentState
 	if (style_set)
 		style_set->text_colour = std::make_unique<int>(colour);
 
-	/* if we're setting the colour for normal state, then also set it for the
-	   special states if they're not set. this fixes unexpected colours being
-	   used when the Component the StyleSet is for is given a different state */
-
 	if (state == COMPONENT_STATE_NORMAL) {
 
 		for (auto &pair : state_styleset_map) {
@@ -49,10 +45,6 @@ void paint_tool::ComponentStyle::setBgColour(const int &colour, ComponentState s
 	StyleSet *style_set = getStyleSet(state);
 	if (style_set)
 		style_set->bg_colour = std::make_unique<int>(colour);
-
-	/* if we're setting the colour for normal state, then also set it for the
-	   special states if they're not set. this fixes unexpected colours being
-	   used when the Component the StyleSet is for is given a different state */
 
 	if (state == COMPONENT_STATE_NORMAL) {
 
@@ -70,10 +62,6 @@ void paint_tool::ComponentStyle::setLineColour(const int &colour, ComponentState
 	if (style_set)
 		style_set->line_colour = std::make_unique<int>(colour);
 
-	/* if we're setting the colour for normal state, then also set it for the
-	   special states if they're not set. this fixes unexpected colours being
-	   used when the Component the StyleSet is for is given a different state */
-
 	if (state == COMPONENT_STATE_NORMAL) {
 
 		for (auto &pair : state_styleset_map) {
@@ -89,10 +77,6 @@ void paint_tool::ComponentStyle::setLineThickness(const int &thickness, Componen
 	StyleSet *style_set = getStyleSet(state);
 	if (style_set)
 		style_set->line_thickness = std::make_unique<int>(thickness);
-
-	/* if we're setting the colour for normal state, then also set it for the
-	   special states if they're not set. this fixes unexpected colours being
-	   used when the Component the StyleSet is for is given a different state */
 
 	if (state == COMPONENT_STATE_NORMAL) {
 
