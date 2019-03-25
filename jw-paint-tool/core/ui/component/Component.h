@@ -2,6 +2,7 @@
 
 #include <string>
 #include <memory>
+#include <vector>
 #include <algorithm>
 
 #include "EasyGraphics.h"
@@ -71,10 +72,9 @@ namespace paint_tool {
 		inline SIZE getSize() const;
 
 		//
-		// Returns the state of the component
+		// Returns the states of the component
 		//
-		inline ComponentState getState() const;
-
+		inline std::vector<ComponentState> getStates() const;
 
 		//
 		// Returns a pointer to the parent of the Component
@@ -137,6 +137,12 @@ namespace paint_tool {
 		inline virtual bool isComponentGroup() const;
 
 		//
+		// Returns true when the given state is within the Component's states
+		// vector
+		//
+		inline bool hasState(ComponentState state) const;
+
+		//
 		// Instructs the Component to recalculate its size.
 		//
 		// This virtual method is useful for scenarios where the the phsyical
@@ -180,9 +186,14 @@ namespace paint_tool {
 		void setSize(SIZE size);
 
 		//
-		// Gives the Component a new state
+		// Adds the state to the Component's states vector
 		//
-		inline void setState(ComponentState _state);
+		void setState(ComponentState state);
+
+		//
+		// Removes the state from the Component's states vector
+		//
+		void unsetState(ComponentState state);
 
 		//
 		// Sets the corresponding uses_ flag to true.
@@ -222,9 +233,9 @@ namespace paint_tool {
 		Component *parent;
 
 		//
-		// The current state of the Component
+		// The states the Component has
 		//
-		ComponentState state;
+		std::vector<ComponentState> states;
 
 		//
 		// The style of the Component
@@ -274,8 +285,8 @@ SIZE paint_tool::Component::getSize() const {
 	};
 }
 
-paint_tool::ComponentState paint_tool::Component::getState() const {
-	return state;
+std::vector<paint_tool::ComponentState> paint_tool::Component::getStates() const {
+	return states;
 }
 
 paint_tool::Component *paint_tool::Component::getParent() const {
@@ -283,7 +294,7 @@ paint_tool::Component *paint_tool::Component::getParent() const {
 }
 
 const paint_tool::ComponentStyle::StyleSet *paint_tool::Component::getStyleSet() const {
-	return style->getEffectiveStyleSet(state);
+	return style->getEffectiveStyleSet(states);
 }
 
 paint_tool::AlignStrategy paint_tool::Component::getAlignment() const {
@@ -318,10 +329,6 @@ void paint_tool::Component::setOrigin(const POINT &_origin) {
 	origin = _origin;
 }
 
-void paint_tool::Component::setState(ComponentState _state) {
-	state = _state;
-}
-
 void paint_tool::Component::setParent(Component *_parent) {
 	parent = _parent;
 }
@@ -352,6 +359,10 @@ bool paint_tool::Component::isInteractive() const {
 
 bool paint_tool::Component::isComponentGroup() const {
 	return false;
+}
+
+bool paint_tool::Component::hasState(ComponentState state) const {
+	return (std::find(states.begin(), states.end(), state) != states.end());
 }
 
 void paint_tool::Component::recalculateSize() {

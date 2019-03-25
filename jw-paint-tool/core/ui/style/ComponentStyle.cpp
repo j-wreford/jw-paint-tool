@@ -26,7 +26,7 @@ paint_tool::ComponentStyle::~ComponentStyle() {
 	//
 }
 
-const paint_tool::ComponentStyle::StyleSet *paint_tool::ComponentStyle::getEffectiveStyleSet(ComponentState state) {
+const paint_tool::ComponentStyle::StyleSet *paint_tool::ComponentStyle::getEffectiveStyleSet(std::vector<ComponentState> states) {
 
 	/* make a new styleset & populate the styleset with values frrom the
 	   normal state */
@@ -47,21 +47,24 @@ const paint_tool::ComponentStyle::StyleSet *paint_tool::ComponentStyle::getEffec
 	if (normal_styleset->line_thickness)
 		styleset->line_thickness = std::make_unique<int>(*normal_styleset->line_thickness);
 
-	/* now merge the styles of the given state into the newly made styleset */
+	/* now merge the styles of the given states into the newly made styleset */
 
-	StyleSet *state_styleset = state_styleset_map[state].get();
+	std::for_each(states.begin(), states.end(), [this, &styleset, &states](ComponentState state) {
 
-	if (state_styleset->text_colour)
-		styleset->text_colour = std::make_unique<int>(*state_styleset->text_colour);
+		StyleSet *state_styleset = state_styleset_map[state].get();
 
-	if (state_styleset->bg_colour)
-		styleset->bg_colour = std::make_unique<int>(*state_styleset->bg_colour);
+		if (state_styleset->text_colour)
+			styleset->text_colour = std::make_unique<int>(*state_styleset->text_colour);
 
-	if (state_styleset->line_colour)
-		styleset->line_colour = std::make_unique<int>(*state_styleset->line_colour);
+		if (state_styleset->bg_colour)
+			styleset->bg_colour = std::make_unique<int>(*state_styleset->bg_colour);
 
-	if (state_styleset->line_thickness)
-		styleset->line_thickness = std::make_unique<int>(*state_styleset->line_thickness);
+		if (state_styleset->line_colour)
+			styleset->line_colour = std::make_unique<int>(*state_styleset->line_colour);
+
+		if (state_styleset->line_thickness)
+			styleset->line_thickness = std::make_unique<int>(*state_styleset->line_thickness);
+	});
 
 	/* update the effective styleset property and return the pointer to it */
 

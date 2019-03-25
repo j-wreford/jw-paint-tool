@@ -7,7 +7,7 @@ paint_tool::Component::Component(
 	rect(RECT{ 0, 0, 0, 0 }),
 	origin(POINT{ 0, 0 }),
 	parent(nullptr),
-	state(COMPONENT_STATE_NORMAL),
+	states({ COMPONENT_STATE_NORMAL }),
 	style(new ComponentStyle()),
 	alignment(ALIGN_MANUAL) {
 	//
@@ -148,4 +148,18 @@ void paint_tool::Component::setSize(SIZE size) {
 
 	if (parent)
 		parent->recalculateSize();
+}
+
+void paint_tool::Component::setState(ComponentState state) {
+
+	if (std::find(states.begin(), states.end(), state) == states.end())
+		states.push_back(state);
+}
+
+void paint_tool::Component::unsetState(ComponentState state) {
+
+	auto it = std::find(states.begin(), states.end(), state);
+
+	if (it != states.end())
+		states.erase(it);
 }

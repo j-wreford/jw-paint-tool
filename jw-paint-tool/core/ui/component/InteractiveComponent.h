@@ -135,25 +135,29 @@ namespace paint_tool {
 
 void paint_tool::InteractiveComponent::onLeftMouseDownHit(const POINT &mouse) {
 
-	/* this component was mouse down clicked on - make it active */
+	/* this component was mouse down clicked on - set the active state and
+	   unset the focused state */
 
 	setState(COMPONENT_STATE_ACTIVE);
+	unsetState(COMPONENT_STATE_FOCUSED);
 
 	lmd_startpoint = mouse;
 }
 
 void paint_tool::InteractiveComponent::onLeftMouseDownLostHit() {
 
-	/* a new component was mouse down clicked on - reset back to normal */
+	/* a new component was mouse down clicked on - revoke the active and focused
+	   states */
 
-	setState(COMPONENT_STATE_NORMAL);
+	unsetState(COMPONENT_STATE_FOCUSED);
+	unsetState(COMPONENT_STATE_ACTIVE);
 
 	lmd_startpoint = POINT{ -1,-1 };
 }
 
 void paint_tool::InteractiveComponent::onLeftMouseUpHit(const POINT &mouse) {
 
-	/* this component was mouse up clicked on - make it focused */
+	/* this component was mouse up clicked on - set the focused state */
 
 	setState(COMPONENT_STATE_FOCUSED);
 
@@ -162,16 +166,18 @@ void paint_tool::InteractiveComponent::onLeftMouseUpHit(const POINT &mouse) {
 
 void paint_tool::InteractiveComponent::onLeftMouseUpLostHit() {
 
-	/* a new component was mouse up clicked on - reset back to normal */
+	/* a new component was mouse down clicked on - revoke the active and focused
+	   states */
 
-	setState(COMPONENT_STATE_NORMAL);
+	unsetState(COMPONENT_STATE_FOCUSED);
+	unsetState(COMPONENT_STATE_ACTIVE);
 }
 
 void paint_tool::InteractiveComponent::onMouseMoveLostHit() {
 
-	/* a new component was hovered over - reset to normal */
+	/* a new component was hovered over - revoke the hovered state */
 
-	setState(COMPONENT_STATE_NORMAL);
+	unsetState(COMPONENT_STATE_HOVERED);
 }
 
 void paint_tool::InteractiveComponent::setDraggable(const bool &_draggable) {
@@ -183,15 +189,15 @@ bool paint_tool::InteractiveComponent::isInteractive() const {
 }
 
 bool paint_tool::InteractiveComponent::isFocused() const {
-	return (getState() == COMPONENT_STATE_FOCUSED);
+	return (hasState(COMPONENT_STATE_FOCUSED));
 }
 
 bool paint_tool::InteractiveComponent::isActive() const {
-	return (getState() == COMPONENT_STATE_ACTIVE);
+	return (hasState(COMPONENT_STATE_ACTIVE));
 }
 
 bool paint_tool::InteractiveComponent::isHovered() const {
-	return (getState() == COMPONENT_STATE_HOVERED);
+	return (hasState(COMPONENT_STATE_HOVERED));
 }
 
 bool paint_tool::InteractiveComponent::isDraggable() const {

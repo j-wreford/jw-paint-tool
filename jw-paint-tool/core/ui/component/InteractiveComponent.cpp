@@ -26,8 +26,7 @@ void paint_tool::InteractiveComponent::onMouseMoveHit(const POINT &mouse, const 
 	/* this component was hovered over - set hovered to true (if it's not active)
 	   and handle component dragging */
 
-	if (getState() != COMPONENT_STATE_ACTIVE)
-		setState(COMPONENT_STATE_HOVERED);
+	setState(COMPONENT_STATE_HOVERED);
 
 	if (isActive() && draggable) {
 
