@@ -120,7 +120,6 @@ namespace paint_tool {
 		inline void setBgColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
 		inline void setLineColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
 		inline void setLineThickness(const int &thickness, ComponentState state = COMPONENT_STATE_NORMAL);
-		inline void setStyleSet(ComponentStyle::StyleSet *style_set, ComponentState state = COMPONENT_STATE_NORMAL);
 
 		//
 		// Returns false; the base Component is not interactive
@@ -336,10 +335,6 @@ void paint_tool::Component::setLineColour(const int &colour, ComponentState stat
 
 void paint_tool::Component::setLineThickness(const int &thickness, ComponentState state) {
 	style->setLineThickness(thickness, state);
-}
-
-void paint_tool::Component::setStyleSet(ComponentStyle::StyleSet *style_set, ComponentState state) {
-	style->setStyleSet(style_set, state);
 }
 
 bool paint_tool::Component::isInteractive() const {
