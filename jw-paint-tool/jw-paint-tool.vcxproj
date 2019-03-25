@@ -155,7 +155,6 @@
     <ClInclude Include="core\ui\component\ComponentGroup.h" />
     <ClInclude Include="core\ui\component\FixedSpace.h" />
     <ClInclude Include="core\ui\component\InteractiveComponent.h" />
-    <ClInclude Include="core\ui\component\RadioItem.h" />
     <ClInclude Include="core\ui\component\StaticBox.h" />
     <ClInclude Include="core\ui\component\StaticImage.h" />
     <ClInclude Include="core\ui\component\StaticLabel.h" />
