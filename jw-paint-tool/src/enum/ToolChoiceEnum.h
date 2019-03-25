@@ -3,9 +3,9 @@
 namespace paint_tool {
 
 	//
-	// Describes a tool selection
+	// Describes the drawing mode
 	//
-	enum Tool {
+	enum ToolChoice {
 		TOOL_MOVE,
 		TOOL_DEL,
 		TOOL_PEN_FREEHAND,

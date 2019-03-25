@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core\ui\component\RadioItem.h"
+#include "src\enum\ToolChoiceEnum.h"
 
 //
 // ToolChoiceItem
@@ -11,7 +12,8 @@
 
 namespace paint_tool {
 
-	class ToolChoiceItem {
+	class ToolChoiceItem :
+		public RadioItem<ToolChoice> {
 
 	};
 }
