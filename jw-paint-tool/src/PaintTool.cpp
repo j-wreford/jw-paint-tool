@@ -74,10 +74,8 @@ void paint_tool::PaintTool::createUI() {
 
 void paint_tool::PaintTool::createCanvas() {
 
-	/* temporary: create a white box to simulate the canvas */
-
 	p_component_t canvas = std::make_unique<Canvas>(
-		"simulated_canvas"
+		"canvas"
 	);
 	canvas->setBgColour(0xffffff);
 
