@@ -7,7 +7,7 @@ paint_tool::Drawing::Drawing(const std::string &id)	:
 
 paint_tool::Drawing::~Drawing() {
 
-	for (POINT * point : points)
+	for (POINT *point : points)
 		delete point;
 }
 
@@ -20,9 +20,12 @@ void paint_tool::Drawing::drawComponent(EasyGraphics *ctx) const {
 
 		POINT pos = getAbsolutePosition();
 
+		/* add the position of the drawing to the point, so that
+		   it's drawn in the correct space in the window */
+
 		POINT last = {
-			points.front()->x += pos.x,
-			points.front()->y += pos.y
+			points.front()->x + pos.x,
+			points.front()->y + pos.y
 		};
 
 		auto start_position = points.begin();
@@ -30,9 +33,12 @@ void paint_tool::Drawing::drawComponent(EasyGraphics *ctx) const {
 
 		std::for_each(start_position, points.end(), [&pos, &last, &ctx](POINT *point) {
 
+			/* add the position of the drawing to the point, so that
+			   it's drawn in the correct space in the window */
+
 			POINT next = {
-				point->x += pos.x,
-				point->y += pos.y
+				point->x + pos.x,
+				point->y + pos.y
 			};
 
 			ctx->drawLine(last.x, last.y, next.x, next.y);
