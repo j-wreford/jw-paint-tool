@@ -11,6 +11,23 @@ paint_tool::Drawing::~Drawing() {
 		delete point;
 }
 
+void paint_tool::Drawing::drawComponent(EasyGraphics *ctx) const {
+
+	if (points.size() > 0) {
+
+		POINT *last = points.front();
+
+		auto start_position = points.begin();
+		std::advance(start_position, 1);
+
+		std::for_each(start_position, points.end(), [&last, &ctx](POINT *point) {
+
+			ctx->drawLine(last->x, last->y, point->x, point->y);
+			last = point;
+		});
+	}
+}
+
 void paint_tool::Drawing::recalculateSize() {
 
 	setSize(SIZE{ 0,0 });
