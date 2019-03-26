@@ -1,10 +1,9 @@
 #include "Canvas.h"
 
 paint_tool::Canvas::Canvas(const std::string &id) :
-	ComponentGroup(id) {
-	
-
-
+	ComponentGroup(id),
+	draw_tool(nullptr) {
+	//
 }
 
 paint_tool::Canvas::~Canvas() {
