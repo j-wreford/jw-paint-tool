@@ -36,6 +36,8 @@ void paint_tool::Canvas::drawComponent(EasyGraphics *ctx) const {
 }
 
 void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
+
+	InteractiveComponent::onLeftMouseDownHit(mouse);
 	
 	p_component_t drawing = std::make_unique<Drawing>(
 		"drawing_" + std::to_string(getChildComponents()->size())
@@ -44,19 +46,27 @@ void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
 	Drawing *p_drawing = dynamic_cast<Drawing *>(drawing.get());
 	addComponent(drawing);
 
-	/* for now, just use a pen line tool for testing purposes */
+	/* for now, just use a pen line tool for testing purposes.
+	   later on, the tool created will depend on what value the
+	   tool choice group component has */
 	
 	draw_tool = new PenLineTool(p_drawing, mouse);
 }
 
 void paint_tool::Canvas::onLeftMouseUpHit(const POINT &mouse) {
 
-	if (draw_tool)
+	InteractiveComponent::onLeftMouseUpHit(mouse);
+
+	if (draw_tool) {
 		delete draw_tool;
+		draw_tool = nullptr;
+	}
 }
 
 void paint_tool::Canvas::onMouseMoveHit(const POINT &mouse, const bool& lmouse_down) {
 
-	if (draw_tool && lmouse_down && hasState(COMPONENT_STATE_ACTIVE))
+	InteractiveComponent::onMouseMoveHit(mouse, lmouse_down);
+
+	if (draw_tool && hasState(COMPONENT_STATE_ACTIVE))
 		draw_tool->draw(mouse);
 }
