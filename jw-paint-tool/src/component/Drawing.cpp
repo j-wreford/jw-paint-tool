@@ -50,6 +50,14 @@ void paint_tool::Drawing::drawComponent(EasyGraphics *ctx) const {
 
 void paint_tool::Drawing::recalculateSize() {
 
+	POINT pos = getPosition();
+	POINT origin = getOrigin();
+
+	/* get the position of the point where the origin lies */
+
+	pos.x += origin.x;
+	pos.y += origin.y;
+
 	RECT rect = { 0, 0, 0, 0 };
 
 	for (POINT *point : points) {
@@ -65,13 +73,16 @@ void paint_tool::Drawing::recalculateSize() {
 			rect.bottom = point->y;
 	}
 
+	origin.x = -rect.left;
+	origin.y = -rect.top;
+
+	pos.x -= origin.x;
+	pos.y -= origin.y;
+
+	setOrigin(origin);
 	setSize(SIZE{
 		rect.right - rect.left,
 		rect.bottom - rect.top
 	});
-
-	setOrigin(POINT{
-		-rect.left,
-		-rect.top
-	});
+	setPosition(pos);
 }
