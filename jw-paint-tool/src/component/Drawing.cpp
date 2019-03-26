@@ -6,7 +6,9 @@ paint_tool::Drawing::Drawing(const std::string &id)	:
 }
 
 paint_tool::Drawing::~Drawing() {
-	//
+
+	for (POINT * point : points)
+		delete point;
 }
 
 void paint_tool::Drawing::recalculateSize() {
