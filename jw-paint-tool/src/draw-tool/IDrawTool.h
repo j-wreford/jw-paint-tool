@@ -13,7 +13,7 @@
 namespace paint_tool {
 
 	class IDrawTool {
-	protected:
+	public:
 
 		inline IDrawTool(Drawing *drawing, const POINT &mouse);
 		inline ~IDrawTool();
