@@ -18,26 +18,8 @@ namespace paint_tool {
 		public InteractiveComponent {
 	public:
 
-		//
-		// Only a drawing tool should be able to manipulate point data
-		//
-		friend class IDrawTool;
-
 		Drawing(const std::string &id);
 		~Drawing();
-
-		//
-		// Finds the top-leftmost point and the bottom-rightmost point
-		// to calculate its size with
-		//
-		virtual void recalculateSize();
-
-	private:
-
-		//
-		// The series of points to draw lines between
-		//
-		std::list<POINT *> points;
 
 		//
 		// Clears the POINT list and adds point to it
@@ -58,6 +40,19 @@ namespace paint_tool {
 		// Clears the POINT list
 		//
 		inline void clearPoints();
+
+		//
+		// Finds the top-leftmost point and the bottom-rightmost point
+		// to calculate its size with
+		//
+		virtual void recalculateSize();
+
+	private:
+
+		//
+		// The series of points to draw lines between
+		//
+		std::list<POINT *> points;
 	};
 }
 
