@@ -50,7 +50,7 @@ void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
 	   later on, the tool created will depend on what value the
 	   tool choice group component has */
 	
-	draw_tool = new PenLineTool(p_drawing, mouse);
+	draw_tool = new PenLineTool(p_drawing);
 }
 
 void paint_tool::Canvas::onLeftMouseUpHit(const POINT &mouse) {
