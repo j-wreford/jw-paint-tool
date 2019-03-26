@@ -42,6 +42,15 @@ namespace paint_tool {
 		//
 		virtual void onMouseMoveHit(const POINT &mouse, const bool& lmouse_down) override;
 
+		//
+		// When there are no Drawings added to the Canvas, it is not considered
+		// interactive. As such, the Canvas was never receiving calls to its event
+		// methods in order to add Drawings to it.
+		//
+		// Override this method to always return true.
+		//
+		inline virtual bool isInteractive() const;
+
 	private:
 
 		//
@@ -49,4 +58,8 @@ namespace paint_tool {
 		//
 		IDrawTool *draw_tool;
 	};
+}
+
+bool paint_tool::Canvas::isInteractive() const {
+	return true;
 }
