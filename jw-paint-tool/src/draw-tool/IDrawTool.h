@@ -15,7 +15,7 @@ namespace paint_tool {
 	class IDrawTool {
 	public:
 
-		inline IDrawTool(Drawing *drawing, const POINT &mouse);
+		inline IDrawTool(Drawing *drawing);
 		inline ~IDrawTool();
 
 		//
@@ -31,28 +31,17 @@ namespace paint_tool {
 		//
 		inline Drawing *getDrawing();
 
-		//
-		// Returns the inital mouse down POINT
-		//
-		inline POINT getInitialMouse() const;
-
 	private:
 
 		//
 		// The Drawing component to add point data to
 		//
 		Drawing *drawing;
-
-		//
-		// The POINT of the initial left mouse down
-		//
-		const POINT initial_mouse;
 	};
 }
 
-paint_tool::IDrawTool::IDrawTool(Drawing *drawing, const POINT &mouse) :
-	drawing(drawing),
-	initial_mouse(mouse){
+paint_tool::IDrawTool::IDrawTool(Drawing *drawing) :
+	drawing(drawing) {
 	//
 }
 
@@ -62,8 +51,4 @@ paint_tool::IDrawTool::~IDrawTool() {
 
 paint_tool::Drawing *paint_tool::IDrawTool::getDrawing() {
 	return drawing;
-}
-
-POINT paint_tool::IDrawTool::getInitialMouse() const {
-	return initial_mouse;
 }
