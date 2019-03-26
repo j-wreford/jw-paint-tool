@@ -18,9 +18,10 @@ namespace paint_tool {
 		inline IDrawTool(Drawing *drawing);
 		inline ~IDrawTool();
 
-		virtual void respondToLeftMouseDown(const POINT & mouse) = 0;
-		virtual void respondToLeftMouseUp(const POINT & mouse) = 0;
-		virtual void respondToMouseMove(const POINT &mouse) = 0;
+		//
+		// Manipulates points of the Drawing component
+		//
+		virtual void draw(const POINT & mouse) = 0;
 
 	private:
 
