@@ -3,6 +3,7 @@
 #include "core\ui\component\ComponentGroup.h"
 #include "src\component\Drawing.h"
 #include "src\draw-tool\IDrawTool.h"
+#include "src\draw-tool\PenLineTool.h"
 
 //
 // Canvas
@@ -30,6 +31,16 @@ namespace paint_tool {
 		// passes it to the IDrawTool to begin forming a new drawing
 		//
 		virtual void onLeftMouseDownHit(const POINT &mouse) override;
+
+		//
+		// 
+		//
+		virtual void onLeftMouseUpHit(const POINT &mouse) override;
+
+		//
+		// 
+		//
+		virtual void onMouseMoveHit(const POINT &mouse, const bool& lmouse_down) override;
 
 	private:
 
