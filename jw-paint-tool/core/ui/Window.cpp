@@ -311,7 +311,7 @@ void paint_tool::Window::drawDebugComponentBorder(const Component *component) {
 	if (component->isComponentGroup())
 		setPenColour(0xffff00, 1);
 	else
-		setPenColour(0x00ffff, 1);
+		setPenColour(EasyGraphics::clMagenta, 1);
 
 	drawRectangle(pos.x - 1, pos.y - 1, size.cx + 2, size.cy + 2, false);
 
