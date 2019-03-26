@@ -24,6 +24,13 @@ namespace paint_tool {
 		//
 		virtual void drawComponent(EasyGraphics *ctx) const override;
 
+		//
+		// If the current draw_tool is not the move or delete tool,
+		// then this method created an empty Drawing component and
+		// passes it to the IDrawTool to begin forming a new drawing
+		//
+		virtual void onLeftMouseDownHit(const POINT &mouse) override;
+
 	private:
 
 		//
