@@ -167,7 +167,9 @@
     <ClInclude Include="core\ui\style\ComponentStyle.h" />
     <ClInclude Include="dependencies\easy-graphics\EasyGraphics.h" />
     <ClInclude Include="src\component\Canvas.h" />
+    <ClInclude Include="src\component\Drawing.h" />
     <ClInclude Include="src\component\ToolChoiceItem.h" />
+    <ClInclude Include="src\draw-tool\IDrawTool.h" />
     <ClInclude Include="src\enum\ToolChoiceEnum.h" />
     <ClInclude Include="src\PaintTool.h" />
     <ClInclude Include="core\ui\Window.h" />
@@ -187,6 +189,7 @@
     <ClCompile Include="core\ui\style\ComponentStyle.cpp" />
     <ClCompile Include="dependencies\easy-graphics\EasyGraphics.cpp" />
     <ClCompile Include="src\component\Canvas.cpp" />
+    <ClCompile Include="src\component\Drawing.cpp" />
     <ClCompile Include="src\component\ToolChoiceItem.cpp" />
     <ClCompile Include="src\PaintTool.cpp" />
     <ClCompile Include="core\ui\Window.cpp" />
