@@ -53,6 +53,9 @@ namespace paint_tool {
 		//
 		virtual void recalculateSize();
 
+		// remove getComponentType!!!!
+		virtual std::string getComponentType() const { return ""; };
+
 	private:
 
 		//
