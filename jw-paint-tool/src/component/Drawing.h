@@ -43,11 +43,6 @@ namespace paint_tool {
 		inline const Drawing& operator+=(const POINT &point);
 
 		//
-		// Clears the POINT list
-		//
-		inline void clearPoints();
-
-		//
 		// Finds the top-leftmost point and the bottom-rightmost point
 		// to calculate its size with
 		//
@@ -62,12 +57,18 @@ namespace paint_tool {
 		// The series of points to draw lines between
 		//
 		std::list<POINT *> points;
+
+		//
+		// Clears the POINT list. This method does not call recalculateSize
+		//
+		inline void clearPoints();
 	};
 }
 
 inline const paint_tool::Drawing& paint_tool::Drawing::operator=(const POINT &point) {
 	clearPoints();
 	points.push_back(new POINT(point));
+	recalculateSize();
 	return *this;
 }
 
@@ -75,11 +76,13 @@ inline const paint_tool::Drawing& paint_tool::Drawing::operator=(const std::list
 	clearPoints();
 	for (POINT point : _points)
 		points.push_back(new POINT(point));
+	recalculateSize();
 	return *this;
 }
 
 inline const paint_tool::Drawing& paint_tool::Drawing::operator+=(const POINT &point) {
 	points.push_back(new POINT(point));
+	recalculateSize();
 	return *this;
 }
 
