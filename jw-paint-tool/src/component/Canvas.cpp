@@ -7,7 +7,9 @@ paint_tool::Canvas::Canvas(const std::string &id) :
 }
 
 paint_tool::Canvas::~Canvas() {
-	//
+	
+	if (draw_tool)
+		delete draw_tool;
 }
 
 void paint_tool::Canvas::drawComponent(EasyGraphics *ctx) const {
