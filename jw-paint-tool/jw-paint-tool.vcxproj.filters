@@ -108,6 +108,9 @@
     <ClInclude Include="src\component\Drawing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\draw-tool\PenLineTool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\ui\component\Component.cpp">
@@ -165,6 +168,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\component\Drawing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\draw-tool\PenLineTool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
