@@ -8,7 +8,7 @@ namespace paint_tool {
 		public IDrawTool {
 	public:
 
-		PenLineTool(Drawing *drawing, const POINT &mouse);
+		PenLineTool(Drawing *drawing);
 		~PenLineTool();
 
 		//

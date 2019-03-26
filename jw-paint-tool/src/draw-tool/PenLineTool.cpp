@@ -1,7 +1,7 @@
 #include "PenLineTool.h"
 
-paint_tool::PenLineTool::PenLineTool(Drawing *drawing, const POINT &mouse) :
-	IDrawTool(drawing, mouse) {
+paint_tool::PenLineTool::PenLineTool(Drawing *drawing) :
+	IDrawTool(drawing) {
 	//
 }
 
