@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <algorithm>
 
 #include "core\ui\component\InteractiveComponent.h"
 
@@ -20,6 +21,11 @@ namespace paint_tool {
 
 		Drawing(const std::string &id);
 		~Drawing();
+
+		//
+		// Draws lines between all its points
+		//
+		virtual void drawComponent(EasyGraphics *ctx) const override;
 
 		//
 		// Clears the POINT list and adds point to it
@@ -59,16 +65,19 @@ namespace paint_tool {
 inline const paint_tool::Drawing& paint_tool::Drawing::operator=(const POINT &point) {
 	clearPoints();
 	points.push_back(new POINT(point));
+	return *this;
 }
 
 inline const paint_tool::Drawing& paint_tool::Drawing::operator=(const std::list<POINT> &_points) {
 	clearPoints();
 	for (POINT point : _points)
 		points.push_back(new POINT(point));
+	return *this;
 }
 
 inline const paint_tool::Drawing& paint_tool::Drawing::operator+=(const POINT &point) {
 	points.push_back(new POINT(point));
+	return *this;
 }
 
 void paint_tool::Drawing::clearPoints() {
