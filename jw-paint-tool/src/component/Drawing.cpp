@@ -68,4 +68,9 @@ void paint_tool::Drawing::recalculateSize() {
 		rect.right - rect.left,
 		rect.bottom - rect.top
 	});
+
+	setOrigin(POINT{
+		-rect.left,
+		-rect.top
+	});
 }
