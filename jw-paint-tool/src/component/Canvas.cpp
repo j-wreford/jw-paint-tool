@@ -34,3 +34,7 @@ void paint_tool::Canvas::drawComponent(EasyGraphics *ctx) const {
 		}
 	}
 }
+
+void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
+	// Draw!
+}
