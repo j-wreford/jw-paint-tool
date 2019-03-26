@@ -84,5 +84,9 @@ inline const paint_tool::Drawing& paint_tool::Drawing::operator+=(const POINT &p
 }
 
 void paint_tool::Drawing::clearPoints() {
+
+	for (POINT *point : points)
+		delete point;
+
 	points.clear();
 }
