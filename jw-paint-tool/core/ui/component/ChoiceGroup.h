@@ -82,11 +82,5 @@ void paint_tool::ChoiceGroup<T>::onLeftMouseUpHit(const POINT& mouse) {
 
 template <typename T>
 T paint_tool::ChoiceGroup<T>::getChosenValue() const {
-	
-	T value = default_value;
-
-	if (chosen_component)
-		value = chosen_component->getValue();
-
-	return value;
+	return (chosen_component ? chosen_component->getValue() : default_value);
 }
