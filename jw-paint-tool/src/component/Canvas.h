@@ -3,6 +3,7 @@
 #include "core\ui\component\ComponentGroup.h"
 #include "src\component\Drawing.h"
 #include "src\draw-tool\IDrawTool.h"
+#include "src\draw-tool\PenFreehandTool.h"
 #include "src\draw-tool\PenLineTool.h"
 
 //
