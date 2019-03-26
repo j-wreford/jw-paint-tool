@@ -20,6 +20,4 @@ void paint_tool::PenLineTool::draw(const POINT & mouse) {
 
 	*drawing = POINT{ 0, 0 };
 	*drawing += relative_mouse;
-
-	drawing->recalculateSize();
 }
