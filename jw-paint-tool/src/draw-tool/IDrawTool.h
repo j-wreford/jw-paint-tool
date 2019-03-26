@@ -26,6 +26,12 @@ namespace paint_tool {
 	protected:
 
 		//
+		// Returns the pointer to the Drawing component the tool
+		// is manipulating
+		//
+		inline Drawing *getDrawing();
+
+		//
 		// Returns the inital mouse down POINT
 		//
 		inline POINT getInitialMouse() const;
@@ -52,6 +58,10 @@ paint_tool::IDrawTool::IDrawTool(Drawing *drawing, const POINT &mouse) :
 
 paint_tool::IDrawTool::~IDrawTool() {
 	//
+}
+
+paint_tool::Drawing *paint_tool::IDrawTool::getDrawing() {
+	return drawing;
 }
 
 POINT paint_tool::IDrawTool::getInitialMouse() const {
