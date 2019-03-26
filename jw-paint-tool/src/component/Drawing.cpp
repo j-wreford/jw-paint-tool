@@ -48,9 +48,8 @@ void paint_tool::Drawing::drawComponent(EasyGraphics *ctx) const {
 }
 
 void paint_tool::Drawing::recalculateSize() {
-	/*
-	setSize(SIZE{ 0,0 });
-	RECT rect = getRect();
+
+	RECT rect = { 0, 0, 0, 0 };
 
 	for (POINT *point : points) {
 
@@ -65,7 +64,8 @@ void paint_tool::Drawing::recalculateSize() {
 			rect.bottom = point->y;
 	}
 
-	/* need to update the nwe origin etc etc
-
-	setRect(rect);*/
+	setSize(SIZE{
+		rect.right - rect.left,
+		rect.bottom - rect.top
+	});
 }
