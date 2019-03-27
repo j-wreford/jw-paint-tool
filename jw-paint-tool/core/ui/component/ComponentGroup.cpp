@@ -180,21 +180,11 @@ void paint_tool::ComponentGroup::addHorizontalSpace(const int& width) {
 
 void paint_tool::ComponentGroup::recalculateSize() {
 
-	POINT pos = getPosition();
-	POINT origin = getOrigin();
+	/* calculate the union rect of all child components and grab the new
+	   size from it */
 
-	/* get the position of the point where the origin lies */
+	RECT rect = { 0, 0, 0, 0 };
 
-	pos.x += origin.x;
-	pos.y += origin.y;
-
-	/* reset the size to 0 x 0 so it can shrink from its previous size */
-
-	setSize(SIZE{ 0, 0 });
-
-	/* calculate the union rect of all child components */
-
-	RECT rect = getRect();
 	std::for_each(components.begin(), components.end(),
 		[&rect](p_component_t &component) {
 
@@ -207,42 +197,41 @@ void paint_tool::ComponentGroup::recalculateSize() {
 			);
 	});
 
-	/* union rect does not consider the fact that a child component's position
-	   might be at [10,10]. we need to include the leading space in the group's
-	   rectangle */
-
-	if (rect.left > 0)
-		rect.left = 0;
-	else
-		origin.x = -rect.left;
-
-	if (rect.top > 0)
-		rect.top = 0;
-	else
-		origin.y = -rect.top;
+	SIZE new_size = {
+		rect.right - rect.left,
+		rect.bottom - rect.top
+	};
 
 	/* if the current rectangle is smaller than the minimum size, then increase
 	   its dimensions */
 
 	SIZE min_size = getMinimumSize();
 
-	if ((rect.right - rect.left) < min_size.cx)
-		rect.right = rect.left + min_size.cx;
+	if (new_size.cx < min_size.cx)
+		new_size.cx = min_size.cx;
 
-	if ((rect.bottom - rect.top) < min_size.cy)
-		rect.bottom = rect.top + min_size.cy;
+	if (new_size.cy < min_size.cy)
+		new_size.cy = min_size.cy;
 
-	/* adjust the position to make it appear that component's haven't moved
-	   if the origin has changed */
+	/* update the origin if the caculated union rect goes into the negative
+	   coordinate space */
 
-	pos.x -= origin.x;
-	pos.y -= origin.y;
+	POINT origin = getOrigin();
+	POINT new_origin = origin;
 
-	/* update properties */
+	if (rect.left < 0)
+		new_origin.x = -rect.left;
 
-	setOrigin(origin);
-	setRect(rect);
-	setPosition(pos);
+	if (rect.top < 0)
+		new_origin.y = -rect.top;
+
+	if (new_origin.x != origin.x ||
+		new_origin.y != origin.y)
+		setOrigin(new_origin, true);
+
+	/* update the size */
+
+	setSize(new_size);
 }
 
 paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getFirstHitInteractiveComponent(const POINT &mouse) {

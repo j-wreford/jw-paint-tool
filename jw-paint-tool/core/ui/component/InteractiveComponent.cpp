@@ -28,7 +28,7 @@ void paint_tool::InteractiveComponent::onMouseMoveHit(const POINT &mouse, const 
 
 	setState(COMPONENT_STATE_HOVERED);
 
-	if (isActive() && draggable) {
+	if (isActive() && draggable && lmouse_down) {
 
 		setPosition(POINT{
 			mouse.x + getPosition().x - lmd_startpoint.x,
