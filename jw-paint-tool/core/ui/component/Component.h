@@ -176,9 +176,13 @@ namespace paint_tool {
 		inline void setRect(const RECT &_rect);
 
 		//
-		// Gives the Component a new origin
+		// Gives the Component a new origin.
 		//
-		inline void setOrigin(const POINT &_origin);
+		// If reposition is true, then the Component's position will be
+		// adjusted such that the physical location of the origin does
+		// not appear to have moved.
+		//
+		inline void setOrigin(const POINT &_origin, const bool &reposition = false);
 
 		//
 		// Gives the Component a new width and height
@@ -325,7 +329,26 @@ void paint_tool::Component::setRect(const RECT &_rect) {
 	rect = _rect;
 }
 
-void paint_tool::Component::setOrigin(const POINT &_origin) {
+void paint_tool::Component::setOrigin(const POINT &_origin, const bool &reposition) {
+
+	if (reposition) {
+
+		POINT new_position = getPosition();
+
+		/* get the position of the point where the origin lies */
+
+		new_position.x += origin.x;
+		new_position.y += origin.y;
+
+		/* adjust the position to make it appear that the physical location
+	       of the origin hasn't moved */
+
+		new_position.x -= _origin.x;
+		new_position.y -= _origin.y;
+
+		setPosition(new_position);
+	}
+
 	origin = _origin;
 }
 
