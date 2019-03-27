@@ -2,7 +2,7 @@
 
 paint_tool::PenFreehandTool::PenFreehandTool(Drawing *drawing) :
 	IDrawTool(drawing) {
-	//
+	*drawing = POINT{ 0, 0 };
 }
 
 paint_tool::PenFreehandTool::~PenFreehandTool() {
