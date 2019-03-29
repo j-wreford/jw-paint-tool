@@ -22,17 +22,17 @@ namespace paint_tool {
 		// Registers an IObserver that shall be notified whenever
 		// the state of this Observable changes
 		//
-		void registersObserver(IObserver *observer);
+		inline void registersObserver(IObserver *observer);
 
 	protected:
 
-		Observable();
-		~Observable();
+		inline Observable();
+		inline ~Observable();
 
 		//
 		// Calls update on each registered IObserver
 		//
-		void notifyObservers();
+		inline void notifyObservers();
 
 	private:
 
@@ -42,4 +42,22 @@ namespace paint_tool {
 		//
 		std::vector<IObserver *> observers;
 	};
+}
+
+paint_tool::Observable::Observable() {
+	//
+}
+
+paint_tool::Observable::~Observable() {
+	//
+}
+
+void paint_tool::Observable::registersObserver(IObserver *observer) {
+	observers.push_back(observer);
+}
+
+void paint_tool::Observable::notifyObservers() {
+
+	for (IObserver *observer : observers)
+		observer->update();
 }
