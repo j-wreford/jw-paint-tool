@@ -194,6 +194,7 @@
     <ClCompile Include="core\ui\LayoutManager.cpp" />
     <ClCompile Include="core\ui\style\ComponentStyle.cpp" />
     <ClCompile Include="dependencies\easy-graphics\EasyGraphics.cpp" />
+    <ClCompile Include="src\AppData.cpp" />
     <ClCompile Include="src\component\Canvas.cpp" />
     <ClCompile Include="src\component\Drawing.cpp" />
     <ClCompile Include="src\component\ToolChoiceItem.cpp" />
