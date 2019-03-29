@@ -90,6 +90,12 @@
     <ClInclude Include="src\component\Canvas.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="core\Observable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\IObserver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\ui\component\Component.cpp">
