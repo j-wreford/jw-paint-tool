@@ -6,7 +6,8 @@
 // Implements the observer aspect of the observer design pattern.
 //
 // The update method is a pure virtual method, left to be defined by concrete
-// observer classes.
+// observer classes. This is due to the fact that the state parameters an
+// IObservable may pass can differ.
 //
 
 namespace paint_tool {
