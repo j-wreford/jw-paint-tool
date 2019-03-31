@@ -7,7 +7,7 @@
 //
 // The update method is a pure virtual method, left to be defined by concrete
 // observer classes. This is due to the fact that the state parameters an
-// IObservable may pass can differ.
+// IObservable may pass to this IObserver can differ.
 //
 
 namespace paint_tool {

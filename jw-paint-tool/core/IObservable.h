@@ -11,7 +11,8 @@
 //
 // The notifyObservers method is a pure virtual method, left to be defined by
 // concrete obserable classes. This is due to the fact that the state parameters
-// that must be passed can differ, depending on the subject.
+// that must be passed can differ, depending on what the registered IObservable
+// expects.
 //
 // It is the responsibility of the derived class to call notifyObservers
 // whenever its own state changes.
