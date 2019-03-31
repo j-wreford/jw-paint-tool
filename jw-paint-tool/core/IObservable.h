@@ -9,30 +9,34 @@
 //
 // Implements the subject aspect of the observer design pattern.
 //
+// The notifyObservers method is a pure virtual method, left to be defined by
+// concrete obserable classes. This is due to the fact that the state parameters
+// that must be passed can differ, depending on the subject.
+//
 // It is the responsibility of the derived class to call notifyObservers
 // whenever its own state changes.
 //
 
 namespace paint_tool {
 
-	class Observable {
+	class IObservable {
 	public:
 
 		//
 		// Registers an IObserver that shall be notified whenever
 		// the state of this Observable changes
 		//
-		inline void registersObserver(IObserver *observer);
+		inline void registerObserver(IObserver *observer);
 
 	protected:
 
-		inline Observable();
-		inline ~Observable();
+		inline IObservable();
+		inline ~IObservable();
 
 		//
 		// Calls update on each registered IObserver
 		//
-		inline void notifyObservers();
+		inline virtual void notifyObservers() = 0;
 
 	private:
 
@@ -44,20 +48,14 @@ namespace paint_tool {
 	};
 }
 
-paint_tool::Observable::Observable() {
+paint_tool::IObservable::IObservable() {
 	//
 }
 
-paint_tool::Observable::~Observable() {
+paint_tool::IObservable::~IObservable() {
 	//
 }
 
-void paint_tool::Observable::registersObserver(IObserver *observer) {
+void paint_tool::IObservable::registerObserver(IObserver *observer) {
 	observers.push_back(observer);
-}
-
-void paint_tool::Observable::notifyObservers() {
-
-	for (IObserver *observer : observers)
-		observer->update();
 }
