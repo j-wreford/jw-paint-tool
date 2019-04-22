@@ -188,9 +188,6 @@
     <ClCompile Include="src\draw-tool\ShapeRectTool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AppData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\Elephant.bmp">
