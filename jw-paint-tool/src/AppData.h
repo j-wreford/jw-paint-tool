@@ -40,6 +40,11 @@ namespace paint_tool {
 		//
 		inline Drawing *getDrawingChoice() const;
 
+		//
+		// Sets the drawing_choice property
+		//
+		inline void setDrawingChoice(Drawing *drawing);
+
 	private:
 
 		inline AppData();
@@ -77,4 +82,8 @@ paint_tool::ToolChoice paint_tool::AppData::getToolChoice() const {
 
 paint_tool::Drawing *paint_tool::AppData::getDrawingChoice() const {
 	return drawing_choice;
+}
+
+void paint_tool::AppData::setDrawingChoice(Drawing *drawing) {
+	drawing_choice = drawing;
 }
