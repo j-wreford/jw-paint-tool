@@ -2,7 +2,7 @@
 
 #include "core\Singleton.h"
 #include "core\IObserver.h"
-#include "core\ui\component\ChoiceGroup.h"
+#include "core\ui\component\ValueComponent.h"
 #include "src\enum\ToolChoiceEnum.h"
 
 //
@@ -16,19 +16,23 @@ namespace paint_tool {
 
 	class AppData :
 		public Singleton<AppData>,
-		// The data model can observe ChoiceGroups which store a ToolChoice
+		// The data model can observe ValueComponents which store a ToolChoice
 		// value, in order to update the tool_choice property
-		public IObserver<ChoiceGroup<ToolChoice>> {
+		public IObserver<ValueComponent<ToolChoice>> {
 	public:
 
 		friend class Singleton<AppData>;
 
-		inline void update(ChoiceGroup<ToolChoice> *observable);
+		//
+		// Updates the tool_choice property whenever the subject Observable
+		// undergoes a state change
+		//
+		inline virtual void update(ValueComponent<ToolChoice> *observable) override;
 
 	private:
 
-		AppData();
-		~AppData();
+		inline AppData();
+		inline ~AppData();
 
 		//
 		// The currently selected tool the user has chosen
@@ -45,6 +49,6 @@ paint_tool::AppData::~AppData() {
 	//
 }
 
-void paint_tool::AppData::update(ChoiceGroup<ToolChoice> *observable) {
-	tool_choice = observable->getChosenValue();
+void paint_tool::AppData::update(ValueComponent<ToolChoice> *observable) {
+	tool_choice = observable->getValue();
 }
