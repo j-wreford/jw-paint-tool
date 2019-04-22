@@ -49,11 +49,23 @@ void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
 	Drawing *p_drawing = dynamic_cast<Drawing *>(drawing.get());
 	addComponent(drawing);
 
-	/* for now, just set the tool for testing purposes.
-	   later on, the tool created will depend on what value the
-	   tool choice group component has */
-	
-	draw_tool = new PenFreehandTool(p_drawing);
+	switch (AppData::getInstance()->getToolChoice()) {
+
+	case TOOL_PEN_FREEHAND :
+		draw_tool = new PenFreehandTool(p_drawing);
+		break;
+
+	case TOOL_PEN_LINE :
+		draw_tool = new PenLineTool(p_drawing);
+		break;
+
+	case TOOL_SHAPE_RECT :
+		draw_tool = new ShapeRectTool(p_drawing);
+		break;
+		
+	default:
+		draw_tool = new PenFreehandTool(p_drawing);
+	}	
 }
 
 void paint_tool::Canvas::onLeftMouseUpHit(const POINT &mouse) {

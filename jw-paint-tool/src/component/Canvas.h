@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core\ui\component\ComponentGroup.h"
+#include "src\AppData.h"
 #include "src\component\Drawing.h"
 #include "src\draw-tool\IDrawTool.h"
 #include "src\draw-tool\PenFreehandTool.h"
