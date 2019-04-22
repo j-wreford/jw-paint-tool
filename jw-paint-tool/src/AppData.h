@@ -4,6 +4,7 @@
 #include "core\IObserver.h"
 #include "core\ui\component\ValueComponent.h"
 #include "src\enum\ToolChoiceEnum.h"
+#include "src\component\Drawing.h"
 
 //
 // AppData
@@ -34,6 +35,11 @@ namespace paint_tool {
 		//
 		inline ToolChoice getToolChoice() const;
 
+		//
+		// Returns the drawing_choice property
+		//
+		inline Drawing *getDrawingChoice() const;
+
 	private:
 
 		inline AppData();
@@ -43,10 +49,17 @@ namespace paint_tool {
 		// The currently selected tool the user has chosen
 		//
 		ToolChoice tool_choice;
+
+		//
+		// The currently selected drawing
+		//
+		Drawing *drawing_choice;
 	};
 }
 
-paint_tool::AppData::AppData() {
+paint_tool::AppData::AppData() :
+	tool_choice(TOOL_PEN_FREEHAND),
+	drawing_choice(nullptr) {
 	//
 }
 
@@ -60,4 +73,8 @@ void paint_tool::AppData::update(ValueComponent<ToolChoice> *observable) {
 
 paint_tool::ToolChoice paint_tool::AppData::getToolChoice() const {
 	return tool_choice;
+}
+
+paint_tool::Drawing *paint_tool::AppData::getDrawingChoice() const {
+	return drawing_choice;
 }
