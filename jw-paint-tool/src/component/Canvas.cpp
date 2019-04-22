@@ -40,32 +40,60 @@ void paint_tool::Canvas::drawComponent(EasyGraphics *ctx) const {
 void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
 
 	InteractiveComponent::onLeftMouseDownHit(mouse);
-	
-	p_component_t drawing = std::make_unique<Drawing>(
-		"drawing_" + std::to_string(getChildComponents()->size())
-	);
-	drawing->setPosition(mouse);
 
-	Drawing *p_drawing = dynamic_cast<Drawing *>(drawing.get());
-	addComponent(drawing);
+	/* if the current drawing tool selection is anything but a management tool,
+	   then create a new Drawing component and pass it to the drawing tool
+	   object */
 
-	switch (AppData::getInstance()->getToolChoice()) {
+	if (AppData::getInstance()->getToolChoice() != TOOL_MOVE ||
+		AppData::getInstance()->getToolChoice() != TOOL_DEL) {
 
-	case TOOL_PEN_FREEHAND :
-		draw_tool = new PenFreehandTool(p_drawing);
-		break;
+		p_component_t drawing = std::make_unique<Drawing>(
+			"drawing_" + std::to_string(getChildComponents()->size())
+			);
+		drawing->setPosition(mouse);
 
-	case TOOL_PEN_LINE :
-		draw_tool = new PenLineTool(p_drawing);
-		break;
+		Drawing *p_drawing = dynamic_cast<Drawing *>(drawing.get());
+		addComponent(drawing);
 
-	case TOOL_SHAPE_RECT :
-		draw_tool = new ShapeRectTool(p_drawing);
-		break;
+		switch (AppData::getInstance()->getToolChoice()) {
+
+		case TOOL_MOVE:
+			//
+			break;
+
+		case TOOL_DEL:
+			//
+			break;
+
+		case TOOL_PEN_FREEHAND:
+			draw_tool = new PenFreehandTool(p_drawing);
+			break;
+
+		case TOOL_PEN_LINE:
+			draw_tool = new PenLineTool(p_drawing);
+			break;
+
+		case TOOL_SHAPE_RECT:
+			draw_tool = new ShapeRectTool(p_drawing);
+			break;
+
+		default:
+			draw_tool = new PenFreehandTool(p_drawing);
+		}
+	}
+
+	/* else, either move or delete the Drawing component that was just
+	   selected */
+
+	else {
+
+		if (AppData::getInstance()->getToolChoice() == TOOL_MOVE)
+			bool a = true;
 		
-	default:
-		draw_tool = new PenFreehandTool(p_drawing);
-	}	
+		if (AppData::getInstance()->getToolChoice() == TOOL_DEL)
+			bool a = true;
+	}
 }
 
 void paint_tool::Canvas::onLeftMouseUpHit(const POINT &mouse) {
