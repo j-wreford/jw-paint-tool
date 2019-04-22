@@ -5,13 +5,13 @@
 //
 // Implements the observer aspect of the observer design pattern.
 //
-// The update method is a pure virtual method, left to be defined by concrete
-// observer classes. This is due to the fact that the state parameters an
-// IObservable may pass to this IObserver can differ.
+// The template argument, T, is the class type of the pointer given in the pure
+// virtual update method.
 //
 
 namespace paint_tool {
 
+	template <class T>
 	class IObserver {
 	public:
 
@@ -19,6 +19,6 @@ namespace paint_tool {
 		// Instructs the IObserver that the subject Observable has undergone a
 		// state change, and this IObserver must update itself accordingly
 		//
-		virtual void update() = 0;
+		virtual void update(T *subject) = 0;
 	};
 }
