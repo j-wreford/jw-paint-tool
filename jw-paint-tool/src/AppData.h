@@ -29,6 +29,11 @@ namespace paint_tool {
 		//
 		inline virtual void update(ValueComponent<ToolChoice> *observable) override;
 
+		//
+		// Returns the tool_choice property
+		//
+		inline ToolChoice getToolChoice() const;
+
 	private:
 
 		inline AppData();
@@ -51,4 +56,8 @@ paint_tool::AppData::~AppData() {
 
 void paint_tool::AppData::update(ValueComponent<ToolChoice> *observable) {
 	tool_choice = observable->getValue();
+}
+
+paint_tool::ToolChoice paint_tool::AppData::getToolChoice() const {
+	return tool_choice;
 }

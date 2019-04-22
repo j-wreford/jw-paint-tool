@@ -32,7 +32,7 @@ namespace paint_tool {
 		// Returns the value of chosen_component, or default_value if
 		// chosen_component is a nullptr
 		//
-		T getChosenValue() const;
+		inline T getChosenValue() const;
 
 	private:
 
