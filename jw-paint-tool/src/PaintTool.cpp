@@ -9,7 +9,7 @@ const COLORREF paint_tool::PaintTool::ui_panel_focus = 0x101010;
 const COLORREF paint_tool::PaintTool::ui_panel_hover = 0x2b2b2b;
 
 paint_tool::PaintTool::PaintTool(HINSTANCE hInstance) :
-	Window(hInstance, 1280, 800) {
+	Window(hInstance, 1540, 800) {
 
 	::SetWindowText(getHWND(), L"Paint Tool");
 
@@ -70,6 +70,7 @@ void paint_tool::PaintTool::createUI() {
 
 	createLeftPanel();
 	createCanvas();
+	createRightPanel();
 }
 
 void paint_tool::PaintTool::createCanvas() {
@@ -211,6 +212,50 @@ void paint_tool::PaintTool::createLeftPanel() {
 
 
 	/* final: add the group to the ui */
+
+	addComponent(panel);
+}
+
+void paint_tool::PaintTool::createRightPanel() {
+
+	/* create the group for the panel */
+
+	p_component_t panel = std::make_unique<ComponentGroup>(
+		"left_panel",
+		true // fill background
+	);
+	ComponentGroup *p_panel = dynamic_cast<ComponentGroup *>(panel.get());
+	p_panel->setMinimumSize(SIZE{ 260, 800 });
+	p_panel->setLayoutStrategy(LAYOUT_VERTICAL);
+
+	p_panel->setBgColour(ui_panel_bg);
+	p_panel->setTextColour(ui_panel_text);
+	p_panel->setLineColour(ui_panel_bg);
+
+
+	/* the x coordinate of each group within the panel */
+
+	const int left_margin = 30;
+
+
+	/* create the selected drawing heading label */
+
+	p_component_t label_tools = std::make_unique<StaticLabel>(
+		"right_panel_label_selected",
+		L"Selected Drawing",
+		"ui_panel_header"
+		);
+	label_tools->setPosition(POINT{ left_margin, 0 });
+	label_tools->setTextColour(ui_panel_heading);
+
+
+	/* add components to the group */
+
+	p_panel->addVerticalSpace(25);
+	p_panel->addComponent(label_tools);
+
+
+	/* add the panel to the ui */
 
 	addComponent(panel);
 }

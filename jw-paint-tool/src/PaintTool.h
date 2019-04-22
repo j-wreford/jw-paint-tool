@@ -49,9 +49,14 @@ namespace paint_tool {
 		void createCanvas();
 
 		//
-		// Creates the left panel
+		// Creates the left panel, holding the drawing tool option menu
 		//
 		void createLeftPanel();
+
+		//
+		// Creates the right panel, holding the currently select drawing menu
+		//
+		void createRightPanel();
 
 		//
 		// Creates and returns a ToolChoiceItem unique pointer
