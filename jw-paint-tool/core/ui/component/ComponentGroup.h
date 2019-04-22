@@ -39,7 +39,7 @@ namespace paint_tool {
 		// This method does not need to call the drawComponent() method of its
 		// children, as the Window drawSingleComponent() method does this.
 		//
-		virtual void drawComponent(EasyGraphics *ctx) const;
+		virtual void drawComponent(EasyGraphics *ctx) const override;
 
 		//
 		// Updates the active_component property and calls onLeftMosueDownHit

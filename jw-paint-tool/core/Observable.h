@@ -67,5 +67,5 @@ void paint_tool::Observable<T>::registerObserver(IObserver<T> *observer) {
 template <class T>
 void paint_tool::Observable<T>::notifyObservers() {
 	for (IObserver<T> *observer : observers)
-		observer->update(this);
+		observer->update(static_cast<T *>(this));
 }

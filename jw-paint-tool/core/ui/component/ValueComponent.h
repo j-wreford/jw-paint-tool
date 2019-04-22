@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core\ui\component\ComponentGroup.h"
+#include "core\Observable.h"
 
 //
 // ValueComponent<T>
@@ -10,12 +11,16 @@
 // This would be the base class for choice components, text fields, etc, to
 // inherit from.
 //
+// ValueComponent is Observable. Other IObserver objects can listen to this
+// component and update itself whenever the value changes.
+//
 
 namespace paint_tool {
 
 	template <typename T>
 	class ValueComponent :
-		public ComponentGroup {
+		public ComponentGroup,
+		public Observable<ValueComponent<T>> {
 	public:
 
 		ValueComponent(const std::string &id, T value);
@@ -73,4 +78,5 @@ T paint_tool::ValueComponent<T>::getValue() const {
 template <typename T>
 void paint_tool::ValueComponent<T>::setValue(T _value) {
 	value = _value;
+	this->notifyObservers();
 }

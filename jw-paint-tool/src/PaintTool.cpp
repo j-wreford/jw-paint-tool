@@ -130,6 +130,10 @@ void paint_tool::PaintTool::createLeftPanel() {
 	ChoiceGroup<ToolChoice> *p_tools_choice = dynamic_cast<ChoiceGroup<ToolChoice> *>(tools_choice.get());
 	p_tools_choice->setLayoutStrategy(LAYOUT_VERTICAL);
 
+	/* enable AppData to respond to changes to the value of the tool choice
+	   option group */
+
+	p_tools_choice->registerObserver(AppData::getInstance());
 
 	/* 2.1.0 create and add the management sub heading and options to the
 	   choice group */

@@ -99,6 +99,9 @@
     <ClInclude Include="core\Observable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\AppData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\ui\component\Component.cpp">

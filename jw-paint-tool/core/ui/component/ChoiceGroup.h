@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core\ui\component\ComponentGroup.h"
+#include "core\ui\component\ValueComponent.h"
 #include "core\ui\component\ChoiceComponent.h"
 
 //
@@ -16,7 +16,7 @@ namespace paint_tool {
 
 	template <typename T>
 	class ChoiceGroup :
-		public ComponentGroup {
+		public ValueComponent<T> {
 	public:
 
 		ChoiceGroup(const std::string &id, T default_value);
@@ -50,7 +50,7 @@ namespace paint_tool {
 
 template <typename T>
 paint_tool::ChoiceGroup<T>::ChoiceGroup(const std::string &id, T default_value) :
-	ComponentGroup(id),
+	ValueComponent<T>(id, default_value),
 	default_value(default_value),
 	chosen_component(nullptr) {
 	//
@@ -67,7 +67,7 @@ void paint_tool::ChoiceGroup<T>::onLeftMouseUpHit(const POINT& mouse) {
 	ComponentGroup::onLeftMouseUpHit(mouse);
 
 	ChoiceComponent<T> *choice =
-		dynamic_cast<ChoiceComponent<T> *>(getFocusedComponent());
+		dynamic_cast<ChoiceComponent<T> *>(this->getFocusedComponent());
 
 	if (choice) {
 
@@ -75,6 +75,7 @@ void paint_tool::ChoiceGroup<T>::onLeftMouseUpHit(const POINT& mouse) {
 			chosen_component->setChosen(false);
 
 		choice->setChosen(true);
+		this->setValue(choice->getValue());
 
 		chosen_component = choice;
 	}
@@ -82,11 +83,6 @@ void paint_tool::ChoiceGroup<T>::onLeftMouseUpHit(const POINT& mouse) {
 
 template <typename T>
 T paint_tool::ChoiceGroup<T>::getChosenValue() const {
-	
-	T value = default_value;
-
-	if (chosen_component)
-		value = chosen_component->getValue();
-
-	return value;
+	//return chosen_component ? chosen_component->getValue() : default_value;
+	return this->getValue();
 }

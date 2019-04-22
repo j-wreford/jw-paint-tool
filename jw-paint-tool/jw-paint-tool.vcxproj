@@ -168,6 +168,7 @@
     <ClInclude Include="core\enum\LayoutManagerEnum.h" />
     <ClInclude Include="core\ui\style\ComponentStyle.h" />
     <ClInclude Include="dependencies\easy-graphics\EasyGraphics.h" />
+    <ClInclude Include="src\AppData.h" />
     <ClInclude Include="src\component\Canvas.h" />
     <ClInclude Include="src\component\ToolChoiceItem.h" />
     <ClInclude Include="src\enum\ToolChoiceEnum.h" />
