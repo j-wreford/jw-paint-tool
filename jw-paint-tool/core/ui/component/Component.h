@@ -66,7 +66,7 @@ namespace paint_tool {
 		POINT getAbsolutePosition() const;
 
 		//
-		// Returns the difference between the (width and height) and
+		// Returns the difference between the (left and right) and
 		// (top and bottom) of the Component's rect in SIZE form.
 		//
 		inline SIZE getSize() const;
@@ -82,7 +82,9 @@ namespace paint_tool {
 		inline Component *getParent() const;
 
 		//
-		// Returns a pointer to the effective StyleSet
+		// Returns a pointer to the effective StyleSet.
+		//
+		// See core\ui\style\ComponentStyle.h for more.
 		//
 		inline const ComponentStyle::StyleSet *getStyleSet() const;
 

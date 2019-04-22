@@ -147,6 +147,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="core\Observable.h" />
+    <ClInclude Include="core\IObserver.h" />
+    <ClInclude Include="core\Observable.h" />
     <ClInclude Include="core\Singleton.h" />
     <ClInclude Include="core\ui\component\Button.h" />
     <ClInclude Include="core\ui\component\ChoiceComponent.h" />
