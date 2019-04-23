@@ -25,6 +25,17 @@ namespace paint_tool {
 		friend class Singleton<AppData>;
 
 		//
+		// Application constants
+		//
+		static const COLORREF UI_PANEL_BG;
+		static const COLORREF UI_PANEL_TEXT;
+		static const COLORREF UI_PANEL_HEADING;
+		static const COLORREF UI_PANEL_SUB_HEADING;
+		static const COLORREF UI_PANEL_ACTIVE;
+		static const COLORREF UI_PANEL_FOCUS;
+		static const COLORREF UI_PANEL_HOVER;
+
+		//
 		// Updates the tool_choice property whenever the subject Observable
 		// undergoes a state change
 		//
@@ -47,8 +58,8 @@ namespace paint_tool {
 
 	private:
 
-		inline AppData();
-		inline ~AppData();
+		AppData();
+		~AppData();
 
 		//
 		// The currently selected tool the user has chosen
@@ -60,16 +71,6 @@ namespace paint_tool {
 		//
 		Drawing *drawing_choice;
 	};
-}
-
-paint_tool::AppData::AppData() :
-	tool_choice(TOOL_PEN_FREEHAND),
-	drawing_choice(nullptr) {
-	//
-}
-
-paint_tool::AppData::~AppData() {
-	//
 }
 
 void paint_tool::AppData::update(ValueComponent<ToolChoice> *observable) {

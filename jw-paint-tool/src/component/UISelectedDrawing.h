@@ -2,6 +2,7 @@
 
 #include "core\IObserver.h"
 #include "core\ui\component\ComponentGroup.h"
+#include "core\ui\component\StaticLabel.h"
 #include "src\AppData.h"
 #include "src\component\Drawing.h"
 
