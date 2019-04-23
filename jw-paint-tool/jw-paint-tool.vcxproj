@@ -173,7 +173,6 @@
     <ClInclude Include="src\component\Drawing.h" />
     <ClInclude Include="src\component\LineDrawing.h" />
     <ClInclude Include="src\component\PolygonDrawing.h" />
-    <ClInclude Include="src\component\SelectedDrawingGroup.h" />
     <ClInclude Include="src\component\ToolChoiceItem.h" />
     <ClInclude Include="src\draw-tool\IDrawTool.h" />
     <ClInclude Include="src\draw-tool\MoveTool.h" />
