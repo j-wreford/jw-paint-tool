@@ -50,7 +50,7 @@ void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
 
 		p_component_t drawing = std::make_unique<Drawing>(
 			"drawing_" + std::to_string(getChildComponents()->size())
-			);
+		);
 		drawing->setPosition(mouse);
 
 		Drawing *p_drawing = dynamic_cast<Drawing *>(drawing.get());
