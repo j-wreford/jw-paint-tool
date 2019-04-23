@@ -132,6 +132,9 @@
     <ClInclude Include="src\component\PolygonDrawing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\component\UISelectedDrawing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\ui\component\Component.cpp">
@@ -207,6 +210,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\component\PolygonDrawing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\UISelectedDrawing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
