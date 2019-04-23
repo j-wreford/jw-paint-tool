@@ -120,6 +120,15 @@
     <ClInclude Include="src\AppData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\draw-tool\MoveTool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\component\SelectedDrawingGroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\enum\DrawingPropertiesEnum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\ui\component\Component.cpp">
@@ -186,6 +195,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\draw-tool\ShapeRectTool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\draw-tool\MoveTool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

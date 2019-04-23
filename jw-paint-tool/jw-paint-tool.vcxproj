@@ -171,11 +171,14 @@
     <ClInclude Include="src\AppData.h" />
     <ClInclude Include="src\component\Canvas.h" />
     <ClInclude Include="src\component\Drawing.h" />
+    <ClInclude Include="src\component\SelectedDrawingGroup.h" />
     <ClInclude Include="src\component\ToolChoiceItem.h" />
     <ClInclude Include="src\draw-tool\IDrawTool.h" />
+    <ClInclude Include="src\draw-tool\MoveTool.h" />
     <ClInclude Include="src\draw-tool\PenFreehandTool.h" />
     <ClInclude Include="src\draw-tool\PenLineTool.h" />
     <ClInclude Include="src\draw-tool\ShapeRectTool.h" />
+    <ClInclude Include="src\enum\DrawingPropertiesEnum.h" />
     <ClInclude Include="src\enum\ToolChoiceEnum.h" />
     <ClInclude Include="src\PaintTool.h" />
     <ClInclude Include="core\ui\Window.h" />
@@ -197,6 +200,7 @@
     <ClCompile Include="src\component\Canvas.cpp" />
     <ClCompile Include="src\component\Drawing.cpp" />
     <ClCompile Include="src\component\ToolChoiceItem.cpp" />
+    <ClCompile Include="src\draw-tool\MoveTool.cpp" />
     <ClCompile Include="src\draw-tool\PenFreehandTool.cpp" />
     <ClCompile Include="src\draw-tool\PenLineTool.cpp" />
     <ClCompile Include="src\draw-tool\ShapeRectTool.cpp" />
