@@ -152,8 +152,13 @@ void paint_tool::Window::componentDrawer(
 	int	current_line_thickness
 ) {
 
+	/* bail if this component is hidden */
+
+	if (component->isHidden())
+		return;
+
 	/* adjust the colours being used and update the current_ variables
-		  so these can be set again after a child component changes them */
+		  so these can be used again after a child component changes them */
 
 	const ComponentStyle::StyleSet *style_set = component->getStyleSet();
 

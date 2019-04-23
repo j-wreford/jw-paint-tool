@@ -88,6 +88,9 @@ void paint_tool::LayoutManager::layoutVertically(ComponentGroup *group) {
 
 	for (p_component_t &component : *group->getChildComponents()) {
 
+		if (component->isHidden())
+			continue;
+
 		component->setPosition(POINT{
 			component->getPosition().x,
 			last_bottom
@@ -105,10 +108,13 @@ void paint_tool::LayoutManager::layoutHorizontally(ComponentGroup *group) {
 
 	for (p_component_t &component : *group->getChildComponents()) {
 
+		if (component->isHidden())
+			continue;
+
 		component->setPosition(POINT{
 			last_right,
 			component->getPosition().y
-			});
+		});
 
 		layout(component.get(), group->getLayoutStrategy());
 
