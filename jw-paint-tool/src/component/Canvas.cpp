@@ -48,9 +48,26 @@ void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
 	if (AppData::getInstance()->getToolChoice() != TOOL_MOVE ||
 		AppData::getInstance()->getToolChoice() != TOOL_DEL) {
 
-		p_component_t drawing = std::make_unique<Drawing>(
-			"drawing_" + std::to_string(getChildComponents()->size())
-		);
+		/* figure out which sort of drawing object we need */
+
+		/* TODO: Offload creation of the drawing component to the draw tools.
+		   add a getter method to std::move the Draw to the Canvas */
+
+		p_component_t drawing;
+
+		if (AppData::getInstance()->getToolChoice() == TOOL_PEN_FREEHAND ||
+			AppData::getInstance()->getToolChoice() == TOOL_PEN_LINE) {
+			drawing = std::make_unique<LineDrawing>(
+				"drawing_" + std::to_string(getChildComponents()->size())
+			);
+		}
+
+		else {
+			drawing = std::make_unique<PolygonDrawing>(
+				"drawing_" + std::to_string(getChildComponents()->size())
+			);
+		}
+
 		drawing->setPosition(mouse);
 
 		Drawing *p_drawing = dynamic_cast<Drawing *>(drawing.get());
