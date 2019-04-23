@@ -407,7 +407,7 @@ void paint_tool::Component::showIf(std::function<bool()> _fn_show_if) {
 }
 
 bool paint_tool::Component::isHidden() const {
-	return fn_show_if ? fn_show_if() : hidden;
+	return fn_show_if ? !fn_show_if() : hidden;
 }
 
 bool paint_tool::Component::isInteractive() const {
