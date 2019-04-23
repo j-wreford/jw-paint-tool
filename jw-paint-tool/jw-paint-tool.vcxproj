@@ -172,6 +172,7 @@
     <ClInclude Include="src\component\Canvas.h" />
     <ClInclude Include="src\component\Drawing.h" />
     <ClInclude Include="src\component\LineDrawing.h" />
+    <ClInclude Include="src\component\PolygonDrawing.h" />
     <ClInclude Include="src\component\SelectedDrawingGroup.h" />
     <ClInclude Include="src\component\ToolChoiceItem.h" />
     <ClInclude Include="src\draw-tool\IDrawTool.h" />
@@ -201,6 +202,7 @@
     <ClCompile Include="src\component\Canvas.cpp" />
     <ClCompile Include="src\component\Drawing.cpp" />
     <ClCompile Include="src\component\LineDrawing.cpp" />
+    <ClCompile Include="src\component\PolygonDrawing.cpp" />
     <ClCompile Include="src\component\ToolChoiceItem.cpp" />
     <ClCompile Include="src\draw-tool\MoveTool.cpp" />
     <ClCompile Include="src\draw-tool\PenFreehandTool.cpp" />
