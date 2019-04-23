@@ -9,7 +9,13 @@
 //
 // Drawing
 //
-// A component which is made up of a series of point data.
+// A Component which is made up of a series of point data.
+//
+// This Drawing class does not define the drawComponent method. This is left for
+// concrete Drawing classes to provide, as the method of which a Drawing can be
+// drawn differs.
+//
+// See LineDrawing and PolygonDrawing for more.
 //
 
 namespace paint_tool {
@@ -20,13 +26,7 @@ namespace paint_tool {
 		public InteractiveComponent {
 	public:
 
-		Drawing(const std::string &id);
 		~Drawing();
-
-		//
-		// Draws lines between all its points
-		//
-		virtual void drawComponent(EasyGraphics *ctx) const override;
 
 		//
 		// Returns the DrawingProperties the Drawing has
@@ -58,6 +58,13 @@ namespace paint_tool {
 		virtual std::string getComponentType() const { return ""; };
 
 	protected:
+
+		Drawing(const std::string &id);
+
+		//
+		// Returns the points property
+		//
+		inline std::list<POINT *> getPoints() const;
 
 		//
 		// Adds a drawing property to the DrawingProperties container
@@ -113,6 +120,10 @@ const paint_tool::Drawing& paint_tool::Drawing::operator+=(const POINT &point) {
 	points.push_back(new POINT(point));
 	recalculateSize();
 	return *this;
+}
+
+std::list<POINT *> paint_tool::Drawing::getPoints() const {
+	return points;
 }
 
 void paint_tool::Drawing::addProperty(DrawingProperties property) {
