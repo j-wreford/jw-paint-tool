@@ -376,15 +376,3 @@ bool paint_tool::Component::hasState(ComponentState state) const {
 void paint_tool::Component::recalculateSize() {
 	//
 }
-
-void paint_tool::Component::willUsePen() {
-	uses_pen = true;
-}
-
-void paint_tool::Component::willUseFrontColour() {
-	uses_fg = true;
-}
-
-void paint_tool::Component::willUseBackColour() {
-	uses_bg = true;
-}

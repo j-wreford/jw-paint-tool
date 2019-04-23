@@ -5,9 +5,7 @@ paint_tool::StaticBox::StaticBox(
 	const	SIZE		&size
 ) :
 	Component(id, size) {
-	
-	willUseBackColour();
-	willUsePen();
+	//
 }
 
 paint_tool::StaticBox::~StaticBox() {
