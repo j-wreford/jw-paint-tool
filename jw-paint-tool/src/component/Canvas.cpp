@@ -39,13 +39,13 @@ void paint_tool::Canvas::drawComponent(EasyGraphics *ctx) const {
 
 void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
 
-	InteractiveComponent::onLeftMouseDownHit(mouse);
+	ComponentGroup::onLeftMouseDownHit(mouse);
 
 	/* if the current drawing tool selection is anything but a management tool,
 	   then create a new Drawing component and pass it to the drawing tool
 	   object */
 
-	if (AppData::getInstance()->getToolChoice() != TOOL_MOVE ||
+	if (AppData::getInstance()->getToolChoice() != TOOL_MOVE &&
 		AppData::getInstance()->getToolChoice() != TOOL_DEL) {
 
 		/* figure out which sort of drawing object we need */
@@ -105,6 +105,8 @@ void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
 
 	else {
 
+		AppData::getInstance()->setDrawingChoice(dynamic_cast<Drawing *>(getActiveComponent()));
+
 		if (AppData::getInstance()->getToolChoice() == TOOL_MOVE)
 			bool a = true;
 		
@@ -115,7 +117,7 @@ void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
 
 void paint_tool::Canvas::onLeftMouseUpHit(const POINT &mouse) {
 
-	InteractiveComponent::onLeftMouseUpHit(mouse);
+	ComponentGroup::onLeftMouseUpHit(mouse);
 
 	if (draw_tool) {
 		delete draw_tool;
@@ -125,7 +127,7 @@ void paint_tool::Canvas::onLeftMouseUpHit(const POINT &mouse) {
 
 void paint_tool::Canvas::onMouseMoveHit(const POINT &mouse, const bool& lmouse_down) {
 
-	InteractiveComponent::onMouseMoveHit(mouse, lmouse_down);
+	ComponentGroup::onMouseMoveHit(mouse, lmouse_down);
 
 	if (draw_tool && hasState(COMPONENT_STATE_ACTIVE))
 		draw_tool->draw(mouse);
