@@ -6,6 +6,10 @@ paint_tool::LineDrawing::LineDrawing(const std::string &id) :
 	addProperty(DRAW_PROP_LINE_THICKNESS);
 }
 
+paint_tool::LineDrawing::~LineDrawing() {
+	//
+}
+
 void paint_tool::LineDrawing::drawComponent(EasyGraphics *ctx) const {
 
 	// While testing, to make it obvious whats being drawn
