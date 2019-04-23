@@ -201,17 +201,6 @@ namespace paint_tool {
 		//
 		void unsetState(ComponentState state);
 
-		//
-		// Sets the corresponding uses_ flag to true.
-		//
-		// Called by a concrete Component class whos draw method uses the
-		// corresponding property in some way.
-		//
-		// For example, a concrete Component who draws text will want to call
-		// willuseFrontColour() in their constructor.
-		//
-		inline void willUsePen(), willUseBackColour(), willUseFrontColour();
-
 	private:
 
 		//
@@ -252,12 +241,6 @@ namespace paint_tool {
 		// Determines how the Component will be aligned within its parent rect
 		//
 		AlignStrategy alignment;
-
-		//
-		// Set to true when the Component intends to use a drawing method
-		// which uses the corresponding property
-		//
-		bool uses_bg, uses_fg, uses_pen;
 	};
 
 	typedef std::unique_ptr<Component> p_component_t;
