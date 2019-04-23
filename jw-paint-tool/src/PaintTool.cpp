@@ -245,7 +245,7 @@ void paint_tool::PaintTool::createRightPanel() {
 	/* create the selected drawing ui */
 
 	p_component_t selected_drawing = std::make_unique<UISelectedDrawing>();
-	
+	selected_drawing->setPosition(POINT{ left_margin, 0 });
 
 	/* add components to the group */
 

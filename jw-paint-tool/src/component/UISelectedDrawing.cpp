@@ -4,6 +4,8 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 	ComponentGroup("right_panel_selected_drawing"),
 	selected_drawing(nullptr) {
 
+	setLayoutStrategy(LAYOUT_VERTICAL);
+
 	AppData::getInstance()->registerObserver(this);
 
 	/* create the group to contain various drawing property controls */
