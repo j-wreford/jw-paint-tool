@@ -136,12 +136,16 @@ namespace paint_tool {
 
 		//
 		// Sets the function used to determine whether or not the Component is
-		// drawn
+		// drawn.
+		//
+		// Once this has been set, the hidden property is defunct and calling
+		// setHidden won't change the behaviour of the Component.
 		//
 		inline void showIf(std::function<bool()> _fn_show_if);
 
 		//
-		// Returns true when both hidden is false and fn_show_if returns true
+		// Returns the result of fn_show_if (if it has been set), or the hidden
+		// property if not
 		//
 		inline bool isHidden() const;
 
@@ -262,22 +266,16 @@ namespace paint_tool {
 		//
 		// When true, the Component is not drawn and cannot be interacted with.
 		//
-		// A Component is drawn when hidden is false, and fn_show_if returns
-		// true.
+		// This property is defunct once showIf has been called, as the return
+		// value of fn_show_if takes priority.
 		//
 		bool hidden;
 
 		//
-		// When this function returns true, the Component will be drawn
-		// (assuming hidden is also false).
+		// When this function returns true, the Component will be drawn.
 		//
 		// Much like hidden, if this function returns false, the Component will
 		// not be interactive.
-		//
-		// A Component is drawn when fn_show_if returns true, and hidden is
-		// false.
-		//
-		// By default, this function returns true.
 		//
 		std::function<bool()> fn_show_if;
 	};
@@ -409,7 +407,7 @@ void paint_tool::Component::showIf(std::function<bool()> _fn_show_if) {
 }
 
 bool paint_tool::Component::isHidden() const {
-	return (!hidden && fn_show_if());
+	return fn_show_if ? fn_show_if() : hidden;
 }
 
 bool paint_tool::Component::isInteractive() const {

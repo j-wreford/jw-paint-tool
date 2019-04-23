@@ -11,7 +11,7 @@ paint_tool::Component::Component(
 	style(new ComponentStyle()),
 	alignment(ALIGN_MANUAL),
 	hidden(false),
-	fn_show_if([]() { return true; }) {
+	fn_show_if(nullptr) {
 	//
 }
 
