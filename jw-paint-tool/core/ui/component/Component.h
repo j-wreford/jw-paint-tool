@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 #include <algorithm>
+#include <functional>
 
 #include "EasyGraphics.h"
 #include "core\enum\LayoutManagerEnum.h"
@@ -129,6 +130,22 @@ namespace paint_tool {
 		inline void setLineThickness(const int &thickness, ComponentState state = COMPONENT_STATE_NORMAL);
 
 		//
+		// Sets the hidden property
+		//
+		inline void setHidden(const bool &_hidden);
+
+		//
+		// Sets the function used to determine whether or not the Component is
+		// drawn
+		//
+		inline void showIf(std::function<bool()> _fn_show_if);
+
+		//
+		// Returns true when both hidden is false and fn_show_if returns true
+		//
+		inline bool isHidden() const;
+
+		//
 		// Returns false; the base Component is not interactive
 		//
 		inline virtual bool isInteractive() const;
@@ -241,6 +258,28 @@ namespace paint_tool {
 		// Determines how the Component will be aligned within its parent rect
 		//
 		AlignStrategy alignment;
+
+		//
+		// When true, the Component is not drawn and cannot be interacted with.
+		//
+		// A Component is drawn when hidden is false, and fn_show_if returns
+		// true.
+		//
+		bool hidden;
+
+		//
+		// When this function returns true, the Component will be drawn
+		// (assuming hidden is also false).
+		//
+		// Much like hidden, if this function returns false, the Component will
+		// not be interactive.
+		//
+		// A Component is drawn when fn_show_if returns true, and hidden is
+		// false.
+		//
+		// By default, this function returns true.
+		//
+		std::function<bool()> fn_show_if;
 	};
 
 	typedef std::unique_ptr<Component> p_component_t;
@@ -359,6 +398,18 @@ void paint_tool::Component::setLineColour(const int &colour, ComponentState stat
 
 void paint_tool::Component::setLineThickness(const int &thickness, ComponentState state) {
 	style->setLineThickness(thickness, state);
+}
+
+void paint_tool::Component::setHidden(const bool &_hidden) {
+	hidden = _hidden;
+}
+
+void paint_tool::Component::showIf(std::function<bool()> _fn_show_if) {
+	fn_show_if = _fn_show_if;
+}
+
+bool paint_tool::Component::isHidden() const {
+	return (!hidden && fn_show_if());
 }
 
 bool paint_tool::Component::isInteractive() const {
