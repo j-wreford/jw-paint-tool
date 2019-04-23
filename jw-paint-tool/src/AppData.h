@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core\Singleton.h"
+#include "core\Observable.h"
 #include "core\IObserver.h"
 #include "core\ui\component\ValueComponent.h"
 #include "src\enum\ToolChoiceEnum.h"
@@ -17,8 +18,7 @@ namespace paint_tool {
 
 	class AppData :
 		public Singleton<AppData>,
-		// The data model can observe ValueComponents which store a ToolChoice
-		// value, in order to update the tool_choice property
+		public Observable<AppData>,
 		public IObserver<ValueComponent<ToolChoice>> {
 	public:
 
@@ -86,4 +86,5 @@ paint_tool::Drawing *paint_tool::AppData::getDrawingChoice() const {
 
 void paint_tool::AppData::setDrawingChoice(Drawing *drawing) {
 	drawing_choice = drawing;
+	notifyObservers();
 }
