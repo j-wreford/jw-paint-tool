@@ -64,6 +64,21 @@ public:
   void drawBitmap(const wchar_t* filename, int x, int y, int width, int height, int transparent=-1); // draws a bitmap file (.bmp) at {x, y} to the specified width and height - maintaining the aspect ratio is the responsibility of the caller - use the transparent parameter to turn a colour transparent (use 0xFFFFFFFF for no transparent colour) - see the comments at the top of EasyGraphics.h for library requirements
   void drawText(const wchar_t* text, int x, int y); // draws text using the default windows font and with a transparent background.  The top, left of the text are the (x, y) parameters.  Use the setHDEFFont method to change this font.
 
+  /* TEMP */
+
+  void drawPolygon(POINT *points, const int &num_points, const bool &fill) {
+
+	  if (!fill)
+		  ::SelectObject(hdcback, ::GetStockObject(NULL_BRUSH));
+	  ::Polygon(hdcback, points, num_points);
+
+	  if (!fill)
+		  ::SelectObject(hdcback, hbrush);
+
+	  if (immediatemode)
+		  EasyGraphics::onDraw();
+  }
+
   // captures the ostream stuff
   virtual int overflow(int c);  
   
