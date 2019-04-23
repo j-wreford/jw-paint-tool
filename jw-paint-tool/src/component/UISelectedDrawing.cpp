@@ -21,6 +21,15 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 	});
 
 
+	/* create the id label */
+
+	p_component_t id_label = std::make_unique<StaticLabel>(
+		"right_panel_selected_drawing_id_label",
+		L"Drawing ID: ",
+		"ui_panel_body"
+	);
+	p_group->addComponent(id_label);
+
 	/* create the label displayed when there is no drawing selected */
 
 	p_component_t no_selected_drawing_label = std::make_unique<StaticLabel>(
@@ -44,5 +53,22 @@ paint_tool::UISelectedDrawing::~UISelectedDrawing() {
 }
 
 void paint_tool::UISelectedDrawing::update(AppData *subject) {
-	bool a = true;
+	
+	/* update the id label */
+
+	if (Component *id_label = getComponent("right_panel_selected_drawing_id_label")) {
+
+		Component *component = subject->getDrawingChoice();
+
+		if (component) {
+
+			std::string id = component->getId();
+			std::wstring w_id(id.begin(), id.end());
+
+			dynamic_cast<StaticLabel *>(id_label)->setText(L"Drawing ID: " + w_id);
+		}
+		else {
+			dynamic_cast<StaticLabel *>(id_label)->setText(L"N/A");
+		}
+	}
 }
