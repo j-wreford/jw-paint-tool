@@ -221,7 +221,7 @@ void paint_tool::PaintTool::createRightPanel() {
 	/* create the group for the panel */
 
 	p_component_t panel = std::make_unique<ComponentGroup>(
-		"left_panel",
+		"right_panel",
 		true // fill background
 	);
 	ComponentGroup *p_panel = dynamic_cast<ComponentGroup *>(panel.get());
@@ -249,11 +249,39 @@ void paint_tool::PaintTool::createRightPanel() {
 	label_tools->setTextColour(ui_panel_heading);
 
 
+	/* create the group to contain various drawing property controls */
+
+	p_component_t group = std::make_unique<ComponentGroup>(
+		"right_panel_selected_drawing_controls"
+	);
+	ComponentGroup *p_group = dynamic_cast<ComponentGroup *>(group.get());
+	p_group->setLayoutStrategy(LAYOUT_VERTICAL);
+	p_group->setPosition(POINT{ left_margin, 0 });
+	p_group->showIf([]() {
+		return AppData::getInstance()->getDrawingChoice() != nullptr;
+	});
+
+
+	/* create the label displayed when there is no drawing selected */
+
+	p_component_t no_selected_drawing_label = std::make_unique<StaticLabel>(
+		"right_panel_selected_drawing_no_select_label",
+		L"No drawing selected.",
+		"ui_panel_body"
+	);
+	no_selected_drawing_label->setPosition(POINT{ left_margin, 0 });
+	no_selected_drawing_label->showIf([]() {
+		return AppData::getInstance()->getDrawingChoice() == nullptr;
+	});
+
+
 	/* add components to the group */
 
 	p_panel->addVerticalSpace(25);
 	p_panel->addComponent(label_tools);
-
+	p_panel->addVerticalSpace(25);
+	p_panel->addComponent(group);
+	p_panel->addComponent(no_selected_drawing_label);
 
 	/* add the panel to the ui */
 
