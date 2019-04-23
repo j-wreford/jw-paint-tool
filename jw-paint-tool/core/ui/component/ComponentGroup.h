@@ -124,7 +124,9 @@ namespace paint_tool {
 	protected:
 
 		//
-		// Returns the Component with the given id
+		// Returns the Component with the given id.
+		//
+		// If a Component couldn't be found, child ComponentGroups are queried.
 		//
 		inline Component *getComponent(const std::string &id);
 
@@ -254,6 +256,18 @@ paint_tool::Component *paint_tool::ComponentGroup::getComponent(const std::strin
 
 	if (it != components.end())
 		component = it->get();
+
+	/* search child components if one wasn't found */
+
+	else {
+
+		for (p_component_t &child_component : components) {
+
+			if (ComponentGroup *child_component_group = dynamic_cast<ComponentGroup *>(child_component.get()))
+				component = child_component_group->getComponent(id);
+		}
+
+	}
 
 	return component;
 }
