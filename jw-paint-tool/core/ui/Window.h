@@ -11,6 +11,7 @@
 #include "core\ui\component\StaticLabel.h"
 #include "core\ui\component\StaticImage.h"
 #include "core\ui\component\Button.h"
+#include "core\ui\component\TextField.h"
 #include "core\ui\LayoutManager.h"
 #include "core\ui\FontManager.h"
 
@@ -46,7 +47,7 @@ namespace paint_tool {
 		//
 		// Responds to character key press events
 		//
-		virtual void onChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+		virtual void onChar(UINT nChar, UINT nRepCnt, UINT nFlags) override;
 
 		//
 		// Performs hit tests on Components, if they are interactive.
