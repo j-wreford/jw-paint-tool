@@ -70,6 +70,14 @@ namespace paint_tool {
 		virtual void onKeyDown(UINT key, UINT flags) override;
 
 		//
+		// Passes the character key stroke down to any interactive child
+		// Components.
+		//
+		// This method must still be called when overriding it.
+		//
+		virtual void onChar(UINT key, UINT flags) override;
+
+		//
 		// Returns CPMNT_GROUP
 		//
 		inline virtual std::string getComponentType() const override;

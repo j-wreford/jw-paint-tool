@@ -133,25 +133,17 @@ void paint_tool::ComponentGroup::onKeyDown(UINT key, UINT flags) {
 	
 	InteractiveComponent::onKeyDown(key, flags);
 
-	/* find the first interactive & focused component */
-
-	auto it = std::find_if(components.begin(), components.end(),
-		[&](p_component_t &component) -> bool {
-
-		return component->isInteractive() &&
-			   component->hasState(COMPONENT_STATE_FOCUSED);
-	});
-
-	/* call onKeyDown on the found component */
-
-	if (it != components.end()) {
-
-		if (InteractiveComponent *interactive =
-			dynamic_cast<InteractiveComponent *>(it->get()))
-			interactive->onKeyDown(key, flags);
-	}
+	if (getActiveComponent())
+		getActiveComponent()->onKeyDown(key, flags);
 }
 
+void paint_tool::ComponentGroup::onChar(UINT key, UINT flags) {
+
+	InteractiveComponent::onChar(key, flags);
+
+	if (getActiveComponent())
+		getActiveComponent()->onKeyDown(key, flags);
+}
 
 bool paint_tool::ComponentGroup::isInteractive() const {
 
