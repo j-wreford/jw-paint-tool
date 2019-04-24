@@ -142,7 +142,7 @@ void paint_tool::ComponentGroup::onChar(UINT key, UINT flags) {
 	InteractiveComponent::onChar(key, flags);
 
 	if (getActiveComponent())
-		getActiveComponent()->onKeyDown(key, flags);
+		getActiveComponent()->onChar(key, flags);
 }
 
 bool paint_tool::ComponentGroup::isInteractive() const {
