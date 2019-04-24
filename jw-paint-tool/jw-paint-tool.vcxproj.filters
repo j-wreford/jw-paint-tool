@@ -135,6 +135,9 @@
     <ClInclude Include="src\component\UISelectedDrawing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="core\ui\component\TextField.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\ui\component\Component.cpp">
@@ -216,6 +219,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\AppData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\ui\component\TextField.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
