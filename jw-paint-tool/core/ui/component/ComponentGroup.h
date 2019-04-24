@@ -63,6 +63,13 @@ namespace paint_tool {
 		virtual void onMouseMoveLostHit() override;
 
 		//
+		// Passes the key stroke down to any interactive child Components.
+		//
+		// This method must still be called when overriding it.
+		//
+		virtual void onKeyDown(UINT key, UINT flags) override;
+
+		//
 		// Returns CPMNT_GROUP
 		//
 		inline virtual std::string getComponentType() const override;
