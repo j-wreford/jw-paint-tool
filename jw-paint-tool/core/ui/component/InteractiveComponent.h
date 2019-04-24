@@ -68,6 +68,12 @@ namespace paint_tool {
 		inline virtual void onKeyDown(UINT key, UINT flags);
 
 		//
+		// The operations to perform whenever a characterr key is pressed while
+		// the Component is focused
+		//
+		inline virtual void onChar(UINT key, UINT flags);
+
+		//
 		// Sets draggable to true or false
 		//
 		inline void setDraggable(const bool &_draggable);
@@ -187,6 +193,10 @@ void paint_tool::InteractiveComponent::onMouseMoveLostHit() {
 }
 
 void paint_tool::InteractiveComponent::onKeyDown(UINT key, UINT flags) {
+	//
+}
+
+void paint_tool::InteractiveComponent::onChar(UINT key, UINT flags) {
 	//
 }
 
