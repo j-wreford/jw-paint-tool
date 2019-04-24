@@ -34,6 +34,11 @@ namespace paint_tool {
 		//
 		virtual void onChar(UINT key, UINT flags) override;
 
+		//
+		// Returns true
+		//
+		inline virtual bool isInteractive() const override;
+
 	private:
 
 		//
@@ -41,4 +46,8 @@ namespace paint_tool {
 		//
 		const std::wstring placeholder;
 	};
+}
+
+bool paint_tool::TextField::isInteractive() const {
+	return true;
 }
