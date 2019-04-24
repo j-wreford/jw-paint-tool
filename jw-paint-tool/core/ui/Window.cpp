@@ -53,13 +53,14 @@ void paint_tool::Window::onDraw() {
 
 void paint_tool::Window::onKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
-	//if (nChar == (UINT) 'B')
-	//	debugSetShowBorders(!debug_show_borders);
-
-	//onDraw();
+	root_component->onKeyDown(nChar, nFlags);
+	
+	onDraw();
 }
 
 void paint_tool::Window::onChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
+
+	root_component->onChar(nChar, nFlags);
 
 	if (nChar == (UINT) 'i')
 		debug_show_ids ^= true;

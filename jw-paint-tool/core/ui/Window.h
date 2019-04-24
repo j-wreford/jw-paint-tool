@@ -44,7 +44,7 @@ namespace paint_tool {
 		virtual void onKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) override;
 
 		//
-		// Set flags
+		// Responds to character key press events
 		//
 		virtual void onChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 
