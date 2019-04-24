@@ -15,6 +15,21 @@ paint_tool::TestUI::TestUI(HINSTANCE hInstance) :
 	root->setLineColour(0xc0c0c0);
 	root->setLineThickness(2);
 
+
+
+	p_component_t text_field = std::make_unique<TextField>(
+		"text_field",
+		SIZE{ 150, 40 },
+		L"Textfield placeholder!",
+		"small_font"
+	);
+	text_field->setPosition(POINT{ 0, 0 });
+	text_field->setBgColour(0xe9e9e9);
+	dynamic_cast<ComponentGroup *>(text_field.get())->setMinimumSize(SIZE{ 150, 40 });
+	addComponent(text_field);
+
+
+
 	paint_tool::p_component_t test_label = std::make_unique<StaticLabel>(
 		"test_label",
 		L"Hello, world!",
