@@ -80,6 +80,9 @@ void paint_tool::TextField::onKeyDown(UINT key, UINT flags) {
 			}
 		}
 	}
+
+	if (key == 0x20)
+		setValue(getValue() += L" ");
 }
 
 void paint_tool::TextField::onChar(UINT key, UINT flags) {
