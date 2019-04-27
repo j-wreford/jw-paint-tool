@@ -9,28 +9,20 @@ paint_tool::TextField::TextField(
 	placeholder(placeholder) {
 	
 	setMinimumSize(size);
-	setLayoutStrategy(LAYOUT_HORIZONTAL);
-
-	/* create the box to act as the background */
-
-	p_component_t box = std::make_unique<StaticBox>(
-		id + "_text_field_box",
-		size
-	);
-
+	setLayoutStrategy(LAYOUT_VERTICAL);
+	setFillBackground(true);
 
 	/* create the label shown when there is a value */
 
 	p_component_t real_label = std::make_unique<StaticLabel>(
 		id + "_text_field_real_label",
-		L"",
+		placeholder, /* initalise the real label with the placeholder text, so that they can be positioned identically */
 		font_attr_set_id
 	);
+	real_label->setPosition(POINT{ 0, 0 });
 	real_label->showIf([this]() {
 		return getValue().length() > 0;
 	});
-	Component *p_real_label = real_label.get();
-	
 
 	/* create the placeholder label */
 
@@ -39,24 +31,18 @@ paint_tool::TextField::TextField(
 		placeholder,
 		font_attr_set_id
 	);
+	placeholder_label->setPosition(POINT{ 0, 0 });
 	placeholder_label->showIf([this]() {
 		return getValue().length() == 0;
 	});
-	Component *p_placeholder_label = placeholder_label.get();
 
 
 	/* add the components */
 
+	addVerticalSpace(5);
 	addComponent(real_label);
 	addComponent(placeholder_label);
-
-
-	/* position the components */
-
-	p_real_label->positionLeft();
-	p_real_label->positionMiddle();
-	p_placeholder_label->positionLeft();
-	p_placeholder_label->positionMiddle();
+	addVerticalSpace(5);
 }
 
 paint_tool::TextField::~TextField() {
@@ -74,10 +60,8 @@ void paint_tool::TextField::onKeyDown(UINT key, UINT flags) {
 		setValue(value);
 		if (Component *tmp = getComponent(getId() + "_text_field_real_label")) {
 
-			if (StaticLabel *label = dynamic_cast<StaticLabel *>(tmp)) {
+			if (StaticLabel *label = dynamic_cast<StaticLabel *>(tmp))
 				label->setText(getValue());
-				label->positionMiddle();
-			}
 		}
 	}
 
@@ -101,9 +85,7 @@ void paint_tool::TextField::onChar(UINT key, UINT flags) {
 
 	if (Component *tmp = getComponent(getId() + "_text_field_real_label")) {
 
-		if (StaticLabel *label = dynamic_cast<StaticLabel *>(tmp)) {
+		if (StaticLabel *label = dynamic_cast<StaticLabel *>(tmp))
 			label->setText(getValue());
-			label->positionMiddle();
-		}
 	}
 }
