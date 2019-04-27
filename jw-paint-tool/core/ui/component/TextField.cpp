@@ -28,14 +28,13 @@ paint_tool::TextField::TextField(
 
 	p_component_t placeholder_label = std::make_unique<StaticLabel>(
 		id + "_text_field_placeholder_label",
-		placeholder,
+		L"  " + placeholder + L"  ",
 		font_attr_set_id
 	);
 	placeholder_label->setPosition(POINT{ 0, 0 });
 	placeholder_label->showIf([this]() {
 		return getValue().length() == 0;
 	});
-
 
 	/* add the components */
 
@@ -61,7 +60,7 @@ void paint_tool::TextField::onKeyDown(UINT key, UINT flags) {
 		if (Component *tmp = getComponent(getId() + "_text_field_real_label")) {
 
 			if (StaticLabel *label = dynamic_cast<StaticLabel *>(tmp))
-				label->setText(getValue());
+				label->setText(L"  " + getValue() + L"  ");
 		}
 	}
 
@@ -86,6 +85,6 @@ void paint_tool::TextField::onChar(UINT key, UINT flags) {
 	if (Component *tmp = getComponent(getId() + "_text_field_real_label")) {
 
 		if (StaticLabel *label = dynamic_cast<StaticLabel *>(tmp))
-			label->setText(getValue());
+			label->setText(L"  " + getValue() + L"  ");
 	}
 }
