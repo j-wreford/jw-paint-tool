@@ -179,9 +179,11 @@ void paint_tool::ComponentGroup::addVerticalSpace(const int& height) {
 	components.push_back(
 		std::make_unique<FixedSpace>(
 			"fixed_space_" + std::to_string(components.size()),
-			SIZE{ 0, height }
+			SIZE{ 1, height }
 		)
 	);
+
+	recalculateSize();
 }
 
 void paint_tool::ComponentGroup::addHorizontalSpace(const int& width) {
@@ -189,9 +191,11 @@ void paint_tool::ComponentGroup::addHorizontalSpace(const int& width) {
 	components.push_back(
 		std::make_unique<FixedSpace>(
 			"fixed_space_" + std::to_string(components.size()),
-			SIZE{ width, 0 }
+			SIZE{ width, 1 }
 		)
 	);
+
+	recalculateSize();
 }
 
 void paint_tool::ComponentGroup::recalculateSize() {
@@ -240,6 +244,8 @@ void paint_tool::ComponentGroup::recalculateSize() {
 
 	if (rect.top < 0)
 		new_origin.y = -rect.top;
+
+	/* update the origin */
 
 	if (new_origin.x != origin.x ||
 		new_origin.y != origin.y)
