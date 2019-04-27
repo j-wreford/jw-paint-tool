@@ -63,7 +63,7 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 	p_pos_group->setLayoutStrategy(LAYOUT_VERTICAL);
 
 
-	/* position group heading */
+	/* position group sub heading */
 
 	p_component_t pos_heading_label = std::make_unique<StaticLabel>(
 		"right_panel_selected_drawing_pos_heading_label",
@@ -75,18 +75,29 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 	p_pos_group->addVerticalSpace(15);
 
 
-	/* position group controls (LABEL FOR NOW) */
+	/* position group text field */
 
-	p_component_t pos_label = std::make_unique<StaticLabel>(
-		"right_panel_selected_drawing_pos_label",
-		L"N/A",
+	p_component_t pos_text_field = std::make_unique<TextField>(
+		"right_panel_selected_drawing_pos_text_field",
+		SIZE{ 0,0 },
+		L"x, y",
 		"ui_panel_body"
 	);
-	p_pos_group->addComponent(pos_label);
-	p_pos_group->addVerticalSpace(25);
+	pos_text_field->setBgColour(0xffffff);
+	pos_text_field->setLineThickness(2);
+	pos_text_field->setLineColour(AppData::UI_PANEL_ACTIVE);
+	pos_text_field->setTextColour(0x050505);
+	p_pos_group->addComponent(pos_text_field);
+
+
+	/* add the position group */
 
 	p_group->addComponent(pos_group);
 	p_group->addVerticalSpace(25);
+
+
+
+
 
 
 	/* create the colour group and controls */
@@ -115,7 +126,7 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 	/* colours group sub heading */
 
 	p_component_t cols_label = std::make_unique<StaticLabel>(
-		"right_panel_selected_drawing_pos_cols_label",
+		"right_panel_selected_drawing_cols_label",
 		L"Colours",
 		"ui_panel_sub_header"
 	);
