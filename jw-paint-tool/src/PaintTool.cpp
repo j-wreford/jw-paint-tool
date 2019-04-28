@@ -1,15 +1,8 @@
 #include "PaintTool.h"
 
-const COLORREF paint_tool::PaintTool::ui_panel_bg = 0x101010;
-const COLORREF paint_tool::PaintTool::ui_panel_text = 0xffffff;
-const COLORREF paint_tool::PaintTool::ui_panel_heading = RGB(0xff, 0x93, 0x3b);
-const COLORREF paint_tool::PaintTool::ui_panel_sub_heading = RGB(0x5b, 0xd2, 0xfe);
-const COLORREF paint_tool::PaintTool::ui_panel_active = 0x3f3f3f;
-const COLORREF paint_tool::PaintTool::ui_panel_focus = 0x101010;
-const COLORREF paint_tool::PaintTool::ui_panel_hover = 0x2b2b2b;
 
 paint_tool::PaintTool::PaintTool(HINSTANCE hInstance) :
-	Window(hInstance, 1280, 800) {
+	Window(hInstance, 1540, 800) {
 
 	::SetWindowText(getHWND(), L"Paint Tool");
 
@@ -70,6 +63,7 @@ void paint_tool::PaintTool::createUI() {
 
 	createLeftPanel();
 	createCanvas();
+	createRightPanel();
 }
 
 void paint_tool::PaintTool::createCanvas() {
@@ -97,9 +91,9 @@ void paint_tool::PaintTool::createLeftPanel() {
 	p_panel->setMinimumSize(SIZE{ 260, 800 });
 	p_panel->setLayoutStrategy(LAYOUT_VERTICAL);
 
-	p_panel->setBgColour(ui_panel_bg);
-	p_panel->setTextColour(ui_panel_text);
-	p_panel->setLineColour(ui_panel_bg);
+	p_panel->setBgColour(AppData::UI_PANEL_BG);
+	p_panel->setTextColour(AppData::UI_PANEL_TEXT);
+	p_panel->setLineColour(AppData::UI_PANEL_BG);
 
 
 	/* the x coordinate of each group within the panel */
@@ -115,7 +109,7 @@ void paint_tool::PaintTool::createLeftPanel() {
 		"ui_panel_header"
 	);
 	label_tools->setPosition(POINT{ left_margin, 0 });
-	label_tools->setTextColour(ui_panel_heading);
+	label_tools->setTextColour(AppData::UI_PANEL_HEADING);
 
 
 	/* 2.1 create the tool choice option group */
@@ -141,7 +135,7 @@ void paint_tool::PaintTool::createLeftPanel() {
 		L"Management",
 		"ui_panel_sub_header"
 	);
-	label_tools_management->setTextColour(ui_panel_sub_heading);
+	label_tools_management->setTextColour(AppData::UI_PANEL_SUB_HEADING);
 	p_tools_choice->addComponent(label_tools_management);
 	p_tools_choice->addVerticalSpace(15);
 
@@ -160,7 +154,7 @@ void paint_tool::PaintTool::createLeftPanel() {
 		L"Pens",
 		"ui_panel_sub_header"
 	);
-	label_tools_pens->setTextColour(ui_panel_sub_heading);
+	label_tools_pens->setTextColour(AppData::UI_PANEL_SUB_HEADING);
 
 	p_tools_choice->addVerticalSpace(25);
 	p_tools_choice->addComponent(label_tools_pens);
@@ -180,7 +174,7 @@ void paint_tool::PaintTool::createLeftPanel() {
 		L"Shapes",
 		"ui_panel_sub_header"
 	);
-	label_tools_shapes->setTextColour(ui_panel_sub_heading);
+	label_tools_shapes->setTextColour(AppData::UI_PANEL_SUB_HEADING);
 
 	p_tools_choice->addVerticalSpace(25);
 	p_tools_choice->addComponent(label_tools_shapes);
@@ -215,6 +209,56 @@ void paint_tool::PaintTool::createLeftPanel() {
 	addComponent(panel);
 }
 
+void paint_tool::PaintTool::createRightPanel() {
+
+	/* create the group for the panel */
+
+	p_component_t panel = std::make_unique<ComponentGroup>(
+		"right_panel",
+		true // fill background
+	);
+	ComponentGroup *p_panel = dynamic_cast<ComponentGroup *>(panel.get());
+	p_panel->setMinimumSize(SIZE{ 260, 800 });
+	p_panel->setLayoutStrategy(LAYOUT_VERTICAL);
+
+	p_panel->setBgColour(AppData::UI_PANEL_BG);
+	p_panel->setTextColour(AppData::UI_PANEL_TEXT);
+	p_panel->setLineColour(AppData::UI_PANEL_BG);
+
+
+	/* the x coordinate of each group within the panel */
+
+	const int left_margin = 30;
+
+
+	/* create the selected drawing heading label */
+
+	p_component_t label_tools = std::make_unique<StaticLabel>(
+		"right_panel_label_selected",
+		L"Selected Drawing",
+		"ui_panel_header"
+		);
+	label_tools->setPosition(POINT{ left_margin, 0 });
+	label_tools->setTextColour(AppData::UI_PANEL_HEADING);
+
+
+	/* create the selected drawing ui */
+
+	p_component_t selected_drawing = std::make_unique<UISelectedDrawing>();
+	selected_drawing->setPosition(POINT{ left_margin, 0 });
+
+	/* add components to the group */
+
+	p_panel->addVerticalSpace(25);
+	p_panel->addComponent(label_tools);
+	p_panel->addVerticalSpace(25);
+	p_panel->addComponent(selected_drawing);
+
+	/* add the panel to the ui */
+
+	addComponent(panel);
+}
+
 paint_tool::p_component_t paint_tool::PaintTool::makeToolChoiceItem(
 	const	std::string		&id,
 			ToolChoice		value,
@@ -231,12 +275,12 @@ paint_tool::p_component_t paint_tool::PaintTool::makeToolChoiceItem(
 
 	group->setMinimumSize(SIZE{ 200, 40 });
 
-	tool_choice->setBgColour(ui_panel_active, COMPONENT_STATE_ACTIVE);
-	tool_choice->setBgColour(ui_panel_focus, COMPONENT_STATE_FOCUSED);
-	tool_choice->setBgColour(ui_panel_hover, COMPONENT_STATE_HOVERED);
+	tool_choice->setBgColour(AppData::UI_PANEL_ACTIVE, COMPONENT_STATE_ACTIVE);
+	tool_choice->setBgColour(AppData::UI_PANEL_FOCUS, COMPONENT_STATE_FOCUSED);
+	tool_choice->setBgColour(AppData::UI_PANEL_HOVER, COMPONENT_STATE_HOVERED);
 
-	tool_choice->setLineColour(ui_panel_active, COMPONENT_STATE_FOCUSED);
-	tool_choice->setLineColour(ui_panel_active, COMPONENT_STATE_CHOSEN);
+	tool_choice->setLineColour(AppData::UI_PANEL_ACTIVE, COMPONENT_STATE_FOCUSED);
+	tool_choice->setLineColour(AppData::UI_PANEL_ACTIVE, COMPONENT_STATE_CHOSEN);
 	tool_choice->setLineThickness(2, COMPONENT_STATE_FOCUSED);
 	tool_choice->setLineThickness(2, COMPONENT_STATE_CHOSEN);
 

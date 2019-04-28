@@ -37,7 +37,7 @@ namespace paint_tool {
 		// Draws the background, if required, of the ComponentGroup.
 		//
 		// This method does not need to call the drawComponent() method of its
-		// children, as the Window drawSingleComponent() method does this.
+		// children - this is the responsibility of the Window.
 		//
 		virtual void drawComponent(EasyGraphics *ctx) const override;
 
@@ -61,6 +61,21 @@ namespace paint_tool {
 		//
 		virtual void onMouseMoveHit(const POINT &mouse, const bool& lmouse_down) override;
 		virtual void onMouseMoveLostHit() override;
+
+		//
+		// Passes the key stroke down to any interactive child Components.
+		//
+		// This method must still be called when overriding it.
+		//
+		virtual void onKeyDown(UINT key, UINT flags) override;
+
+		//
+		// Passes the character key stroke down to any interactive child
+		// Components.
+		//
+		// This method must still be called when overriding it.
+		//
+		virtual void onChar(UINT key, UINT flags) override;
 
 		//
 		// Returns CPMNT_GROUP
@@ -100,6 +115,11 @@ namespace paint_tool {
 		void addComponent(p_component_t &component);
 
 		//
+		// Removes a Component from the ComponentGroup
+		//
+		void removeComponent(const std::string &id);
+
+		//
 		// Adds a Spacer component to the group
 		//
 		void addVerticalSpace(const int& height);
@@ -124,7 +144,9 @@ namespace paint_tool {
 	protected:
 
 		//
-		// Returns the Component with the given id
+		// Returns the Component with the given id.
+		//
+		// If a Component couldn't be found, child ComponentGroups are queried.
 		//
 		inline Component *getComponent(const std::string &id);
 
@@ -254,6 +276,22 @@ paint_tool::Component *paint_tool::ComponentGroup::getComponent(const std::strin
 
 	if (it != components.end())
 		component = it->get();
+
+	/* search child components if one wasn't found */
+
+	else {
+
+		for (p_component_t &child_component : components) {
+
+			/* exit early if the previous iteration found a component */
+
+			if (component != nullptr)
+				break;
+
+			if (ComponentGroup *child_component_group = dynamic_cast<ComponentGroup *>(child_component.get()))
+				component = child_component_group->getComponent(id);
+		}
+	}
 
 	return component;
 }

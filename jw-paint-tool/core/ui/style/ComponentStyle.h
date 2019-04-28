@@ -63,6 +63,15 @@ namespace paint_tool {
 		const StyleSet *getEffectiveStyleSet(std::vector<ComponentState> states);
 
 		//
+		// Returns the pointer to the corresponding style property for the given
+		// component state
+		//
+		inline int *getTextColour(ComponentState state = COMPONENT_STATE_NORMAL) const;
+		inline int *getBgColour(ComponentState state = COMPONENT_STATE_NORMAL) const;
+		inline int *getLineColour(ComponentState state = COMPONENT_STATE_NORMAL) const;
+		inline int *getLineThickness(ComponentState state = COMPONENT_STATE_NORMAL) const;
+
+		//
 		// Sets the corresponding style property for the given component state.
 		//
 		// If state is not given, then the default style set is updated.
@@ -97,6 +106,38 @@ namespace paint_tool {
 		//
 		std::unique_ptr<StyleSet> effective_styleset;
 	};
+}
+
+int *paint_tool::ComponentStyle::getTextColour(ComponentState state) const {
+
+	auto it = state_styleset_map.find(state);
+
+	if (it != state_styleset_map.end())
+		return it->second->text_colour.get();
+}
+
+int *paint_tool::ComponentStyle::getBgColour(ComponentState state) const {
+
+	auto it = state_styleset_map.find(state);
+
+	if (it != state_styleset_map.end())
+		return it->second->bg_colour.get();
+}
+
+int *paint_tool::ComponentStyle::getLineColour(ComponentState state) const {
+
+	auto it = state_styleset_map.find(state);
+
+	if (it != state_styleset_map.end())
+		return it->second->line_colour.get();
+}
+
+int *paint_tool::ComponentStyle::getLineThickness(ComponentState state) const {
+
+	auto it = state_styleset_map.find(state);
+
+	if (it != state_styleset_map.end())
+		return it->second->line_thickness.get();
 }
 
 void paint_tool::ComponentStyle::setTextColour(const int &colour, ComponentState state) {

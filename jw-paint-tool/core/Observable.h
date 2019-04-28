@@ -10,9 +10,9 @@
 // Implements the subject aspect of the observer design pattern.
 //
 // The template argument, T, is the class type of the IObserver object that will
-// observer this observable object.
+// observe this observable object.
 //
-// It is the responsibility of the concrete Observer class to call
+// It is the responsibility of the concrete Observable class to call
 // notifyObservers whenever its own state changes.
 //
 
@@ -43,7 +43,7 @@ namespace paint_tool {
 
 		//
 		// A container of all registers IObservers that'll be notified whenever
-		// the state of Observable changes
+		// the state of this Observable changes
 		//
 		std::vector<IObserver<T> *> observers;
 	};

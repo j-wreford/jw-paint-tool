@@ -29,6 +29,12 @@ namespace paint_tool {
 		virtual void onLeftMouseUpHit(const POINT& mouse) override;
 
 		//
+		// In addition to updating the value, it correctly sets the chosen
+		// child ChoiceComponent
+		//
+		virtual void setValue(T _value) override;
+
+		//
 		// Returns the value of chosen_component, or default_value if
 		// chosen_component is a nullptr
 		//
@@ -64,7 +70,7 @@ paint_tool::ChoiceGroup<T>::~ChoiceGroup() {
 template <typename T>
 void paint_tool::ChoiceGroup<T>::onLeftMouseUpHit(const POINT& mouse) {
 
-	ComponentGroup::onLeftMouseUpHit(mouse);
+	ValueComponent<T>::onLeftMouseUpHit(mouse);
 
 	ChoiceComponent<T> *choice =
 		dynamic_cast<ChoiceComponent<T> *>(this->getFocusedComponent());
@@ -76,6 +82,40 @@ void paint_tool::ChoiceGroup<T>::onLeftMouseUpHit(const POINT& mouse) {
 
 		choice->setChosen(true);
 		this->setValue(choice->getValue());
+
+		chosen_component = choice;
+	}
+}
+
+template <typename T>
+void paint_tool::ChoiceGroup<T>::setValue(T _value) {
+
+	ValueComponent<T>::setValue(_value);
+
+	if (chosen_component) {
+		chosen_component->setChosen(false);
+		chosen_component = nullptr;
+	}
+
+	/* find the child ChoiceComponent that has this value */
+
+	ComponentGroup *group = dynamic_cast<ComponentGroup *>(this);
+
+	auto components = group->getChildComponents();
+
+	auto it = std::find_if(components->begin(), components->end(), [&_value](p_component_t &component) {
+		
+		if (ValueComponent<T> *tmp = dynamic_cast<ValueComponent<T> *>(component.get()))
+			return tmp->getValue() == _value;
+		return false;
+	});
+
+	/* if found, notify the choice component that it is chosen */
+
+	if (it != components->end()) {
+
+		ChoiceComponent<T> *choice = dynamic_cast<ChoiceComponent<T> *>(it->get());
+		choice->setChosen(true);
 
 		chosen_component = choice;
 	}

@@ -37,12 +37,15 @@ namespace paint_tool {
 		//
 		inline T getValue() const;
 
-	protected:
-
 		//
-		// Sets the value the ValueComponent holds
+		// Sets the value the ValueComponent holds.
 		//
-		inline void setValue(T _value);
+		// This method is virtual so that further derived ValueComponents
+		// may hook into the setValue chain. For instance, when a ChoiceGroup
+		// has its value changed, it must also notify the correct child
+		// ChoiceComponent that it was chosen.
+		//
+		virtual inline void setValue(T _value);
 
 	private:
 

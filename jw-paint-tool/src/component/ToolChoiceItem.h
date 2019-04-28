@@ -8,8 +8,7 @@
 //
 // ToolChoiceItem
 //
-// A tailored RadioItem for the tools choice RadioGroup UI component.
-//
+// A tailored ChoiceComponent for ToolChoice values.
 //
 
 namespace paint_tool {

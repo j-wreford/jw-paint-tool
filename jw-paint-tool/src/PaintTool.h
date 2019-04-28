@@ -3,6 +3,7 @@
 #include "core\ui\Window.h"
 #include "src\component\Canvas.h"
 #include "src\component\ToolChoiceItem.h"
+#include "src\component\UISelectedDrawing.h"
 #include "src\AppData.h"
 
 //
@@ -22,16 +23,6 @@ namespace paint_tool {
 
 	private:
 
-		//
-		// Colour constants
-		//
-		static const COLORREF ui_panel_bg;
-		static const COLORREF ui_panel_text;
-		static const COLORREF ui_panel_heading;
-		static const COLORREF ui_panel_sub_heading;
-		static const COLORREF ui_panel_active;
-		static const COLORREF ui_panel_focus;
-		static const COLORREF ui_panel_hover;
 
 		//
 		// Creates all the font sets for use in the application
@@ -49,9 +40,14 @@ namespace paint_tool {
 		void createCanvas();
 
 		//
-		// Creates the left panel
+		// Creates the left panel, holding the drawing tool option menu
 		//
 		void createLeftPanel();
+
+		//
+		// Creates the right panel, holding the currently select drawing menu
+		//
+		void createRightPanel();
 
 		//
 		// Creates and returns a ToolChoiceItem unique pointer

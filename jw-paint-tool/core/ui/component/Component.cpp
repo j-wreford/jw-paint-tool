@@ -9,7 +9,9 @@ paint_tool::Component::Component(
 	parent(nullptr),
 	states({ COMPONENT_STATE_NORMAL }),
 	style(new ComponentStyle()),
-	alignment(ALIGN_MANUAL) {
+	alignment(ALIGN_MANUAL),
+	hidden(false),
+	fn_show_if(nullptr) {
 	//
 }
 

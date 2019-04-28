@@ -67,18 +67,20 @@ void paint_tool::ComponentGroup::onLeftMouseUpHit(const POINT &mouse) {
 
 	InteractiveComponent::onLeftMouseUpHit(mouse);
 
-	/* 1. get the first interactive child component whose hit test passes */
+	/* get the first interactive child component whose hit test passes */
 
 	InteractiveComponent *hit_component = getFirstHitInteractiveComponent(mouse);
 
 	if (hit_component) {
 
-		/* 2.1 call onLeftMouseUpHit() on the hit child component */
+		/* call onLeftMouseUpHit() on the hit child component */
 
 		hit_component->onLeftMouseUpHit(
 			hit_component->getRelativePoint(mouse)
 		);
 	}
+
+	/* inform the component who passed the last left mouse up hit that it's lost it */
 #
 	if (last_lmuh && last_lmuh != hit_component)
 		last_lmuh->onLeftMouseUpLostHit();
@@ -100,23 +102,44 @@ void paint_tool::ComponentGroup::onMouseMoveHit(const POINT &mouse, const bool &
 
 	InteractiveComponent::onMouseMoveHit(mouse, lmouse_down);
 
-	/* 1. get the first interactive child component whose hit test passes */
+	/* handle dragging the last_mmh component first before attempting to
+	   call onMouseMoveHit on a new component. this fixes cases where dragging a
+	   component over another component, while the mouse was outside the
+	   boundaries of the original component, would cancel the drag. */
 
-	InteractiveComponent *hit_component = getFirstHitInteractiveComponent(mouse);
+	if (lmouse_down && last_mmh && last_mmh->isDraggable()) {
 
-	if (hit_component) {
+		/* in the cases where the user is dragging a component, but the mouse
+		   left the boundaries of it during dragging, we should still call
+		   onMoveMoveHit on the component even though it wasn't. this fixes
+		   cases where a very small component couldn't be dragged as the mouse
+		   couldn't stay within the boundaries. */
 
-		/* 2.1 call onMouseMoveHit() on the hit child component */
+		if (lmouse_down && last_mmh && last_mmh->isDraggable())
+			last_mmh->onMouseMoveHit(
+				last_mmh->getRelativePoint(mouse), lmouse_down
+			);
+	}
+
+	/* there's not a component being dragged; get the first interactive child
+	   component whose hit test passes */
+
+	else if (InteractiveComponent *hit_component = getFirstHitInteractiveComponent(mouse)) {
+
+		/* call onMouseMoveHit() on the hit child component */
 
 		hit_component->onMouseMoveHit(
 			hit_component->getRelativePoint(mouse), lmouse_down
 		);
+
+		/* call onMouseMoveLostHit on the last component to have onMouseMoveHit
+			called upon it */
+
+		if (last_mmh && last_mmh != hit_component)
+			last_mmh->onMouseMoveLostHit();
+
+		last_mmh = hit_component;
 	}
-
-	if (last_mmh && last_mmh != hit_component)
-		last_mmh->onMouseMoveLostHit();
-
-	last_mmh = hit_component;
 }
 
 void paint_tool::ComponentGroup::onMouseMoveLostHit() {
@@ -127,6 +150,22 @@ void paint_tool::ComponentGroup::onMouseMoveLostHit() {
 		last_mmh->onMouseMoveLostHit();
 
 	last_mmh = nullptr;
+}
+
+void paint_tool::ComponentGroup::onKeyDown(UINT key, UINT flags) {
+	
+	InteractiveComponent::onKeyDown(key, flags);
+
+	if (getActiveComponent())
+		getActiveComponent()->onKeyDown(key, flags);
+}
+
+void paint_tool::ComponentGroup::onChar(UINT key, UINT flags) {
+
+	InteractiveComponent::onChar(key, flags);
+
+	if (getActiveComponent())
+		getActiveComponent()->onChar(key, flags);
 }
 
 bool paint_tool::ComponentGroup::isInteractive() const {
@@ -158,14 +197,39 @@ void paint_tool::ComponentGroup::addComponent(paint_tool::p_component_t &compone
 	recalculateSize();
 }
 
+void paint_tool::ComponentGroup::removeComponent(const std::string &id) {
+
+	Component *removed = nullptr;
+
+	components.remove_if([&id, &removed](const p_component_t &component) {
+
+		if (component->getId() == id) {
+			removed = component.get();
+			return true;
+		}
+		return false;
+	});
+
+	if (last_lmdh == removed)
+		last_lmdh = nullptr;
+
+	if (last_lmuh == removed)
+		last_lmuh = nullptr;
+
+	if (last_mmh == removed)
+		last_mmh = nullptr;
+}
+
 void paint_tool::ComponentGroup::addVerticalSpace(const int& height) {
 
 	components.push_back(
 		std::make_unique<FixedSpace>(
 			"fixed_space_" + std::to_string(components.size()),
-			SIZE{ 0, height }
+			SIZE{ 1, height }
 		)
 	);
+
+	recalculateSize();
 }
 
 void paint_tool::ComponentGroup::addHorizontalSpace(const int& width) {
@@ -173,9 +237,11 @@ void paint_tool::ComponentGroup::addHorizontalSpace(const int& width) {
 	components.push_back(
 		std::make_unique<FixedSpace>(
 			"fixed_space_" + std::to_string(components.size()),
-			SIZE{ width, 0 }
+			SIZE{ width, 1 }
 		)
 	);
+
+	recalculateSize();
 }
 
 void paint_tool::ComponentGroup::recalculateSize() {
@@ -224,6 +290,8 @@ void paint_tool::ComponentGroup::recalculateSize() {
 
 	if (rect.top < 0)
 		new_origin.y = -rect.top;
+
+	/* update the origin */
 
 	if (new_origin.x != origin.x ||
 		new_origin.y != origin.y)

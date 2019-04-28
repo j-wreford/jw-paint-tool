@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 #include <algorithm>
+#include <functional>
 
 #include "EasyGraphics.h"
 #include "core\enum\LayoutManagerEnum.h"
@@ -94,6 +95,11 @@ namespace paint_tool {
 		inline AlignStrategy getAlignment() const;
 
 		//
+		// Returns the pointer to the style property
+		//
+		inline const ComponentStyle *getStyle() const;
+
+		//
 		// Gives the Component a new position
 		//
 		void setPosition(POINT position);
@@ -121,12 +127,33 @@ namespace paint_tool {
 		//
 		// Sets the corresponding style property for the given component state.
 		//
-		// If state is not given, then the default style set is updated.
+		// If state is not given, then the property for the default style set is
+		// updated.
 		//
 		inline void setTextColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
 		inline void setBgColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
 		inline void setLineColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
 		inline void setLineThickness(const int &thickness, ComponentState state = COMPONENT_STATE_NORMAL);
+
+		//
+		// Sets the hidden property
+		//
+		inline void setHidden(const bool &_hidden);
+
+		//
+		// Sets the function used to determine whether or not the Component is
+		// drawn.
+		//
+		// Once this has been set, the hidden property is defunct and calling
+		// setHidden won't change the behaviour of the Component.
+		//
+		inline void showIf(std::function<bool()> _fn_show_if);
+
+		//
+		// Returns the result of fn_show_if (if it has been set), or the hidden
+		// property if not
+		//
+		inline bool isHidden() const;
 
 		//
 		// Returns false; the base Component is not interactive
@@ -168,11 +195,6 @@ namespace paint_tool {
 		);
 
 		//
-		// Returns the pointer to the style property
-		//
-		inline const ComponentStyle *getStyle() const;
-
-		//
 		// Gives the Component a new width, height, and position
 		//
 		inline void setRect(const RECT &_rect);
@@ -200,17 +222,6 @@ namespace paint_tool {
 		// Removes the state from the Component's states vector
 		//
 		void unsetState(ComponentState state);
-
-		//
-		// Sets the corresponding uses_ flag to true.
-		//
-		// Called by a concrete Component class whos draw method uses the
-		// corresponding property in some way.
-		//
-		// For example, a concrete Component who draws text will want to call
-		// willuseFrontColour() in their constructor.
-		//
-		inline void willUsePen(), willUseBackColour(), willUseFrontColour();
 
 	private:
 
@@ -254,10 +265,20 @@ namespace paint_tool {
 		AlignStrategy alignment;
 
 		//
-		// Set to true when the Component intends to use a drawing method
-		// which uses the corresponding property
+		// When true, the Component is not drawn and cannot be interacted with.
 		//
-		bool uses_bg, uses_fg, uses_pen;
+		// This property is defunct once showIf has been called, as the return
+		// value of fn_show_if takes priority.
+		//
+		bool hidden;
+
+		//
+		// When this function returns true, the Component will be drawn.
+		//
+		// Much like hidden, if this function returns false, the Component will
+		// not be interactive.
+		//
+		std::function<bool()> fn_show_if;
 	};
 
 	typedef std::unique_ptr<Component> p_component_t;
@@ -307,6 +328,10 @@ paint_tool::AlignStrategy paint_tool::Component::getAlignment() const {
 	return alignment;
 }
 
+const paint_tool::ComponentStyle *paint_tool::Component::getStyle() const {
+	return style;
+}
+
 void paint_tool::Component::positionLeft() {
 
 	setPosition(POINT{
@@ -321,10 +346,6 @@ void paint_tool::Component::positionTop() {
 		getPosition().x,
 		0
 	});
-}
-
-const paint_tool::ComponentStyle *paint_tool::Component::getStyle() const {
-	return style;
 }
 
 void paint_tool::Component::setRect(const RECT &_rect) {
@@ -378,6 +399,18 @@ void paint_tool::Component::setLineThickness(const int &thickness, ComponentStat
 	style->setLineThickness(thickness, state);
 }
 
+void paint_tool::Component::setHidden(const bool &_hidden) {
+	hidden = _hidden;
+}
+
+void paint_tool::Component::showIf(std::function<bool()> _fn_show_if) {
+	fn_show_if = _fn_show_if;
+}
+
+bool paint_tool::Component::isHidden() const {
+	return fn_show_if ? !fn_show_if() : hidden;
+}
+
 bool paint_tool::Component::isInteractive() const {
 	return false;
 }
@@ -392,16 +425,4 @@ bool paint_tool::Component::hasState(ComponentState state) const {
 
 void paint_tool::Component::recalculateSize() {
 	//
-}
-
-void paint_tool::Component::willUsePen() {
-	uses_pen = true;
-}
-
-void paint_tool::Component::willUseFrontColour() {
-	uses_fg = true;
-}
-
-void paint_tool::Component::willUseBackColour() {
-	uses_bg = true;
 }

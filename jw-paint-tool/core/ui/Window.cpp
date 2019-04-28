@@ -53,13 +53,18 @@ void paint_tool::Window::onDraw() {
 
 void paint_tool::Window::onKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
-	//if (nChar == (UINT) 'B')
-	//	debugSetShowBorders(!debug_show_borders);
-
-	//onDraw();
+	root_component->onKeyDown(nChar, nFlags);
+	
+	onDraw();
 }
 
 void paint_tool::Window::onChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
+
+	root_component->onChar(nChar, nFlags);
+
+	onDraw();
+
+	return;
 
 	if (nChar == (UINT) 'i')
 		debug_show_ids ^= true;
@@ -152,8 +157,13 @@ void paint_tool::Window::componentDrawer(
 	int	current_line_thickness
 ) {
 
+	/* bail if this component is hidden */
+
+	if (component->isHidden())
+		return;
+
 	/* adjust the colours being used and update the current_ variables
-		  so these can be set again after a child component changes them */
+		  so these can be used again after a child component changes them */
 
 	const ComponentStyle::StyleSet *style_set = component->getStyleSet();
 
