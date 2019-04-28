@@ -67,18 +67,20 @@ void paint_tool::ComponentGroup::onLeftMouseUpHit(const POINT &mouse) {
 
 	InteractiveComponent::onLeftMouseUpHit(mouse);
 
-	/* 1. get the first interactive child component whose hit test passes */
+	/* get the first interactive child component whose hit test passes */
 
 	InteractiveComponent *hit_component = getFirstHitInteractiveComponent(mouse);
 
 	if (hit_component) {
 
-		/* 2.1 call onLeftMouseUpHit() on the hit child component */
+		/* call onLeftMouseUpHit() on the hit child component */
 
 		hit_component->onLeftMouseUpHit(
 			hit_component->getRelativePoint(mouse)
 		);
 	}
+
+	/* inform the component who passed the last left mouse up hit that it's lost it */
 #
 	if (last_lmuh && last_lmuh != hit_component)
 		last_lmuh->onLeftMouseUpLostHit();
