@@ -69,6 +69,9 @@ void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
 		}
 
 		drawing->setPosition(mouse);
+		drawing->setBgColour(RGB(0x0, 0xff, 0x0));
+		drawing->setLineColour(RGB(0x0, 0x0, 0xff));
+		drawing->setLineThickness(2);
 
 		Drawing *p_drawing = dynamic_cast<Drawing *>(drawing.get());
 		addComponent(drawing);
