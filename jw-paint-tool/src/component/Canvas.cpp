@@ -97,16 +97,27 @@ void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
 
 	else {
 
-		AppData::getInstance()->setDrawingChoice(dynamic_cast<Drawing *>(getActiveComponent()));
+		/* if the move tool is selected, then enable dragging on the drawing
+		   which was just selected */
 
 		if (AppData::getInstance()->getToolChoice() == TOOL_MOVE) {
+
+			AppData::getInstance()->setDrawingChoice(dynamic_cast<Drawing *>(getActiveComponent()));
 
 			if (InteractiveComponent *tmp = getActiveComponent())
 				tmp->setDraggable(true);
 		}
+
+		/* if the delete tool is selected, then remove it from the Canvas' list
+		   of child components */
 				
-		if (AppData::getInstance()->getToolChoice() == TOOL_DEL)
-			bool a = true;
+		if (AppData::getInstance()->getToolChoice() == TOOL_DEL) {
+
+			AppData::getInstance()->setDrawingChoice(nullptr);
+
+			if (InteractiveComponent *tmp = getActiveComponent())
+				removeComponent(tmp->getId());
+		}
 	}
 }
 
