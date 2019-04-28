@@ -12,9 +12,6 @@ paint_tool::LineDrawing::~LineDrawing() {
 
 void paint_tool::LineDrawing::drawComponent(EasyGraphics *ctx) const {
 
-	// While testing, to make it obvious whats being drawn
-	ctx->setPenColour(EasyGraphics::clDarkMagenta, 2);
-
 	std::list<POINT *> points = getPoints();
 
 	if (points.size() > 0) {
