@@ -102,23 +102,39 @@ void paint_tool::ComponentGroup::onMouseMoveHit(const POINT &mouse, const bool &
 
 	InteractiveComponent::onMouseMoveHit(mouse, lmouse_down);
 
-	/* 1. get the first interactive child component whose hit test passes */
+	/* get the first interactive child component whose hit test passes */
 
 	InteractiveComponent *hit_component = getFirstHitInteractiveComponent(mouse);
 
 	if (hit_component) {
 
-		/* 2.1 call onMouseMoveHit() on the hit child component */
+		/* call onMouseMoveHit() on the hit child component */
 
 		hit_component->onMouseMoveHit(
 			hit_component->getRelativePoint(mouse), lmouse_down
 		);
+
+		/* call onMouseMoveLostHit on the last component to have onMouseMoveHit
+		   called upon it */
+
+		if (last_mmh && last_mmh != hit_component)
+			last_mmh->onMouseMoveLostHit();
+
+		last_mmh = hit_component;
 	}
+	else {
 
-	if (last_mmh && last_mmh != hit_component)
-		last_mmh->onMouseMoveLostHit();
+		/* in the cases where the user is dragging a component, but the mouse
+		   left the boundaries of it during dragging, we should still call
+		   onMoveMoveHit on the component even though it wasn't. this fixes
+		   cases where a very small component couldn't be dragged as the mouse
+		   couldn't stay within the boundaries. */
 
-	last_mmh = hit_component;
+		if (lmouse_down && last_mmh && last_mmh->isDraggable())
+			last_mmh->onMouseMoveHit(
+				last_mmh->getRelativePoint(mouse), lmouse_down
+			);
+	}
 }
 
 void paint_tool::ComponentGroup::onMouseMoveLostHit() {
