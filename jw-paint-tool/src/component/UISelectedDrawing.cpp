@@ -41,10 +41,13 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 	p_group->addVerticalSpace(25);
 
 
+	/* == BEGIN POSITION CONTROLS == */
+
+
 	/* create the position group */
 
 	p_component_t pos_group = std::make_unique<ComponentGroup>(
-		"right_panel_selected_drawing_pos_group"
+		"pos_group"
 	);
 	pos_group->showIf([]() {
 
@@ -66,7 +69,7 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 	/* position group sub heading */
 
 	p_component_t pos_heading_label = std::make_unique<StaticLabel>(
-		"right_panel_selected_drawing_pos_heading_label",
+		"pos_heading",
 		L"Position",
 		"ui_panel_sub_header"
 	);
@@ -173,16 +176,17 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 	p_group->addVerticalSpace(25);
 
 
+	/* == END POSITION CONTROLS == */
+
+	/* == BEGIN COLOUR CONTROLS == */
 
 
+	/* create the colour group */
 
-
-	/* create the colour group and controls */
-
-	p_component_t cols_group = std::make_unique<ComponentGroup>(
-		"right_panel_selected_drawing_cols_group"
+	p_component_t colours_group = std::make_unique<ComponentGroup>(
+		"colour_group"
 	);
-	cols_group->showIf([]() {
+	colours_group->showIf([]() {
 
 		/* only show this group if the selected drawing has one of (or both)
 		   colour properties */
@@ -196,31 +200,31 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 			});
 		}
 	});
-	ComponentGroup *p_cols_group = dynamic_cast<ComponentGroup *>(cols_group.get());
-	p_cols_group->setLayoutStrategy(LAYOUT_VERTICAL);
+	ComponentGroup *p_colours_group = dynamic_cast<ComponentGroup *>(colours_group.get());
+	p_colours_group->setLayoutStrategy(LAYOUT_VERTICAL);
 
 
 	/* colours group sub heading */
 
-	p_component_t cols_label = std::make_unique<StaticLabel>(
-		"right_panel_selected_drawing_cols_label",
+	p_component_t cols_heading_label = std::make_unique<StaticLabel>(
+		"colours_heading",
 		L"Colours",
 		"ui_panel_sub_header"
 	);
-	cols_label->setTextColour(AppData::UI_PANEL_SUB_HEADING);
-	p_cols_group->addComponent(cols_label);
-	p_cols_group->addVerticalSpace(15);
+	cols_heading_label->setTextColour(AppData::UI_PANEL_SUB_HEADING);
+	p_colours_group->addComponent(cols_heading_label);
+	p_colours_group->addVerticalSpace(15);
 
 
-	/* colours group fill colour group (JUST LABEL FOR NOW) */
+	/* fill colour controls group */
 
-	p_component_t col_fill_label = std::make_unique<StaticLabel>(
-		"right_panel_selected_drawing_col_fill_label",
-		L"Fill Colour",
-		"ui_panel_body"
+	p_component_t fill_col_controls_group = std::make_unique<ComponentGroup>(
+		"fill_col_controls_group"
 	);
-	col_fill_label->showIf([]() {
-	
+	ComponentGroup *p_fill_col_controls_group = dynamic_cast<ComponentGroup *>(fill_col_controls_group.get());
+	p_fill_col_controls_group->setLayoutStrategy(LAYOUT_VERTICAL);
+	p_fill_col_controls_group->showIf([]() {
+
 		/* only show the group if the selected drawing can be filled in */
 
 		if (Drawing *drawing = AppData::getInstance()->getDrawingChoice()) {
@@ -231,35 +235,84 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 				return prop == DRAW_PROP_COL_FILL;
 			});
 		}
-	
 	});
-	p_cols_group->addComponent(col_fill_label);
+
+
+	/* fill colour label */
+
+	p_component_t col_fill_label = std::make_unique<StaticLabel>(
+		"col_fill_label",
+		L"Fill Colour",
+		"ui_panel_body"
+	);
+	p_fill_col_controls_group->addComponent(col_fill_label);
+	p_fill_col_controls_group->addVerticalSpace(15);
+
+
+	/* fill colour control */
+
+	p_component_t col_fill_choice = std::make_unique<ChoiceGroup<int>>(
+		"col_fill_choice", 0xffffff
+	);
+	ChoiceGroup<int> *p_col_fill_choice = dynamic_cast<ChoiceGroup<int> *>(col_fill_choice.get());
+	p_col_fill_choice->setLayoutStrategy(LAYOUT_HORIZONTAL);
+	p_col_fill_choice->registerObserver(this);
+
+	p_component_t col_choice_red = makeColourChoiceItem("fill_col_red", RGB(0xff, 0x0, 0x0));
+	p_col_fill_choice->addComponent(col_choice_red);
+	p_col_fill_choice->addHorizontalSpace(15);
+
+	p_component_t col_choice_green = makeColourChoiceItem("fill_col_green", RGB(0x00, 0xff, 0x00));
+	p_col_fill_choice->addComponent(col_choice_green);
+	p_col_fill_choice->addHorizontalSpace(15);
+
+	p_component_t col_choice_blue = makeColourChoiceItem("fill_col_blue", RGB(0x00, 0x0, 0xff));
+	p_col_fill_choice->addComponent(col_choice_blue);
+	//p_col_fill_choice->addHorizontalSpace(15);
+
+	p_fill_col_controls_group->addComponent(col_fill_choice);
+
+	p_colours_group->addComponent(fill_col_controls_group);
+
+	p_group->addComponent(colours_group);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	/* colours group line colour group (JUST LABEL FOR NOW) */
 
-	p_component_t col_line_label = std::make_unique<StaticLabel>(
-		"right_panel_selected_drawing_col_line_label",
-		L"Line Colour",
-		"ui_panel_body"
-		);
-	col_line_label->showIf([]() {
-
-		/* only show the label if the selected drawing has a line colour */
-
-		if (Drawing *drawing = AppData::getInstance()->getDrawingChoice()) {
-
-			auto props = drawing->getProperties();
-
-			return std::any_of(props.begin(), props.end(), [](DrawingProperties prop) {
-				return prop == DRAW_PROP_COL_LINE;
-			});
-		}
-
-	});
-	p_cols_group->addComponent(col_line_label);
-
-	p_group->addComponent(cols_group);
+	//p_component_t col_line_label = std::make_unique<StaticLabel>(
+	//	"right_panel_selected_drawing_col_line_label",
+	//	L"Line Colour",
+	//	"ui_panel_body"
+	//	);
+	//col_line_label->showIf([]() {
+	//
+	//	/* only show the label if the selected drawing has a line colour */
+	//
+	//	if (Drawing *drawing = AppData::getInstance()->getDrawingChoice()) {
+	//
+	//		auto props = drawing->getProperties();
+	//
+	//		return std::any_of(props.begin(), props.end(), [](DrawingProperties prop) {
+	//			return prop == DRAW_PROP_COL_LINE;
+	//		});
+	//	}
+	//
+	//});
+	//p_cols_group->addComponent(col_line_label);
+	//
+	//p_group->addComponent(cols_group);
 
 
 	/* create the label displayed when there is no drawing selected */
@@ -318,6 +371,16 @@ void paint_tool::UISelectedDrawing::update(AppData *subject) {
 
 		dynamic_cast<TextField *>(pos_y_textfield)->setValue(std::to_wstring(pos.y));
 	}
+
+	/* update the fill colour choice value */
+
+	if (Component *col_fill_choice = getComponent("col_fill_choice")) {
+		
+		const ComponentStyle *style = component->getStyle();
+
+		if (int *colour = style->getBgColour())
+			dynamic_cast<ChoiceGroup<int> *>(col_fill_choice)->setValue(*colour);
+	}
 }
 
 void paint_tool::UISelectedDrawing::update(ValueComponent<std::wstring> *subject) {
@@ -360,4 +423,29 @@ void paint_tool::UISelectedDrawing::update(ValueComponent<std::wstring> *subject
 			//
 		}
 	}
+}
+
+void paint_tool::UISelectedDrawing::update(ValueComponent<int> *subject) {
+
+	Drawing *drawing = AppData::getInstance()->getDrawingChoice();
+
+	if (subject->getId() == "col_fill_choice")
+		drawing->setBgColour(subject->getValue());
+}
+
+paint_tool::p_component_t paint_tool::UISelectedDrawing::makeColourChoiceItem(
+	const	std::string	&id,
+	const	int			&value
+) {
+
+	p_component_t colour_choice = std::make_unique<ColourChoiceItem>(
+		id, SIZE{ 25, 25 }, value
+	);
+
+	colour_choice->setLineThickness(2);
+
+	colour_choice->setLineColour(0xffffff, COMPONENT_STATE_CHOSEN);
+	
+
+	return colour_choice;
 }

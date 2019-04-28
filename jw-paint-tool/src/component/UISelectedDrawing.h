@@ -2,10 +2,12 @@
 
 #include "core\IObserver.h"
 #include "core\ui\component\ComponentGroup.h"
+#include "core\ui\component\ChoiceGroup.h"
 #include "core\ui\component\StaticLabel.h"
 #include "core\ui\component\TextField.h"
 #include "src\AppData.h"
 #include "src\component\Drawing.h"
+#include "src\component\ColourChoiceItem.h"
 
 //
 // UISelectedDrawing
@@ -22,7 +24,8 @@ namespace paint_tool {
 	class UISelectedDrawing :
 		public ComponentGroup,
 		public IObserver<AppData>,
-		public IObserver<ValueComponent<std::wstring>> {
+		public IObserver<ValueComponent<std::wstring>>,
+		public IObserver<ValueComponent<int>> {
 	public:
 
 		UISelectedDrawing();
@@ -36,11 +39,26 @@ namespace paint_tool {
 
 		//
 		// Updates selected component properties based on the id of the given
-		// subject ValueComponent
+		// subject string ValueComponent
 		//
 		virtual void update(ValueComponent<std::wstring> *subject) override;
+
+		//
+		// Updates selected component properties based on the id of the given
+		// subject integer ValueComponent
+		//
+		virtual void update(ValueComponent<int> *subject) override;
+
 	private:
 
 		Drawing *selected_drawing;
+
+		//
+		// Creates and returns a ColourChoiceItem unique pointer
+		//
+		p_component_t makeColourChoiceItem(
+			const	std::string	&id,
+			const	int			&value
+		);
 	};
 }
