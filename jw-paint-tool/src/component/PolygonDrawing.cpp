@@ -2,6 +2,7 @@
 
 paint_tool::PolygonDrawing::PolygonDrawing(const std::string &id) :
 	Drawing(id) {
+	addProperty(DRAW_PROP_LINE_THICKNESS);
 	addProperty(DRAW_PROP_COL_LINE);
 	addProperty(DRAW_PROP_COL_FILL);
 }
