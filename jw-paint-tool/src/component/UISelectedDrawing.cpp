@@ -257,10 +257,57 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 	ChoiceGroup<int> *p_col_fill_choice = dynamic_cast<ChoiceGroup<int> *>(col_fill_choice.get());
 	p_col_fill_choice->registerObserver(this);
 
-
 	p_fill_col_controls_group->addComponent(col_fill_choice);
 
 	p_colours_group->addComponent(fill_col_controls_group);
+	p_colours_group->addVerticalSpace(15);
+
+
+	/* line colour controls group */
+
+	p_component_t line_col_controls_group = std::make_unique<ComponentGroup>(
+		"line_col_controls_group"
+	);
+	ComponentGroup *p_line_col_controls_group = dynamic_cast<ComponentGroup *>(line_col_controls_group.get());
+	p_line_col_controls_group->setLayoutStrategy(LAYOUT_VERTICAL);
+	p_line_col_controls_group->showIf([]() {
+
+		/* only show the group if the selected drawing can have its line colour changed */
+
+		if (Drawing *drawing = AppData::getInstance()->getDrawingChoice()) {
+
+			auto props = drawing->getProperties();
+
+			return std::any_of(props.begin(), props.end(), [](DrawingProperties prop) {
+				return prop == DRAW_PROP_COL_LINE;
+			});
+		}
+	});
+
+
+	/* fill colour label */
+
+	p_component_t col_line_label = std::make_unique<StaticLabel>(
+		"col_line_label",
+		L"Line Colour",
+		"ui_panel_body"
+		);
+	p_line_col_controls_group->addComponent(col_line_label);
+	p_line_col_controls_group->addVerticalSpace(15);
+
+
+	/* line colour control */
+
+	p_component_t col_line_choice = std::make_unique<ColourChoiceGroup>(
+		"col_line_choice", 0xffffff
+	);
+	ChoiceGroup<int> *p_col_line_choice = dynamic_cast<ChoiceGroup<int> *>(col_line_choice.get());
+	p_col_line_choice->registerObserver(this);
+
+	p_line_col_controls_group->addComponent(col_line_choice);
+
+	p_colours_group->addComponent(line_col_controls_group);
+
 
 	p_group->addComponent(colours_group);
 
@@ -369,6 +416,16 @@ void paint_tool::UISelectedDrawing::update(AppData *subject) {
 		if (int *colour = style->getBgColour())
 			dynamic_cast<ChoiceGroup<int> *>(col_fill_choice)->setValue(*colour);
 	}
+
+	/* update the line colour choice value */
+
+	if (Component *col_fill_choice = getComponent("col_line_choice")) {
+
+		const ComponentStyle *style = component->getStyle();
+
+		if (int *colour = style->getLineColour())
+			dynamic_cast<ChoiceGroup<int> *>(col_fill_choice)->setValue(*colour);
+	}
 }
 
 void paint_tool::UISelectedDrawing::update(ValueComponent<std::wstring> *subject) {
@@ -419,4 +476,7 @@ void paint_tool::UISelectedDrawing::update(ValueComponent<int> *subject) {
 
 	if (subject->getId() == "col_fill_choice")
 		drawing->setBgColour(subject->getValue());
+
+	if (subject->getId() == "col_line_choice")
+		drawing->setLineColour(subject->getValue());
 }
