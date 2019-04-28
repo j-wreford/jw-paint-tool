@@ -62,6 +62,10 @@ void paint_tool::Window::onChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	root_component->onChar(nChar, nFlags);
 
+	onDraw();
+
+	return;
+
 	if (nChar == (UINT) 'i')
 		debug_show_ids ^= true;
 
