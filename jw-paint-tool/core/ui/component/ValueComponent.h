@@ -37,8 +37,6 @@ namespace paint_tool {
 		//
 		inline T getValue() const;
 
-	protected:
-
 		//
 		// Sets the value the ValueComponent holds
 		//
