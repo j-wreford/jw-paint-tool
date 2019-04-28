@@ -171,6 +171,7 @@
     <ClInclude Include="dependencies\easy-graphics\EasyGraphics.h" />
     <ClInclude Include="src\AppData.h" />
     <ClInclude Include="src\component\Canvas.h" />
+    <ClInclude Include="src\component\ColourChoiceItem.h" />
     <ClInclude Include="src\component\Drawing.h" />
     <ClInclude Include="src\component\LineDrawing.h" />
     <ClInclude Include="src\component\PolygonDrawing.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="dependencies\easy-graphics\EasyGraphics.cpp" />
     <ClCompile Include="src\AppData.cpp" />
     <ClCompile Include="src\component\Canvas.cpp" />
+    <ClCompile Include="src\component\ColourChoiceItem.cpp" />
     <ClCompile Include="src\component\Drawing.cpp" />
     <ClCompile Include="src\component\LineDrawing.cpp" />
     <ClCompile Include="src\component\PolygonDrawing.cpp" />
