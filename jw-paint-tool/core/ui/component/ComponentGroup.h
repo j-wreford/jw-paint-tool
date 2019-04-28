@@ -278,10 +278,14 @@ paint_tool::Component *paint_tool::ComponentGroup::getComponent(const std::strin
 
 		for (p_component_t &child_component : components) {
 
+			/* exit early if the previous iteration found a component */
+
+			if (component != nullptr)
+				break;
+
 			if (ComponentGroup *child_component_group = dynamic_cast<ComponentGroup *>(child_component.get()))
 				component = child_component_group->getComponent(id);
 		}
-
 	}
 
 	return component;
