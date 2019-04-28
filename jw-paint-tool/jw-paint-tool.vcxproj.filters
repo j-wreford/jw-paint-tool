@@ -141,6 +141,9 @@
     <ClInclude Include="src\component\ColourChoiceItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\component\ColourChoiceGroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\ui\component\Component.cpp">
@@ -228,6 +231,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\component\ColourChoiceItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\ColourChoiceGroup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
