@@ -21,7 +21,8 @@ namespace paint_tool {
 
 	class UISelectedDrawing :
 		public ComponentGroup,
-		public IObserver<AppData>{
+		public IObserver<AppData>,
+		public IObserver<ValueComponent<std::wstring>> {
 	public:
 
 		UISelectedDrawing();
@@ -32,6 +33,12 @@ namespace paint_tool {
 		// selected drawing
 		//
 		virtual void update(AppData *subject) override;
+
+		//
+		// Updates selected component properties based on the id of the given
+		// subject ValueComponent
+		//
+		virtual void update(ValueComponent<std::wstring> *subject) override;
 	private:
 
 		Drawing *selected_drawing;

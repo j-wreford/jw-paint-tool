@@ -45,7 +45,7 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 
 	p_component_t pos_group = std::make_unique<ComponentGroup>(
 		"right_panel_selected_drawing_pos_group"
-		);
+	);
 	pos_group->showIf([]() {
 
 		/* only show this group if the selected drawing has the move property */
@@ -75,19 +75,96 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 	p_pos_group->addVerticalSpace(15);
 
 
-	/* position group text field */
+	/* position controls group */
 
-	p_component_t pos_text_field = std::make_unique<TextField>(
-		"right_panel_selected_drawing_pos_text_field",
-		SIZE{ 0,0 },
-		L"x, y",
+	p_component_t pos_controls_group = std::make_unique<ComponentGroup>(
+		"pos_controls_group"
+	);
+	ComponentGroup *p_pos_controls_group = dynamic_cast<ComponentGroup *>(pos_controls_group.get());
+	p_pos_controls_group->setLayoutStrategy(LAYOUT_HORIZONTAL);
+
+
+	/* position group x group */
+
+	p_component_t pos_x_group = std::make_unique<ComponentGroup>(
+		"pos_x_group"
+	);
+	ComponentGroup *p_pos_x_group = dynamic_cast<ComponentGroup *>(pos_x_group.get());
+	p_pos_x_group->setLayoutStrategy(LAYOUT_VERTICAL);
+
+
+	/* position group x label */
+
+	p_component_t pos_x_label = std::make_unique<StaticLabel>(
+		"pos_x_label",
+		L"x",
 		"ui_panel_body"
 	);
-	pos_text_field->setBgColour(0xffffff);
-	pos_text_field->setLineThickness(2);
-	pos_text_field->setLineColour(AppData::UI_PANEL_ACTIVE);
-	pos_text_field->setTextColour(0x050505);
-	p_pos_group->addComponent(pos_text_field);
+	pos_x_label->setTextColour(AppData::UI_PANEL_TEXT);
+	p_pos_x_group->addComponent(pos_x_label);
+	p_pos_x_group->addVerticalSpace(5);
+	
+
+	/* position group x textfield */
+
+	p_component_t pos_x_text_field = std::make_unique<TextField>(
+		"pos_x_text_field",
+		SIZE{ 0, 0 },
+		L"120",
+		"ui_panel_body"
+	);
+	TextField *p_pos_x_text_field = dynamic_cast<TextField *>(pos_x_text_field.get());
+	pos_x_text_field->setBgColour(0xffffff);
+	pos_x_text_field->setLineThickness(2);
+	pos_x_text_field->setLineColour(AppData::UI_PANEL_ACTIVE);
+	pos_x_text_field->setTextColour(0x050505);
+	p_pos_x_text_field->registerObserver(this);
+	p_pos_x_group->addComponent(pos_x_text_field);
+
+	p_pos_controls_group->addComponent(pos_x_group);
+	p_pos_controls_group->addHorizontalSpace(20);
+
+
+	/* position group y group */
+
+	p_component_t pos_y_group = std::make_unique<ComponentGroup>(
+		"pos_y_group"
+	);
+	ComponentGroup *p_pos_y_group = dynamic_cast<ComponentGroup *>(pos_y_group.get());
+	p_pos_y_group->setLayoutStrategy(LAYOUT_VERTICAL);
+
+
+	/* position group y label */
+
+	p_component_t pos_y_label = std::make_unique<StaticLabel>(
+		"pos_y_label",
+		L"y",
+		"ui_panel_body"
+	);
+	pos_y_label->setTextColour(AppData::UI_PANEL_TEXT);
+	p_pos_y_group->addComponent(pos_y_label);
+	p_pos_y_group->addVerticalSpace(5);
+
+
+	/* position group y textfield */
+
+	p_component_t pos_y_text_field = std::make_unique<TextField>(
+		"pos_y_text_field",
+		SIZE{ 0, 0 },
+		L"45",
+		"ui_panel_body"
+	);
+	TextField *p_pos_y_text_field = dynamic_cast<TextField *>(pos_y_text_field.get());
+	pos_y_text_field->setBgColour(0xffffff);
+	pos_y_text_field->setLineThickness(2);
+	pos_y_text_field->setLineColour(AppData::UI_PANEL_ACTIVE);
+	pos_y_text_field->setTextColour(0x050505);
+	p_pos_y_text_field->registerObserver(this);
+	p_pos_y_group->addComponent(pos_y_text_field);
+
+	p_pos_controls_group->addComponent(pos_y_group);
+
+	p_pos_group->addComponent(pos_controls_group);
 
 
 	/* add the position group */
@@ -224,12 +301,63 @@ void paint_tool::UISelectedDrawing::update(AppData *subject) {
 		dynamic_cast<StaticLabel *>(id_label)->setText(w_id);
 	}
 
-	/* update the position label */
+	/* update the position x textfield value */
 
-	if (Component *pos_label = getComponent("right_panel_selected_drawing_pos_label")) {
+	if (Component *pos_x_textfield = getComponent("pos_x_text_field")) {
 
 		POINT pos = component->getPosition();
 
-		dynamic_cast<StaticLabel *>(pos_label)->setText(L"x: " + std::to_wstring(pos.x) + L", y: " + std::to_wstring(pos.y));
+		dynamic_cast<TextField *>(pos_x_textfield)->setValue(std::to_wstring(pos.x));
+	}
+
+	/* update the position y textfield value */
+
+	if (Component *pos_y_textfield = getComponent("pos_y_text_field")) {
+
+		POINT pos = component->getPosition();
+
+		dynamic_cast<TextField *>(pos_y_textfield)->setValue(std::to_wstring(pos.y));
+	}
+}
+
+void paint_tool::UISelectedDrawing::update(ValueComponent<std::wstring> *subject) {
+
+	Drawing *drawing = AppData::getInstance()->getDrawingChoice();
+
+	if (subject->getId() == "pos_x_text_field") {
+
+		try {
+
+			int x = std::stoi(subject->getValue());
+
+			drawing->setPosition(
+				POINT{
+					x,
+					drawing->getPosition().y
+				}
+			);
+		}
+		catch (const std::exception& e) {
+			//
+		}
+	}
+
+	if (subject->getId() == "pos_y_text_field") {
+
+		try {
+
+			int y = std::stoi(subject->getValue());
+
+			drawing->setPosition(
+				POINT{
+					drawing->getPosition().x,
+					y
+				}
+			);
+
+		}
+		catch (const std::exception& e) {
+			//
+		}
 	}
 }
