@@ -8,7 +8,8 @@ paint_tool::TextField::TextField(
 ) : ValueComponent<std::wstring>(id, L""),
 	placeholder(placeholder) {
 	
-	setMinimumSize(size);
+	registerObserver(this); // observes itself so that it may update the label whenever the value changes
+	//setMinimumSize(size);
 	setLayoutStrategy(LAYOUT_VERTICAL);
 	setFillBackground(true);
 
@@ -19,7 +20,6 @@ paint_tool::TextField::TextField(
 		placeholder, /* initalise the real label with the placeholder text, so that they can be positioned identically */
 		font_attr_set_id
 	);
-	real_label->setPosition(POINT{ 0, 0 });
 	real_label->showIf([this]() {
 		return getValue().length() > 0;
 	});
@@ -31,17 +31,16 @@ paint_tool::TextField::TextField(
 		L"  " + placeholder + L"  ",
 		font_attr_set_id
 	);
-	placeholder_label->setPosition(POINT{ 0, 0 });
 	placeholder_label->showIf([this]() {
 		return getValue().length() == 0;
 	});
 
 	/* add the components */
 
-	addVerticalSpace(5);
+	addVerticalSpace(2);
 	addComponent(real_label);
 	addComponent(placeholder_label);
-	addVerticalSpace(5);
+	addVerticalSpace(3);
 }
 
 paint_tool::TextField::~TextField() {
@@ -57,11 +56,6 @@ void paint_tool::TextField::onKeyDown(UINT key, UINT flags) {
 	if (key == 0x8 && value.length() > 0) {
 		value.pop_back();
 		setValue(value);
-		if (Component *tmp = getComponent(getId() + "_text_field_real_label")) {
-
-			if (StaticLabel *label = dynamic_cast<StaticLabel *>(tmp))
-				label->setText(L"  " + getValue() + L"  ");
-		}
 	}
 
 	if (key == 0x20)
@@ -81,10 +75,10 @@ void paint_tool::TextField::onChar(UINT key, UINT flags) {
 	MultiByteToWideChar(CP_UTF8, 0, &ckey, sizeof(char), wckey, 1);
 
 	setValue(getValue() += wckey[0]);
+}
 
-	if (Component *tmp = getComponent(getId() + "_text_field_real_label")) {
+void paint_tool::TextField::update(ValueComponent<std::wstring> *subject) {
 
-		if (StaticLabel *label = dynamic_cast<StaticLabel *>(tmp))
-			label->setText(L"  " + getValue() + L"  ");
-	}
+	if (StaticLabel *label = dynamic_cast<StaticLabel *>(getComponent(getId() + "_text_field_real_label")))
+		label->setText(L"  " + getValue() + L"  ");
 }

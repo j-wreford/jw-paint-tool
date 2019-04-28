@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core\IObserver.h"
 #include "core\ui\component\ValueComponent.h"
 #include "core\ui\component\StaticBox.h"
 #include "core\ui\component\StaticLabel.h"
@@ -13,7 +14,8 @@
 namespace paint_tool {
 
 	class TextField :
-		public ValueComponent<std::wstring> {
+		public ValueComponent<std::wstring>,
+		public IObserver<ValueComponent<std::wstring>> {
 	public:
 
 		TextField(
@@ -33,6 +35,11 @@ namespace paint_tool {
 		// Updates the characters of the TextField
 		//
 		virtual void onChar(UINT key, UINT flags) override;
+
+		//
+		// Updates the real label text
+		//
+		virtual void update(ValueComponent<std::wstring> *subject) override;
 
 		//
 		// Returns true
