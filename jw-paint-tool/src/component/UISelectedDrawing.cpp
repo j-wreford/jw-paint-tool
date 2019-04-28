@@ -251,24 +251,12 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 
 	/* fill colour control */
 
-	p_component_t col_fill_choice = std::make_unique<ChoiceGroup<int>>(
+	p_component_t col_fill_choice = std::make_unique<ColourChoiceGroup>(
 		"col_fill_choice", 0xffffff
 	);
 	ChoiceGroup<int> *p_col_fill_choice = dynamic_cast<ChoiceGroup<int> *>(col_fill_choice.get());
-	p_col_fill_choice->setLayoutStrategy(LAYOUT_HORIZONTAL);
 	p_col_fill_choice->registerObserver(this);
 
-	p_component_t col_choice_red = makeColourChoiceItem("fill_col_red", RGB(0xff, 0x0, 0x0));
-	p_col_fill_choice->addComponent(col_choice_red);
-	p_col_fill_choice->addHorizontalSpace(15);
-
-	p_component_t col_choice_green = makeColourChoiceItem("fill_col_green", RGB(0x00, 0xff, 0x00));
-	p_col_fill_choice->addComponent(col_choice_green);
-	p_col_fill_choice->addHorizontalSpace(15);
-
-	p_component_t col_choice_blue = makeColourChoiceItem("fill_col_blue", RGB(0x00, 0x0, 0xff));
-	p_col_fill_choice->addComponent(col_choice_blue);
-	//p_col_fill_choice->addHorizontalSpace(15);
 
 	p_fill_col_controls_group->addComponent(col_fill_choice);
 
@@ -431,21 +419,4 @@ void paint_tool::UISelectedDrawing::update(ValueComponent<int> *subject) {
 
 	if (subject->getId() == "col_fill_choice")
 		drawing->setBgColour(subject->getValue());
-}
-
-paint_tool::p_component_t paint_tool::UISelectedDrawing::makeColourChoiceItem(
-	const	std::string	&id,
-	const	int			&value
-) {
-
-	p_component_t colour_choice = std::make_unique<ColourChoiceItem>(
-		id, SIZE{ 25, 25 }, value
-	);
-
-	colour_choice->setLineThickness(2);
-
-	colour_choice->setLineColour(0xffffff, COMPONENT_STATE_CHOSEN);
-	
-
-	return colour_choice;
 }

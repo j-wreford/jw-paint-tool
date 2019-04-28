@@ -1,13 +1,12 @@
 #pragma once
 
 #include "core\IObserver.h"
-#include "core\ui\component\ComponentGroup.h"
 #include "core\ui\component\ChoiceGroup.h"
 #include "core\ui\component\StaticLabel.h"
 #include "core\ui\component\TextField.h"
 #include "src\AppData.h"
 #include "src\component\Drawing.h"
-#include "src\component\ColourChoiceItem.h"
+#include "src\component\ColourChoiceGroup.h"
 
 //
 // UISelectedDrawing
@@ -52,13 +51,5 @@ namespace paint_tool {
 	private:
 
 		Drawing *selected_drawing;
-
-		//
-		// Creates and returns a ColourChoiceItem unique pointer
-		//
-		p_component_t makeColourChoiceItem(
-			const	std::string	&id,
-			const	int			&value
-		);
 	};
 }
