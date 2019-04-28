@@ -75,14 +75,6 @@ void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
 
 		switch (AppData::getInstance()->getToolChoice()) {
 
-		case TOOL_MOVE:
-			//
-			break;
-
-		case TOOL_DEL:
-			//
-			break;
-
 		case TOOL_PEN_FREEHAND:
 			draw_tool = new PenFreehandTool(p_drawing);
 			break;
@@ -107,9 +99,12 @@ void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
 
 		AppData::getInstance()->setDrawingChoice(dynamic_cast<Drawing *>(getActiveComponent()));
 
-		if (AppData::getInstance()->getToolChoice() == TOOL_MOVE)
-			bool a = true;
-		
+		if (AppData::getInstance()->getToolChoice() == TOOL_MOVE) {
+
+			if (InteractiveComponent *tmp = getActiveComponent())
+				tmp->setDraggable(true);
+		}
+				
 		if (AppData::getInstance()->getToolChoice() == TOOL_DEL)
 			bool a = true;
 	}
@@ -118,6 +113,8 @@ void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
 void paint_tool::Canvas::onLeftMouseUpHit(const POINT &mouse) {
 
 	ComponentGroup::onLeftMouseUpHit(mouse);
+
+	/* complete the drawing, if there is a draw tool */
 
 	if (draw_tool) {
 
@@ -130,6 +127,16 @@ void paint_tool::Canvas::onLeftMouseUpHit(const POINT &mouse) {
 
 		delete draw_tool;
 		draw_tool = nullptr;
+	}
+
+	/* else handle management tools (move, delete) */
+
+	else {
+
+		/* set draggable to false (in case the move tool is selected) */
+
+		if (InteractiveComponent * focused = getFocusedComponent())
+			focused->setDraggable(false);
 	}
 }
 
