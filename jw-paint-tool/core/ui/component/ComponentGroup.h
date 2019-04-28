@@ -115,6 +115,11 @@ namespace paint_tool {
 		void addComponent(p_component_t &component);
 
 		//
+		// Removes a Component from the ComponentGroup
+		//
+		void removeComponent(const std::string &id);
+
+		//
 		// Adds a Spacer component to the group
 		//
 		void addVerticalSpace(const int& height);

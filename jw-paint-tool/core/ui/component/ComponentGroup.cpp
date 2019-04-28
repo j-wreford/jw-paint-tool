@@ -176,6 +176,29 @@ void paint_tool::ComponentGroup::addComponent(paint_tool::p_component_t &compone
 	recalculateSize();
 }
 
+void paint_tool::ComponentGroup::removeComponent(const std::string &id) {
+
+	Component *removed = nullptr;
+
+	components.remove_if([&id, &removed](const p_component_t &component) {
+
+		if (component->getId() == id) {
+			removed = component.get();
+			return true;
+		}
+		return false;
+	});
+
+	if (last_lmdh == removed)
+		last_lmdh = nullptr;
+
+	if (last_lmuh == removed)
+		last_lmuh = nullptr;
+
+	if (last_mmh == removed)
+		last_mmh = nullptr;
+}
+
 void paint_tool::ComponentGroup::addVerticalSpace(const int& height) {
 
 	components.push_back(
