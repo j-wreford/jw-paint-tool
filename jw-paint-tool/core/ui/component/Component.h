@@ -95,6 +95,11 @@ namespace paint_tool {
 		inline AlignStrategy getAlignment() const;
 
 		//
+		// Returns the pointer to the style property
+		//
+		inline const ComponentStyle *getStyle() const;
+
+		//
 		// Gives the Component a new position
 		//
 		void setPosition(POINT position);
@@ -122,7 +127,8 @@ namespace paint_tool {
 		//
 		// Sets the corresponding style property for the given component state.
 		//
-		// If state is not given, then the default style set is updated.
+		// If state is not given, then the property for the default style set is
+		// updated.
 		//
 		inline void setTextColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
 		inline void setBgColour(const int &colour, ComponentState state = COMPONENT_STATE_NORMAL);
@@ -187,11 +193,6 @@ namespace paint_tool {
 			const	std::string	&id,
 			const	SIZE		&size
 		);
-
-		//
-		// Returns the pointer to the style property
-		//
-		inline const ComponentStyle *getStyle() const;
 
 		//
 		// Gives the Component a new width, height, and position
@@ -327,6 +328,10 @@ paint_tool::AlignStrategy paint_tool::Component::getAlignment() const {
 	return alignment;
 }
 
+const paint_tool::ComponentStyle *paint_tool::Component::getStyle() const {
+	return style;
+}
+
 void paint_tool::Component::positionLeft() {
 
 	setPosition(POINT{
@@ -341,10 +346,6 @@ void paint_tool::Component::positionTop() {
 		getPosition().x,
 		0
 	});
-}
-
-const paint_tool::ComponentStyle *paint_tool::Component::getStyle() const {
-	return style;
 }
 
 void paint_tool::Component::setRect(const RECT &_rect) {
