@@ -213,7 +213,6 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 	);
 	cols_heading_label->setTextColour(AppData::UI_PANEL_SUB_HEADING);
 	p_colours_group->addComponent(cols_heading_label);
-	p_colours_group->addVerticalSpace(15);
 
 
 	/* fill colour controls group */
@@ -236,7 +235,7 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 			});
 		}
 	});
-
+	p_fill_col_controls_group->addVerticalSpace(15);
 
 	/* fill colour label */
 
@@ -260,7 +259,6 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 	p_fill_col_controls_group->addComponent(col_fill_choice);
 
 	p_colours_group->addComponent(fill_col_controls_group);
-	p_colours_group->addVerticalSpace(15);
 
 
 	/* line colour controls group */
@@ -283,6 +281,7 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 			});
 		}
 	});
+	p_line_col_controls_group->addVerticalSpace(15);
 
 
 	/* fill colour label */
@@ -291,7 +290,7 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 		"col_line_label",
 		L"Line Colour",
 		"ui_panel_body"
-		);
+	);
 	p_line_col_controls_group->addComponent(col_line_label);
 	p_line_col_controls_group->addVerticalSpace(15);
 
@@ -506,7 +505,7 @@ void paint_tool::UISelectedDrawing::update(AppData *subject) {
 		const ComponentStyle *style = component->getStyle();
 
 		if (int *thickness = style->getLineThickness())
-			dynamic_cast<ChoiceGroup<int> *>(line_thickness_textfield)->setValue(*thickness);
+			dynamic_cast<TextField *>(line_thickness_textfield)->setValue(std::to_wstring(*thickness));
 	}
 }
 
@@ -548,7 +547,6 @@ void paint_tool::UISelectedDrawing::update(ValueComponent<std::wstring> *subject
 					y
 				}
 			);
-
 		}
 		catch (const std::exception& e) {
 			//
@@ -564,7 +562,6 @@ void paint_tool::UISelectedDrawing::update(ValueComponent<std::wstring> *subject
 			int thickness = std::stoi(subject->getValue());
 
 			drawing->setLineThickness(thickness);
-
 		}
 		catch (const std::exception& e) {
 			//
