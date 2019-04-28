@@ -120,6 +120,14 @@ void paint_tool::Canvas::onLeftMouseUpHit(const POINT &mouse) {
 	ComponentGroup::onLeftMouseUpHit(mouse);
 
 	if (draw_tool) {
+
+		/* select the finished drawing */
+
+		Component *last = getChildComponents()->back().get();
+		AppData::getInstance()->setDrawingChoice(dynamic_cast<Drawing *>(last));
+
+		/* clean up the draw tool */
+
 		delete draw_tool;
 		draw_tool = nullptr;
 	}
