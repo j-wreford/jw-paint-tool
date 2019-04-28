@@ -92,6 +92,11 @@ void paint_tool::ChoiceGroup<T>::setValue(T _value) {
 
 	ValueComponent<T>::setValue(_value);
 
+	if (chosen_component) {
+		chosen_component->setChosen(false);
+		chosen_component = nullptr;
+	}
+
 	/* find the child ChoiceComponent that has this value */
 
 	ComponentGroup *group = dynamic_cast<ComponentGroup *>(this);
@@ -108,9 +113,6 @@ void paint_tool::ChoiceGroup<T>::setValue(T _value) {
 	/* if found, notify the choice component that it is chosen */
 
 	if (it != components->end()) {
-
-		if (chosen_component)
-			chosen_component->setChosen(false);
 
 		ChoiceComponent<T> *choice = dynamic_cast<ChoiceComponent<T> *>(it->get());
 		choice->setChosen(true);
