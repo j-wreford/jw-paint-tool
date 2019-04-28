@@ -37,7 +37,7 @@ namespace paint_tool {
 		// Draws the background, if required, of the ComponentGroup.
 		//
 		// This method does not need to call the drawComponent() method of its
-		// children, as the Window drawSingleComponent() method does this.
+		// children - this is the responsibility of the Window.
 		//
 		virtual void drawComponent(EasyGraphics *ctx) const override;
 
