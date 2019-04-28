@@ -6,12 +6,16 @@ paint_tool::ColourChoiceItem::ColourChoiceItem(
 	const	int			&value
 ) : ChoiceComponent<int>(id, value) {
 
-	p_component_t box = std::make_unique<StaticBox>(
-		id + "_box", size
-	);
-	box->setBgColour(value);
+	setFillBackground(true);
+	setMinimumSize(size);
+	setBgColour(value);
 
-	addComponent(box);
+	//p_component_t box = std::make_unique<StaticBox>(
+	//	id + "_box", size
+	//);
+	//box->setBgColour(value);
+
+	//addComponent(box);
 }
 
 paint_tool::ColourChoiceItem::~ColourChoiceItem() {
