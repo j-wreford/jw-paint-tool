@@ -109,8 +109,8 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 
 	p_component_t pos_x_text_field = std::make_unique<TextField>(
 		"pos_x_text_field",
-		SIZE{ 0, 0 },
-		L"120",
+		SIZE{ 0, 25 },
+		L"x",
 		"ui_panel_body"
 	);
 	TextField *p_pos_x_text_field = dynamic_cast<TextField *>(pos_x_text_field.get());
@@ -150,8 +150,8 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 
 	p_component_t pos_y_text_field = std::make_unique<TextField>(
 		"pos_y_text_field",
-		SIZE{ 0, 0 },
-		L"45",
+		SIZE{ 0, 25 },
+		L"y",
 		"ui_panel_body"
 	);
 	TextField *p_pos_y_text_field = dynamic_cast<TextField *>(pos_y_text_field.get());
