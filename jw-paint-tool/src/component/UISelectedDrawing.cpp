@@ -308,8 +308,106 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 
 	p_colours_group->addComponent(line_col_controls_group);
 
-
 	p_group->addComponent(colours_group);
+	p_group->addVerticalSpace(25);
+
+	/* == END COLOUR CONTROLS == */
+
+	/* == BEGIN LINE THICKNESS CONTROL  == */
+
+
+	/* create the line group - eventualy, i'd like to offer a control in this
+	   group which lets the user change the style of the line (e.g, dotted) */
+
+	p_component_t line_group = std::make_unique<ComponentGroup>(
+		"line_group"
+	);
+	line_group->showIf([]() {
+
+		/* only show this group if the selected drawing has the line thickness
+		   property */
+
+		if (Drawing *drawing = AppData::getInstance()->getDrawingChoice()) {
+
+			auto props = drawing->getProperties();
+
+			return std::any_of(props.begin(), props.end(), [](DrawingProperties prop) {
+				return prop == DRAW_PROP_LINE_THICKNESS;
+			});
+		}
+	});
+	ComponentGroup *p_line_group = dynamic_cast<ComponentGroup *>(line_group.get());
+	p_line_group->setLayoutStrategy(LAYOUT_VERTICAL);
+
+
+	/* line group sub heading */
+
+	p_component_t line_heading_label = std::make_unique<StaticLabel>(
+		"line_heading",
+		L"Line",
+		"ui_panel_sub_header"
+	);
+	line_heading_label->setTextColour(AppData::UI_PANEL_SUB_HEADING);
+	p_line_group->addComponent(line_heading_label);
+	p_line_group->addVerticalSpace(15);
+
+
+	/* line thickness controls group */
+
+	p_component_t line_thickness_controls_group = std::make_unique<ComponentGroup>(
+		"line_thickness_controls_group"
+	);
+	ComponentGroup *p_line_thickness_controls_group = dynamic_cast<ComponentGroup *>(line_thickness_controls_group.get());
+	p_line_thickness_controls_group->setLayoutStrategy(LAYOUT_VERTICAL);
+	p_line_thickness_controls_group->showIf([]() {
+
+		/* only show this group if the selected drawing has the line thickness
+		   property*/
+
+		if (Drawing *drawing = AppData::getInstance()->getDrawingChoice()) {
+
+			auto props = drawing->getProperties();
+
+			return std::any_of(props.begin(), props.end(), [](DrawingProperties prop) {
+				return prop == DRAW_PROP_LINE_THICKNESS;
+			});
+		}
+	});
+
+
+	/* line thickness label */
+
+	p_component_t line_thickness_label = std::make_unique<StaticLabel>(
+		"col_fill_label",
+		L"Line Thickness",
+		"ui_panel_body"
+	);
+	p_line_thickness_controls_group->addComponent(line_thickness_label);
+	p_line_thickness_controls_group->addVerticalSpace(15);
+
+
+	/* line thickness textfield */
+
+
+	p_component_t line_thickness_text_field = std::make_unique<TextField>(
+		"line_thickness_text_field",
+		SIZE{ 0, 25 },
+		L"Thickness",
+		"ui_panel_body"
+	);
+	TextField *p_line_thickness_text_field = dynamic_cast<TextField *>(line_thickness_text_field.get());
+	line_thickness_text_field->setBgColour(0xffffff);
+	line_thickness_text_field->setLineThickness(2);
+	line_thickness_text_field->setLineColour(AppData::UI_PANEL_ACTIVE);
+	line_thickness_text_field->setTextColour(0x050505);
+	p_line_thickness_text_field->registerObserver(this);
+	p_line_thickness_controls_group->addComponent(line_thickness_text_field);
+
+	p_line_group->addComponent(line_thickness_controls_group);
+
+	p_group->addComponent(line_group);
+
+	/* == END LINE THICKNESS CONTROL  == */
 
 
 
@@ -321,33 +419,7 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 
 
 
-
-
-
-	/* colours group line colour group (JUST LABEL FOR NOW) */
-
-	//p_component_t col_line_label = std::make_unique<StaticLabel>(
-	//	"right_panel_selected_drawing_col_line_label",
-	//	L"Line Colour",
-	//	"ui_panel_body"
-	//	);
-	//col_line_label->showIf([]() {
-	//
-	//	/* only show the label if the selected drawing has a line colour */
-	//
-	//	if (Drawing *drawing = AppData::getInstance()->getDrawingChoice()) {
-	//
-	//		auto props = drawing->getProperties();
-	//
-	//		return std::any_of(props.begin(), props.end(), [](DrawingProperties prop) {
-	//			return prop == DRAW_PROP_COL_LINE;
-	//		});
-	//	}
-	//
-	//});
-	//p_cols_group->addComponent(col_line_label);
-	//
-	//p_group->addComponent(cols_group);
+	
 
 
 	/* create the label displayed when there is no drawing selected */
@@ -419,18 +491,30 @@ void paint_tool::UISelectedDrawing::update(AppData *subject) {
 
 	/* update the line colour choice value */
 
-	if (Component *col_fill_choice = getComponent("col_line_choice")) {
+	if (Component *col_line_choice = getComponent("col_line_choice")) {
 
 		const ComponentStyle *style = component->getStyle();
 
 		if (int *colour = style->getLineColour())
-			dynamic_cast<ChoiceGroup<int> *>(col_fill_choice)->setValue(*colour);
+			dynamic_cast<ChoiceGroup<int> *>(col_line_choice)->setValue(*colour);
+	}
+
+	/* update the line thickness textfield value */
+
+	if (Component *line_thickness_textfield = getComponent("line_thickness_text_field")) {
+
+		const ComponentStyle *style = component->getStyle();
+
+		if (int *thickness = style->getLineThickness())
+			dynamic_cast<ChoiceGroup<int> *>(line_thickness_textfield)->setValue(*thickness);
 	}
 }
 
 void paint_tool::UISelectedDrawing::update(ValueComponent<std::wstring> *subject) {
 
 	Drawing *drawing = AppData::getInstance()->getDrawingChoice();
+
+	/* update the selected drawing's x position */
 
 	if (subject->getId() == "pos_x_text_field") {
 
@@ -450,6 +534,8 @@ void paint_tool::UISelectedDrawing::update(ValueComponent<std::wstring> *subject
 		}
 	}
 
+	/* update the selected drawing's y position */
+
 	if (subject->getId() == "pos_y_text_field") {
 
 		try {
@@ -468,14 +554,34 @@ void paint_tool::UISelectedDrawing::update(ValueComponent<std::wstring> *subject
 			//
 		}
 	}
+
+	/* update the selected drawing's line thickness */
+
+	if (subject->getId() == "line_thickness_text_field") {
+
+		try {
+
+			int thickness = std::stoi(subject->getValue());
+
+			drawing->setLineThickness(thickness);
+
+		}
+		catch (const std::exception& e) {
+			//
+		}
+	}
 }
 
 void paint_tool::UISelectedDrawing::update(ValueComponent<int> *subject) {
 
 	Drawing *drawing = AppData::getInstance()->getDrawingChoice();
 
+	/* update the selected drawing's bg colour */
+
 	if (subject->getId() == "col_fill_choice")
 		drawing->setBgColour(subject->getValue());
+
+	/* update the selected drawing's line colour */
 
 	if (subject->getId() == "col_line_choice")
 		drawing->setLineColour(subject->getValue());
