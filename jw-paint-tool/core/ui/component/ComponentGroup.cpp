@@ -103,7 +103,9 @@ void paint_tool::ComponentGroup::onMouseMoveHit(const POINT &mouse, const bool &
 	InteractiveComponent::onMouseMoveHit(mouse, lmouse_down);
 
 	/* handle dragging the last_mmh component first before attempting to
-	   call onMouseMoveHit on a new component */
+	   call onMouseMoveHit on a new component. this fixes cases where dragging a
+	   component over another component, while the mouse was outside the
+	   boundaries of the original component, would cancel the drag. */
 
 	if (lmouse_down && last_mmh && last_mmh->isDraggable()) {
 
