@@ -9,8 +9,8 @@ paint_tool::TextField::TextField(
 	placeholder(placeholder) {
 	
 	registerObserver(this); // observes itself so that it may update the label whenever the value changes
-	//setMinimumSize(size);
-	setLayoutStrategy(LAYOUT_VERTICAL);
+	setMinimumSize(size);
+	setLayoutStrategy(LAYOUT_HORIZONTAL);
 	setFillBackground(true);
 
 	/* create the label shown when there is a value */
@@ -23,24 +23,26 @@ paint_tool::TextField::TextField(
 	real_label->showIf([this]() {
 		return getValue().length() > 0;
 	});
+	real_label->setAlignment(ALIGN_MIDDLE);
 
 	/* create the placeholder label */
 
 	p_component_t placeholder_label = std::make_unique<StaticLabel>(
 		id + "_text_field_placeholder_label",
-		L"  " + placeholder + L"  ",
+		placeholder,
 		font_attr_set_id
 	);
 	placeholder_label->showIf([this]() {
 		return getValue().length() == 0;
 	});
+	placeholder_label->setAlignment(ALIGN_MIDDLE);
 
 	/* add the components */
 
-	addVerticalSpace(2);
+	addHorizontalSpace(10);
 	addComponent(real_label);
 	addComponent(placeholder_label);
-	addVerticalSpace(3);
+	addHorizontalSpace(10);
 }
 
 paint_tool::TextField::~TextField() {
@@ -80,5 +82,5 @@ void paint_tool::TextField::onChar(UINT key, UINT flags) {
 void paint_tool::TextField::update(ValueComponent<std::wstring> *subject) {
 
 	if (StaticLabel *label = dynamic_cast<StaticLabel *>(getComponent(getId() + "_text_field_real_label")))
-		label->setText(L"  " + getValue() + L"  ");
+		label->setText(getValue());
 }
