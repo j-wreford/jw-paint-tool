@@ -2,9 +2,11 @@
 
 paint_tool::StaticBox::StaticBox(
 	const	std::string	&id,
-	const	SIZE		&size
+	const	SIZE		&size,
+	const	int			&radius
 ) :
-	Component(id, size) {
+	Component(id, size),
+	radius(radius) {
 	//
 }
 
@@ -17,5 +19,5 @@ void paint_tool::StaticBox::drawComponent(EasyGraphics *ctx) const {
 	POINT pos = getAbsolutePosition();
 	SIZE size = getSize();
 	
-	ctx->drawRectangle(pos.x, pos.y, size.cx, size.cy, true);
+	ctx->drawRectangle(pos.x, pos.y, size.cx, size.cy, radius, true);
 }
