@@ -1,8 +1,7 @@
 #include "UISelectedDrawing.h"
 
 paint_tool::UISelectedDrawing::UISelectedDrawing() :
-	ComponentGroup("right_panel_selected_drawing"),
-	selected_drawing(nullptr) {
+	ComponentGroup("right_panel_selected_drawing") {
 
 	setLayoutStrategy(LAYOUT_VERTICAL);
 
