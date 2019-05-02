@@ -10,6 +10,8 @@ paint_tool::LayoutManager::~LayoutManager() {
 
 void paint_tool::LayoutManager::layout(Component *component, LayoutStrategy parent_layout) {
 
+	component->recalculateSize();
+
 	/* 1. align this component */
 
 	switch (component->getAlignment()) {
@@ -88,17 +90,17 @@ void paint_tool::LayoutManager::layoutVertically(ComponentGroup *group) {
 
 	for (p_component_t &component : *group->getChildComponents()) {
 
-		if (component->isHidden())
+		if (component->isHidden()) {
 			continue;
-
+			
 		component->setPosition(POINT{
 			component->getPosition().x,
 			last_bottom
 		});
 
-		last_bottom = component->getRect().bottom;
-
 		layout(component.get(), group->getLayoutStrategy());
+
+		last_bottom = component->getRect().bottom;
 	}
 }
 
