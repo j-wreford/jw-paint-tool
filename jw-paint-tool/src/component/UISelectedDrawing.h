@@ -47,9 +47,5 @@ namespace paint_tool {
 		// subject integer ValueComponent
 		//
 		virtual void update(ValueComponent<int> *subject) override;
-
-	private:
-
-		Drawing *selected_drawing;
 	};
 }
