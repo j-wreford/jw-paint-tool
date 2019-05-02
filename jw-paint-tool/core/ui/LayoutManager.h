@@ -16,7 +16,7 @@
 // The LayoutManager has no concept of wrapping to a new line.
 //
 // Each Component has a position_style property. This property determines how
-// a Component is positioned on the oppose axis. For example, when using the
+// a Component is positioned on the opposite axis. For example, when using the
 // LAYOUT_VERTICAL layout_style, the position_style property will determine
 // its horizontal position (left, middle, or right).
 //
