@@ -47,5 +47,16 @@ namespace paint_tool {
 		// subject integer ValueComponent
 		//
 		virtual void update(ValueComponent<int> *subject) override;
+
+	private:
+
+		//
+		// Creates and formats a TextField to be used in this group
+		//
+		p_component_t makeTextField(
+			const	std::string		&id,
+			const	SIZE			&size,
+			const	std::wstring	&placeholder
+		);
 	};
 }

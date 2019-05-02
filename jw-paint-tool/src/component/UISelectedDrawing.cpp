@@ -109,18 +109,14 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 
 	/* position group x textfield */
 
-	p_component_t pos_x_text_field = std::make_unique<TextField>(
+	p_component_t pos_x_text_field = makeTextField(
 		"pos_x_text_field",
 		SIZE{ 0, 25 },
-		L"x",
-		"ui_panel_body"
+		L"x"
 	);
 	TextField *p_pos_x_text_field = dynamic_cast<TextField *>(pos_x_text_field.get());
-	pos_x_text_field->setBgColour(0xffffff);
-	pos_x_text_field->setLineThickness(2);
-	pos_x_text_field->setLineColour(AppData::UI_PANEL_ACTIVE);
-	pos_x_text_field->setTextColour(0x050505);
 	p_pos_x_text_field->registerObserver(this);
+
 	p_pos_x_group->addComponent(pos_x_text_field);
 
 	p_pos_controls_group->addComponent(pos_x_group);
@@ -150,17 +146,13 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 
 	/* position group y textfield */
 
-	p_component_t pos_y_text_field = std::make_unique<TextField>(
+	p_component_t pos_y_text_field = makeTextField(
 		"pos_y_text_field",
 		SIZE{ 0, 25 },
-		L"y",
-		"ui_panel_body"
+		L"y"
 	);
 	TextField *p_pos_y_text_field = dynamic_cast<TextField *>(pos_y_text_field.get());
-	pos_y_text_field->setBgColour(0xffffff);
-	pos_y_text_field->setLineThickness(2);
-	pos_y_text_field->setLineColour(AppData::UI_PANEL_ACTIVE);
-	pos_y_text_field->setTextColour(0x050505);
+
 	p_pos_y_text_field->registerObserver(this);
 	p_pos_y_group->addComponent(pos_y_text_field);
 
@@ -386,19 +378,14 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 
 	/* line thickness textfield */
 
-
-	p_component_t line_thickness_text_field = std::make_unique<TextField>(
+	p_component_t line_thickness_text_field = makeTextField(
 		"line_thickness_text_field",
 		SIZE{ 0, 25 },
-		L"Thickness",
-		"ui_panel_body"
+		L"Thickness"
 	);
 	TextField *p_line_thickness_text_field = dynamic_cast<TextField *>(line_thickness_text_field.get());
-	line_thickness_text_field->setBgColour(0xffffff);
-	line_thickness_text_field->setLineThickness(2);
-	line_thickness_text_field->setLineColour(AppData::UI_PANEL_ACTIVE);
-	line_thickness_text_field->setTextColour(0x050505);
 	p_line_thickness_text_field->registerObserver(this);
+
 	p_line_thickness_controls_group->addComponent(line_thickness_text_field);
 
 	p_line_group->addComponent(line_thickness_controls_group);
@@ -581,4 +568,31 @@ void paint_tool::UISelectedDrawing::update(ValueComponent<int> *subject) {
 
 	if (subject->getId() == "col_line_choice")
 		drawing->setLineColour(subject->getValue());
+}
+
+paint_tool::p_component_t paint_tool::UISelectedDrawing::makeTextField(
+	const	std::string		&id,
+	const	SIZE			&size,
+	const	std::wstring	&placeholder
+) {
+
+	p_component_t text_field = std::make_unique<TextField>(
+		id,
+		size,
+		placeholder,
+		"ui_panel_body"
+	);
+
+	text_field->setBgColour(AppData::UI_PANEL_HOVER);
+	text_field->setTextColour(0xd0d0d0);
+	text_field->setLineThickness(2);
+	text_field->setLineColour(AppData::UI_PANEL_ACTIVE);
+
+	text_field->setLineColour(0xa0a0a0, COMPONENT_STATE_HOVERED);
+
+	text_field->setBgColour(0xffffff, COMPONENT_STATE_FOCUSED);
+	text_field->setTextColour(0x050505, COMPONENT_STATE_FOCUSED);
+	//text_field->setLineColour(AppData::UI_PANEL_SUB_HEADING, COMPONENT_STATE_FOCUSED);
+
+	return text_field;
 }
