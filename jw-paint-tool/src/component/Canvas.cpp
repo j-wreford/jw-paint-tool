@@ -87,6 +87,10 @@ void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
 			draw_tool = new PenLineTool(p_drawing);
 			break;
 
+		case TOOL_SHAPE_TRI:
+			draw_tool = new ShapeTriTool(p_drawing);
+			break;
+
 		case TOOL_SHAPE_RECT:
 			draw_tool = new ShapeRectTool(p_drawing);
 			break;
