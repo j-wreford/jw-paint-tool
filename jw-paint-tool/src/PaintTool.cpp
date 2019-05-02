@@ -11,6 +11,7 @@ paint_tool::PaintTool::PaintTool(HINSTANCE hInstance) :
 	createFonts();
 	createUI();
 	
+	onDraw();
 	waitForClose();
 }
 
