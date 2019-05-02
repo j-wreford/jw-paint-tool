@@ -2,6 +2,7 @@
 
 #include "core\ui\component\ChoiceComponent.h"
 #include "core\ui\component\StaticBox.h"
+#include "src\AppData.h"
 
 namespace paint_tool {
 
