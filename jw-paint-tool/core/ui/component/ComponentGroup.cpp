@@ -227,26 +227,22 @@ void paint_tool::ComponentGroup::removeComponent(const std::string &id) {
 
 void paint_tool::ComponentGroup::addVerticalSpace(const int& height) {
 
-	components.push_back(
-		std::make_unique<FixedSpace>(
-			"fixed_space_" + std::to_string(components.size()),
-			SIZE{ 1, height }
-		)
+	p_component_t v_space = std::make_unique<FixedSpace>(
+		"fixed_space_" + std::to_string(components.size()),
+		SIZE{ 1, height }
 	);
 
-	recalculateSize();
+	addComponent(v_space);
 }
 
 void paint_tool::ComponentGroup::addHorizontalSpace(const int& width) {
 
-	components.push_back(
-		std::make_unique<FixedSpace>(
-			"fixed_space_" + std::to_string(components.size()),
-			SIZE{ width, 1 }
-		)
+	p_component_t h_space = std::make_unique<FixedSpace>(
+		"fixed_space_" + std::to_string(components.size()),
+		SIZE{ width, 1 }
 	);
 
-	recalculateSize();
+	addComponent(h_space);
 }
 
 void paint_tool::ComponentGroup::recalculateSize() {
