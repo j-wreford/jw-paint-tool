@@ -90,7 +90,7 @@ void paint_tool::LayoutManager::layoutVertically(ComponentGroup *group) {
 
 	for (p_component_t &component : *group->getChildComponents()) {
 
-		if (component->isHidden()) {
+		if (component->isHidden())
 			continue;
 			
 		component->setPosition(POINT{
