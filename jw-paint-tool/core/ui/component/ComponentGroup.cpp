@@ -81,7 +81,7 @@ void paint_tool::ComponentGroup::onLeftMouseUpHit(const POINT &mouse) {
 	}
 
 	/* inform the component who passed the last left mouse up hit that it's lost it */
-#
+
 	if (last_lmuh && last_lmuh != hit_component)
 		last_lmuh->onLeftMouseUpLostHit();
 
@@ -170,22 +170,27 @@ void paint_tool::ComponentGroup::onChar(UINT key, UINT flags) {
 
 bool paint_tool::ComponentGroup::isInteractive() const {
 
-	bool interactive = isDraggable();
+	/* hidden components are never considered interactive. immediately return
+	   false if this component group is hidden */
 
-	/* if this component group isn't draggable, test to see if any of the child
-	   components are interactive. if at least one is, then return true */
+	if (isHidden())
+		return false;
 
-	if (!interactive) {
+	/* for a component to be draggable, it must be interactive */
 
-		auto it = std::find_if(components.begin(), components.end(),
-			[](const p_component_t &component) {
-				return component->isInteractive();
-		});
+	if (isDraggable())
+		return true;
 
-		interactive = (it != components.end());
-	}
+	/* to get here, the component group is not yet considered interactive (but
+	   it is not hidden). to be considered interactive, at least one of its
+	   child components must be interactive. */
 
-	return interactive;
+	auto it = std::find_if(components.begin(), components.end(),
+		[](const p_component_t &component) {
+			return component->isInteractive();
+	});
+
+	return it != components.end();
 }
 
 void paint_tool::ComponentGroup::addComponent(paint_tool::p_component_t &component) {
