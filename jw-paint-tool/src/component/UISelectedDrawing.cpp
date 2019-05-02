@@ -284,7 +284,7 @@ paint_tool::UISelectedDrawing::UISelectedDrawing() :
 	p_line_col_controls_group->addVerticalSpace(15);
 
 
-	/* fill colour label */
+	/* line colour label */
 
 	p_component_t col_line_label = std::make_unique<StaticLabel>(
 		"col_line_label",
