@@ -3,7 +3,8 @@
 paint_tool::Canvas::Canvas(const std::string &id) :
 	ComponentGroup(id),
 	draw_tool(nullptr) {
-	//
+	setBgColour(0xffffff);
+	setFillBackground(true);
 }
 
 paint_tool::Canvas::~Canvas() {
