@@ -21,7 +21,8 @@ namespace paint_tool {
 
 		StaticBox(
 			const	std::string	&id,
-			const	SIZE		&size
+			const	SIZE		&size,
+			const	int			&radius = 0
 		);
 		~StaticBox();
 
@@ -34,6 +35,13 @@ namespace paint_tool {
 		// Returns CPMNT_STATIC_BOX
 		//
 		inline virtual std::string getComponentType() const override;
+
+	private:
+
+		//
+		// The radius of each corner of the drawn box
+		//
+		int radius;
 	};
 }
 

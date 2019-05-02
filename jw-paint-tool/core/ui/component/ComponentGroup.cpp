@@ -106,7 +106,7 @@ void paint_tool::ComponentGroup::onMouseMoveHit(const POINT &mouse, const bool &
 	   call onMouseMoveHit on a new component. this fixes cases where dragging a
 	   component over another component, while the mouse was outside the
 	   boundaries of the original component, would cancel the drag. */
-
+	 
 	if (lmouse_down && last_mmh && last_mmh->isDraggable()) {
 
 		/* in the cases where the user is dragging a component, but the mouse
@@ -139,6 +139,18 @@ void paint_tool::ComponentGroup::onMouseMoveHit(const POINT &mouse, const bool &
 			last_mmh->onMouseMoveLostHit();
 
 		last_mmh = hit_component;
+	}
+
+	/* this component was mouse-moved over, but over no child components. we
+	   still need to inform the last mouse moved hit child component that it's
+	   lost its hover state. */
+
+	else {
+
+		if (last_mmh)
+			last_mmh->onMouseMoveLostHit();
+
+		last_mmh = nullptr;
 	}
 }
 
