@@ -54,6 +54,11 @@ namespace paint_tool {
 		//
 		virtual void recalculateSize();
 
+		//
+		// Clears the POINT list. This method does not call recalculateSize
+		//
+		inline void clearPoints();
+
 		// remove getComponentType!!!!
 		virtual std::string getComponentType() const { return ""; };
 
@@ -89,11 +94,6 @@ namespace paint_tool {
 		// The series of points to draw lines between
 		//
 		std::list<POINT *> points;
-
-		//
-		// Clears the POINT list. This method does not call recalculateSize
-		//
-		inline void clearPoints();
 	};
 }
 
