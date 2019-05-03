@@ -183,6 +183,8 @@
     <ClInclude Include="src\draw-tool\PenFreehandTool.h" />
     <ClInclude Include="src\draw-tool\PenLineTool.h" />
     <ClInclude Include="src\draw-tool\ShapeRectTool.h" />
+    <ClInclude Include="src\draw-tool\ShapeStarTool.h" />
+    <ClInclude Include="src\draw-tool\ShapeTriTool.h" />
     <ClInclude Include="src\enum\DrawingPropertiesEnum.h" />
     <ClInclude Include="src\enum\ToolChoiceEnum.h" />
     <ClInclude Include="src\PaintTool.h" />
@@ -216,6 +218,8 @@
     <ClCompile Include="src\draw-tool\PenFreehandTool.cpp" />
     <ClCompile Include="src\draw-tool\PenLineTool.cpp" />
     <ClCompile Include="src\draw-tool\ShapeRectTool.cpp" />
+    <ClCompile Include="src\draw-tool\ShapeStarTool.cpp" />
+    <ClCompile Include="src\draw-tool\ShapeTriTool.cpp" />
     <ClCompile Include="src\PaintTool.cpp" />
     <ClCompile Include="core\ui\Window.cpp" />
     <ClCompile Include="Source.cpp" />

@@ -7,7 +7,9 @@
 #include "src\draw-tool\IDrawTool.h"
 #include "src\draw-tool\PenFreehandTool.h"
 #include "src\draw-tool\PenLineTool.h"
+#include "src\draw-tool\ShapeTriTool.h"
 #include "src\draw-tool\ShapeRectTool.h"
+#include "src\draw-tool\ShapeStarTool.h"
 
 //
 // Canvas

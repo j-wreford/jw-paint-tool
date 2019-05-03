@@ -144,6 +144,12 @@
     <ClInclude Include="src\component\ColourChoiceGroup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\draw-tool\ShapeTriTool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\draw-tool\ShapeStarTool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\ui\component\Component.cpp">
@@ -234,6 +240,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\component\ColourChoiceGroup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\draw-tool\ShapeTriTool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\draw-tool\ShapeStarTool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
