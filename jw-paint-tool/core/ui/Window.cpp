@@ -162,8 +162,13 @@ void paint_tool::Window::componentDrawer(
 	if (component->isHidden())
 		return;
 
+	/* bail if this is a fixed space component */
+
+	if (dynamic_cast<const FixedSpace *>(component))
+		return;
+
 	/* adjust the colours being used and update the current_ variables
-		  so these can be used again after a child component changes them */
+	   so these can be used again after a child component changes them */
 
 	const ComponentStyle::StyleSet *style_set = component->getStyleSet();
 
