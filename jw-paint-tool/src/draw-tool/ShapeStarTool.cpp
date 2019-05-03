@@ -19,7 +19,7 @@ void paint_tool::ShapeStarTool::draw(const POINT & mouse) {
 	int num_points = 5;
 	int segments = num_points * 2;
 	double segment_angle = (2 * M_PI) / 10;
-	double radius = (relative_point.x < relative_point.y ? relative_point.y : relative_point.x) / 2;
+	double radius = (relative_point.x < relative_point.y ? relative_point.y : relative_point.x) * 2;
 	
 	for (int i = segments + 1; i >= 0; i--) {
 
