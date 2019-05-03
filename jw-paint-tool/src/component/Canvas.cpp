@@ -95,6 +95,10 @@ void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
 			draw_tool = new ShapeRectTool(p_drawing);
 			break;
 
+		case TOOL_SHAPE_STAR:
+			draw_tool = new ShapeStarTool(p_drawing);
+			break;
+
 		default:
 			draw_tool = new PenFreehandTool(p_drawing);
 		}
