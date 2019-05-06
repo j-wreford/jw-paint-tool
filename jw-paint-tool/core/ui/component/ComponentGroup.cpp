@@ -317,7 +317,12 @@ void paint_tool::ComponentGroup::recalculateSize() {
 
 paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getFirstHitInteractiveComponent(const POINT &mouse) {
 	
-	auto it = std::find_if(components.begin(), components.end(),
+	/* since later components are drawn on top of earlier components, we need to
+	   check for a hit component in reverse order. this fixes issues where, when
+	   a mouse event occurred over two components whos rectangles both contain
+	   the mouse point, the one visually behind the other would be chosen. */
+
+	auto it = std::find_if(components.rbegin(), components.rend(),
 		[&mouse](p_component_t &component) -> bool {
 
 		if (component->isInteractive()) {
@@ -332,5 +337,5 @@ paint_tool::InteractiveComponent *paint_tool::ComponentGroup::getFirstHitInterac
 		return false;
 	});
 
-	return (it == components.end() ? nullptr : dynamic_cast<InteractiveComponent *>(it->get()));
+	return (it == components.rend() ? nullptr : dynamic_cast<InteractiveComponent *>(it->get()));
 }
