@@ -189,6 +189,7 @@
     <ClInclude Include="src\enum\ToolChoiceEnum.h" />
     <ClInclude Include="src\PaintTool.h" />
     <ClInclude Include="core\ui\Window.h" />
+    <ClInclude Include="src\PaintToolFileIO.h" />
     <ClInclude Include="src\TestUI.h" />
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +224,7 @@
     <ClCompile Include="src\PaintTool.cpp" />
     <ClCompile Include="core\ui\Window.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="src\PaintToolFileIO.cpp" />
     <ClCompile Include="src\TestUI.cpp" />
   </ItemGroup>
   <ItemGroup>
