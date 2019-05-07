@@ -74,8 +74,15 @@ void paint_tool::PaintTool::createCanvas() {
 	);
 	canvas->setBgColour(0xffffff);
 
-	(dynamic_cast<Canvas *>(canvas.get()))
-		->setMinimumSize(SIZE{ 1020, 800 });
+	if (Canvas *p_canvas = dynamic_cast<Canvas *>(canvas.get())) {
+
+		p_canvas->setMinimumSize(SIZE{ 1020, 800 });
+
+		/* inform the file i/o system that this is the Canvas we want to use
+		   when saving or loading to or from a file */
+
+		PaintToolFileIO::getInstance()->setCanvasPointer(p_canvas);
+	}
 
 	addComponent(canvas);
 }

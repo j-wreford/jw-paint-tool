@@ -5,6 +5,7 @@
 #include "src\component\ToolChoiceItem.h"
 #include "src\component\UISelectedDrawing.h"
 #include "src\AppData.h"
+#include "src\PaintToolFileIO.h"
 
 //
 // PaintTool
@@ -21,8 +22,23 @@ namespace paint_tool {
 		PaintTool(HINSTANCE hInstance);
 		~PaintTool();
 
-	private:
+		virtual void onKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) override {
+			Window::onKeyDown(nChar, nRepCnt, nFlags);
 
+			/* test the file open dialog */
+
+			if (nChar == (UINT) 118) {
+				PaintToolFileIO::getInstance()->showOpenDialog();
+			}
+
+			/* test the file save dialog */
+
+			if (nChar == (UINT)	119) {
+				PaintToolFileIO::getInstance()->showSaveDialog();
+			}
+		}
+
+	private:
 
 		//
 		// Creates all the font sets for use in the application
