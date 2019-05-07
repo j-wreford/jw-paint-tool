@@ -34,6 +34,12 @@ namespace paint_tool {
 		inline std::vector<DrawingProperties> getProperties() const;
 
 		//
+		// Returns the points property
+		//
+		inline const std::list<POINT *> getPoints() const;
+		inline std::list<POINT *> getPoints();
+
+		//
 		// Clears the POINT list and adds point to it
 		//
 		inline const Drawing& operator=(const POINT &point);
@@ -42,6 +48,11 @@ namespace paint_tool {
 		// Clears the POINT list and adds the given points list to it
 		//
 		inline const Drawing& operator=(const std::list<POINT> &points);
+
+		//
+		// Clears the POINT list and sets the given points list to it
+		//
+		inline const Drawing& operator=(const std::list<POINT *> points);
 
 		//
 		// Adds the given point to the POINT list
@@ -65,11 +76,6 @@ namespace paint_tool {
 	protected:
 
 		Drawing(const std::string &id);
-
-		//
-		// Returns the points property
-		//
-		inline std::list<POINT *> getPoints() const;
 
 		//
 		// Adds a drawing property to the DrawingProperties container
@@ -116,13 +122,25 @@ const paint_tool::Drawing& paint_tool::Drawing::operator=(const std::list<POINT>
 	return *this;
 }
 
+const paint_tool::Drawing& paint_tool::Drawing::operator=(const std::list<POINT *> _points) {
+	clearPoints();
+	points = _points;
+	recalculateSize();
+	return *this;
+}
+
+
 const paint_tool::Drawing& paint_tool::Drawing::operator+=(const POINT &point) {
 	points.push_back(new POINT(point));
 	recalculateSize();
 	return *this;
 }
 
-std::list<POINT *> paint_tool::Drawing::getPoints() const {
+const std::list<POINT *> paint_tool::Drawing::getPoints() const {
+	return points;
+}
+
+std::list<POINT *> paint_tool::Drawing::getPoints() {
 	return points;
 }
 

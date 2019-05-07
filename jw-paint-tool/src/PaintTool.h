@@ -5,6 +5,7 @@
 #include "src\component\ToolChoiceItem.h"
 #include "src\component\UISelectedDrawing.h"
 #include "src\AppData.h"
+#include "src\PaintToolFileIO.h"
 
 //
 // PaintTool
@@ -21,8 +22,23 @@ namespace paint_tool {
 		PaintTool(HINSTANCE hInstance);
 		~PaintTool();
 
-	private:
+		virtual void onKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) override {
+			Window::onKeyDown(nChar, nRepCnt, nFlags);
 
+			/* test the file open dialog */
+
+			if (nChar == (UINT) 118) {
+				PaintToolFileIO::getInstance()->showOpenDialog();
+			}
+
+			/* test the file save dialog */
+
+			if (nChar == (UINT)	119) {
+				PaintToolFileIO::getInstance()->showSaveDialog();
+			}
+		}
+
+	private:
 
 		//
 		// Creates all the font sets for use in the application
@@ -57,6 +73,15 @@ namespace paint_tool {
 					ToolChoice		value,
 			const	std::wstring	&text,
 			const	std::wstring	&icon
+		);
+
+		//
+		// Creates and returns a Button that's to be placed in a UI panel
+		//
+		p_component_t makeUIButton(
+			const	std::string					&id,
+			const	std::wstring				&text,
+			const	std::function<void(void)>	&callback
 		);
 	};
 }

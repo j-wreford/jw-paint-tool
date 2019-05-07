@@ -169,6 +169,10 @@
     <ClInclude Include="core\enum\LayoutManagerEnum.h" />
     <ClInclude Include="core\ui\style\ComponentStyle.h" />
     <ClInclude Include="dependencies\easy-graphics\EasyGraphics.h" />
+    <ClInclude Include="dependencies\rapidxml-1.13\rapidxml.hpp" />
+    <ClInclude Include="dependencies\rapidxml-1.13\rapidxml_iterators.hpp" />
+    <ClInclude Include="dependencies\rapidxml-1.13\rapidxml_print.hpp" />
+    <ClInclude Include="dependencies\rapidxml-1.13\rapidxml_utils.hpp" />
     <ClInclude Include="src\AppData.h" />
     <ClInclude Include="src\component\Canvas.h" />
     <ClInclude Include="src\component\ColourChoiceGroup.h" />
@@ -185,10 +189,12 @@
     <ClInclude Include="src\draw-tool\ShapeRectTool.h" />
     <ClInclude Include="src\draw-tool\ShapeStarTool.h" />
     <ClInclude Include="src\draw-tool\ShapeTriTool.h" />
+    <ClInclude Include="src\DrawingFactory.h" />
     <ClInclude Include="src\enum\DrawingPropertiesEnum.h" />
     <ClInclude Include="src\enum\ToolChoiceEnum.h" />
     <ClInclude Include="src\PaintTool.h" />
     <ClInclude Include="core\ui\Window.h" />
+    <ClInclude Include="src\PaintToolFileIO.h" />
     <ClInclude Include="src\TestUI.h" />
   </ItemGroup>
   <ItemGroup>
@@ -220,13 +226,18 @@
     <ClCompile Include="src\draw-tool\ShapeRectTool.cpp" />
     <ClCompile Include="src\draw-tool\ShapeStarTool.cpp" />
     <ClCompile Include="src\draw-tool\ShapeTriTool.cpp" />
+    <ClCompile Include="src\DrawingFactory.cpp" />
     <ClCompile Include="src\PaintTool.cpp" />
     <ClCompile Include="core\ui\Window.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="src\PaintToolFileIO.cpp" />
     <ClCompile Include="src\TestUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\Elephant.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dependencies\rapidxml-1.13\manual.html" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

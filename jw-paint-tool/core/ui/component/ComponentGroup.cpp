@@ -237,6 +237,13 @@ void paint_tool::ComponentGroup::removeComponent(const std::string &id) {
 		last_mmh = nullptr;
 }
 
+void paint_tool::ComponentGroup::removeAllComponents() {
+	components.clear();
+	last_lmdh = nullptr;
+	last_lmuh = nullptr;
+	last_mmh = nullptr;
+}
+
 void paint_tool::ComponentGroup::addVerticalSpace(const int& height) {
 
 	p_component_t v_space = std::make_unique<FixedSpace>(
