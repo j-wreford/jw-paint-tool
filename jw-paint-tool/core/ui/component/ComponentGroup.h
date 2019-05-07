@@ -105,6 +105,13 @@ namespace paint_tool {
 		inline std::list<p_component_t> *getChildComponents();
 
 		//
+		// Returns the Component with the given id.
+		//
+		// If a Component couldn't be found, child ComponentGroups are queried.
+		//
+		inline Component *getComponent(const std::string &id);
+
+		//
 		// Returns the minimum size of the ComponentGroup
 		//
 		inline SIZE getMinimumSize() const;
@@ -142,13 +149,6 @@ namespace paint_tool {
 		virtual void recalculateSize() override;
 
 	protected:
-
-		//
-		// Returns the Component with the given id.
-		//
-		// If a Component couldn't be found, child ComponentGroups are queried.
-		//
-		inline Component *getComponent(const std::string &id);
 
 		//
 		// Returns the focused component
