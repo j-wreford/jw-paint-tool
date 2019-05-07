@@ -6,8 +6,13 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <regex>
+#include <vector>
 
+#include "dependencies\rapidxml-1.13\rapidxml.hpp"
+#include "dependencies\rapidxml-1.13\rapidxml_print.hpp"
 #include "core\Singleton.h"
+#include "src\DrawingFactory.h"
 #include "src\component\Canvas.h"
 
 //
@@ -55,14 +60,14 @@ namespace paint_tool {
 		~PaintToolFileIO();
 
 		//
-		// The subject Canvas used during save/load operations
-		//
-		Canvas *canvas;
-
-		//
 		// The allowed file types when opening a file
 		//
 		static const COMDLG_FILTERSPEC FILE_TYPES[];
+
+		//
+		// The subject Canvas used during save/load operations
+		//
+		Canvas *canvas;
 
 		//
 		// Opens a file, restricting visible files to those with the .jwpt
@@ -76,13 +81,30 @@ namespace paint_tool {
 		// Drawing and point information is saved in an XML structure.
 		// The following is an example of a single polygon drawing.
 		//
-		// <drawing type="polygon" pos_x="15" pos_y="15" bg_col="0xffffff" line_col="0xff0000" line_thickness="2">
+		// <drawing type="polygon" pos_x="15" pos_y="15" bg_col="ffffff" line_col="ff0000" line_thickness="2">
 		//		<point x="10" y="20"/>
 		//		<point x="15" y="25"/>
 		//		<point x="20" y="30"/>
 		// </drawing>
 		//
 		HRESULT save(PCWSTR psz_file_name);
+
+		//
+		// A helper method to create a rapidxml node
+		//
+		static rapidxml::xml_node<> *makeNode(
+					rapidxml::xml_document<>	&doc,
+			const	std::string					&name
+		);
+
+		//
+		// A helper method to create a rapidxml attribute
+		//
+		static rapidxml::xml_attribute<> *makeAttribute(
+					rapidxml::xml_document<>	&doc,
+			const	std::string					&key,
+			const	std::string					&value
+		);
 	};
 }
 
