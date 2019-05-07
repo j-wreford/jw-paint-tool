@@ -4,11 +4,13 @@
 #include "src\AppData.h"
 #include "src\component\LineDrawing.h"
 #include "src\component\PolygonDrawing.h"
+#include "src\component\CircleDrawing.h"
 #include "src\draw-tool\IDrawTool.h"
 #include "src\draw-tool\PenFreehandTool.h"
 #include "src\draw-tool\PenLineTool.h"
 #include "src\draw-tool\ShapeTriTool.h"
 #include "src\draw-tool\ShapeRectTool.h"
+#include "src\draw-tool\ShapeCircleTool.h"
 #include "src\draw-tool\ShapeStarTool.h"
 
 //

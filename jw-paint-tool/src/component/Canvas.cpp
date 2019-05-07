@@ -63,7 +63,15 @@ void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
 			);
 		}
 
+		else if (AppData::getInstance()->getToolChoice() == TOOL_SHAPE_CIRLCE) {
+
+			drawing = std::make_unique<CircleDrawing>(
+				"drawing_" + std::to_string(getChildComponents()->size())
+			);
+		}
+
 		else {
+
 			drawing = std::make_unique<PolygonDrawing>(
 				"drawing_" + std::to_string(getChildComponents()->size())
 			);
@@ -93,6 +101,10 @@ void paint_tool::Canvas::onLeftMouseDownHit(const POINT &mouse) {
 
 		case TOOL_SHAPE_RECT:
 			draw_tool = new ShapeRectTool(p_drawing);
+			break;
+
+		case TOOL_SHAPE_CIRLCE:
+			draw_tool = new ShapeCircleTool(p_drawing);
 			break;
 
 		case TOOL_SHAPE_STAR:
