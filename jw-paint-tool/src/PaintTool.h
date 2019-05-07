@@ -74,5 +74,14 @@ namespace paint_tool {
 			const	std::wstring	&text,
 			const	std::wstring	&icon
 		);
+
+		//
+		// Creates and returns a Button that's to be placed in a UI panel
+		//
+		p_component_t makeUIButton(
+			const	std::string					&id,
+			const	std::wstring				&text,
+			const	std::function<void(void)>	&callback
+		);
 	};
 }

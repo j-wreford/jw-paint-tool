@@ -108,8 +108,38 @@ void paint_tool::PaintTool::createLeftPanel() {
 
 	const int left_margin = 30;
 
+	/* create the group that will hold the buttons */
 
-	/* 2. create the tools heading label with spacing above and below */
+	p_component_t file_group = std::make_unique<ComponentGroup>(
+		"file_buttons"
+	);
+	ComponentGroup *p_file_group = dynamic_cast<ComponentGroup *>(file_group.get());
+	p_file_group->setPosition(POINT{ left_margin, 0 });
+	p_file_group->setLayoutStrategy(LAYOUT_HORIZONTAL);
+
+
+	/* create the file buttons */
+
+	p_component_t file_open_button = makeUIButton(
+		"file_open_button",
+		L"Open",
+		[]() {PaintToolFileIO::getInstance()->showOpenDialog();}
+	);
+	p_file_group->addComponent(file_open_button);
+	p_file_group->addHorizontalSpace(20);
+
+	p_component_t file_save_button = makeUIButton(
+		"file_save_button",
+		L"Save",
+		[]() {PaintToolFileIO::getInstance()->showSaveDialog(); }
+	);
+	p_file_group->addComponent(file_save_button);
+
+	p_panel->addVerticalSpace(25);
+	p_panel->addComponent(file_group);
+
+
+	/* create the tools heading label with spacing above and below */
 
 	p_component_t label_tools = std::make_unique<StaticLabel>(
 		"left_panel_label_tools",
@@ -120,7 +150,7 @@ void paint_tool::PaintTool::createLeftPanel() {
 	label_tools->setTextColour(AppData::UI_PANEL_HEADING);
 
 
-	/* 2.1 create the tool choice option group */
+	/* create the tool choice option group */
 
 	p_component_t tools_choice = std::make_unique<ChoiceGroup<ToolChoice>>(
 		"tools_choice", TOOL_MOVE
@@ -135,7 +165,7 @@ void paint_tool::PaintTool::createLeftPanel() {
 
 	p_tools_choice->registerObserver(AppData::getInstance());
 
-	/* 2.1.0 create and add the management sub heading and options to the
+	/* create and add the management sub heading and options to the
 	   choice group */
 
 	p_component_t label_tools_management = std::make_unique<StaticLabel>(
@@ -154,7 +184,7 @@ void paint_tool::PaintTool::createLeftPanel() {
 	p_component_t tool_choice_del = makeToolChoiceItem("tool_del", TOOL_DEL, L"Delete", L"tools_choice_tool_del");
 	p_tools_choice->addComponent(tool_choice_del);
 	
-	/* 2.1.1 create and add the pens sub heading and options to the choice
+	/* create and add the pens sub heading and options to the choice
 	   group */
 
 	p_component_t label_tools_pens = std::make_unique<StaticLabel>(
@@ -175,7 +205,7 @@ void paint_tool::PaintTool::createLeftPanel() {
 	p_component_t tool_choice_pen_line = makeToolChoiceItem("tool_pen_line", TOOL_PEN_LINE, L"Line", L"tools_choice_tool_pen_line");
 	p_tools_choice->addComponent(tool_choice_pen_line);
 
-	/* 2.1.2 create and add the shapes sub heading and options */
+	/* create and add the shapes sub heading and options */
 
 	p_component_t label_tools_shapes = std::make_unique<StaticLabel>(
 		"label_tools_shapes",
@@ -204,7 +234,7 @@ void paint_tool::PaintTool::createLeftPanel() {
 	p_tools_choice->addComponent(tool_choice_shape_star);
 
 
-	/* 3. add the created components to the panel */
+	/* add the created components to the panel */
 
 	p_panel->addVerticalSpace(25);
 	p_panel->addComponent(label_tools);
@@ -212,7 +242,7 @@ void paint_tool::PaintTool::createLeftPanel() {
 	p_panel->addComponent(tools_choice);
 
 
-	/* final: add the group to the ui */
+	/* add the group to the ui */
 
 	addComponent(panel);
 }
@@ -293,4 +323,33 @@ paint_tool::p_component_t paint_tool::PaintTool::makeToolChoiceItem(
 	tool_choice->setLineThickness(2, COMPONENT_STATE_CHOSEN);
 
 	return tool_choice;
+}
+
+paint_tool::p_component_t paint_tool::PaintTool::makeUIButton(
+	const	std::string					&id,
+	const	std::wstring				&text,
+	const	std::function<void(void)>	&callback
+) {
+
+	p_component_t button = std::make_unique<Button>(
+		id, SIZE{ 90, 35 }, text, callback
+		);
+
+	button->setBgColour(AppData::UI_PANEL_HOVER);
+
+	button->setBgColour(0xffffff, COMPONENT_STATE_HOVERED);
+	button->setLineColour(0xc0c0c0, COMPONENT_STATE_HOVERED);
+	button->setTextColour(0x0f0f0f, COMPONENT_STATE_HOVERED);
+
+	button->setBgColour(AppData::UI_PANEL_BG, COMPONENT_STATE_ACTIVE);
+	button->setLineColour(0x000000, COMPONENT_STATE_ACTIVE);
+	button->setTextColour(0xffffff, COMPONENT_STATE_ACTIVE);
+
+	button->setBgColour(AppData::UI_PANEL_FOCUS, COMPONENT_STATE_FOCUSED);
+	button->setLineColour(AppData::UI_PANEL_HOVER, COMPONENT_STATE_FOCUSED);
+
+	button->setLineColour(AppData::UI_PANEL_ACTIVE);
+	button->setLineThickness(2);
+
+	return button;
 }
