@@ -54,6 +54,38 @@ void paint_tool::Window::onDraw() {
 void paint_tool::Window::onKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	root_component->onKeyDown(nChar, nFlags);
+
+	/* f-keys 3 through 6 (inclusive) controls individual debug information  */
+
+	if (nChar == (UINT) 114)
+		debug_show_ids ^= true;
+
+	if (nChar == (UINT) 115)
+		debug_show_pos ^= true;
+
+	if (nChar == (UINT) 116)
+		debug_show_borders ^= true;
+
+	if (nChar == (UINT) 117)
+		debug_show_position_lines ^= true;
+
+	/* f1 - show all debug information */
+
+	if (nChar == (UINT) 112) {
+		debug_show_ids = true;
+		debug_show_pos = true;
+		debug_show_borders = true;
+		debug_show_position_lines = true;
+	}
+
+	/* f2 - hide all debug information */
+
+	if (nChar == (UINT) 113) {
+		debug_show_ids = false;
+		debug_show_pos = false;
+		debug_show_borders = false;
+		debug_show_position_lines = false;
+	}
 	
 	onDraw();
 }
@@ -66,31 +98,7 @@ void paint_tool::Window::onChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
 	return;
 
-	if (nChar == (UINT) 'i')
-		debug_show_ids ^= true;
 
-	if (nChar == (UINT) 'p')
-		debug_show_pos ^= true;
-
-	if (nChar == (UINT) 'b')
-		debug_show_borders ^= true;
-
-	if (nChar == (UINT) 'l')
-		debug_show_position_lines ^= true;
-	
-	if (nChar == (UINT) 'a') {
-		debug_show_ids = true;
-		debug_show_pos = true;
-		debug_show_borders = true;
-		debug_show_position_lines = true;
-	}
-
-	if (nChar == (UINT) '`') {
-		debug_show_ids = false;
-		debug_show_pos = false;
-		debug_show_borders = false;
-		debug_show_position_lines = false;
-	}
 
 	onDraw();
 }
