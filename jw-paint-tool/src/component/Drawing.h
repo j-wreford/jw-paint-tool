@@ -50,6 +50,11 @@ namespace paint_tool {
 		inline const Drawing& operator=(const std::list<POINT> &points);
 
 		//
+		// Clears the POINT list and sets the given points list to it
+		//
+		inline const Drawing& operator=(const std::list<POINT *> points);
+
+		//
 		// Adds the given point to the POINT list
 		//
 		inline const Drawing& operator+=(const POINT &point);
@@ -116,6 +121,14 @@ const paint_tool::Drawing& paint_tool::Drawing::operator=(const std::list<POINT>
 	recalculateSize();
 	return *this;
 }
+
+const paint_tool::Drawing& paint_tool::Drawing::operator=(const std::list<POINT *> _points) {
+	clearPoints();
+	points = _points;
+	recalculateSize();
+	return *this;
+}
+
 
 const paint_tool::Drawing& paint_tool::Drawing::operator+=(const POINT &point) {
 	points.push_back(new POINT(point));
