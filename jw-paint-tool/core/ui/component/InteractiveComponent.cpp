@@ -1,19 +1,17 @@
 #include "InteractiveComponent.h"
 
 paint_tool::InteractiveComponent::InteractiveComponent(
-	const	std::string	&id,
-	const	POINT		&position,
-	const	std::string &style_set_id
-) : Component(id, position, style_set_id) {
+	const	std::string	&id
+) : Component(id),
+	draggable(false) {
 	//
 }
 
 paint_tool::InteractiveComponent::InteractiveComponent(
 	const	std::string	&id,
-	const	POINT		&position,
-	const	SIZE		&size,
-	const	std::string &style_set_id
-) : Component(id, position, size, style_set_id) {
+	const	SIZE		&size
+) : Component(id, size),
+	draggable(false) {
 	//
 }
 
@@ -21,18 +19,37 @@ paint_tool::InteractiveComponent::~InteractiveComponent() {
 	//
 }
 
-bool paint_tool::InteractiveComponent::hitTest(const POINT &mouse) {
+// If the left mouse button is down, then active should be true.
+// Does lmouse_down need to be a parameter here?
+void paint_tool::InteractiveComponent::onMouseMoveHit(const POINT &mouse, const bool& lmouse_down) {
 
-	bool hit = PtInRect(&getRect(), mouse);
+	/* this component was hovered over - set hovered to true (if it's not active)
+	   and handle component dragging */
 
-	if (hit)
-		onHitTestPassed(mouse);
+	setState(COMPONENT_STATE_HOVERED);
 
-	return hit;
+	if (isActive() && draggable && lmouse_down) {
+
+		setPosition(POINT{
+			mouse.x + getPosition().x - lmd_startpoint.x,
+			mouse.y + getPosition().y - lmd_startpoint.y
+		});
+	}
 }
 
-void paint_tool::InteractiveComponent::onMouseMove(const POINT &mouse) {
+POINT paint_tool::InteractiveComponent::getRelativePoint(const POINT &mouse) const {
 
-	if (focused && draggable)
-		setPosition(mouse);
+	POINT pos = getPosition();
+	POINT origin = getOrigin();
+
+	return POINT{
+		mouse.x - pos.x - origin.x,
+		mouse.y - pos.y - origin.y
+	};
+
+	/*
+	return POINT{
+		mouse.x - par_pos.x,//pos.x - par_origin.x,
+		mouse.y - par_pos.y//pos.y - par_origin.y
+	};*/
 }

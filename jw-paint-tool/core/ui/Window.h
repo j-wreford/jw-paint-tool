@@ -2,14 +2,18 @@
 
 #include <memory>
 #include <map>
+#include <functional>
 
 #include "EasyGraphics.h"
 #include "core\ui\component\ComponentGroup.h"
-#include "core\ui\component\RootComponent.h"
+#include "core\ui\component\ChoiceGroup.h"
 #include "core\ui\component\StaticBox.h"
 #include "core\ui\component\StaticLabel.h"
+#include "core\ui\component\StaticImage.h"
+#include "core\ui\component\Button.h"
+#include "core\ui\component\TextField.h"
+#include "core\ui\LayoutManager.h"
 #include "core\ui\FontManager.h"
-#include "core\ui\StyleManager.h"
 
 //
 // Window
@@ -41,9 +45,9 @@ namespace paint_tool {
 		virtual void onKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) override;
 
 		//
-		// Set flags
+		// Responds to character key press events
 		//
-		virtual void onChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+		virtual void onChar(UINT nChar, UINT nRepCnt, UINT nFlags) override;
 
 		//
 		// Performs hit tests on Components, if they are interactive.
@@ -65,6 +69,11 @@ namespace paint_tool {
 	protected:
 
 		//
+		// Returns the RootComponent
+		//
+		ComponentGroup *getRootComponent();
+
+		//
 		// Adds a component to the components collection
 		//
 		void addComponent(p_component_t &component);
@@ -74,7 +83,7 @@ namespace paint_tool {
 		//
 		// The root component of which all Components are added to
 		//
-		p_root_component_t root_component;
+		p_component_group_t root_component;
 
 		//
 		// True when the left mouse mouse button has been pressed,
@@ -88,6 +97,11 @@ namespace paint_tool {
 		bool debug_show_ids;
 
 		//
+		// When true, the position of a component is drawn below its position
+		//
+		bool debug_show_pos;
+
+		//
 		// When true, all components are drawn with a surrounding border
 		//
 		bool debug_show_borders;
@@ -99,14 +113,32 @@ namespace paint_tool {
 		bool debug_show_position_lines;
 
 		//
-		// Draws a single Component
+		// Draws the given Component and draws child Components recursively.
 		//
-		void drawSingleComponent(const Component *component);
+		// The current_ parameters are the colours currently being used. After
+		// a child Component is drawn using this method, the colours are set
+		// back to the current_ ones.
+		//
+		// This allows Components to inherit the colours of a parent if one
+		// isn't specified.
+		//
+		void componentDrawer(
+			const Component *component,
+			int	current_text_col,
+			int	current_bg_col,
+			int	current_line_col,
+			int	current_line_thickness
+		);
 
 		//
 		// Writes the id of the given Component above its position
 		//
 		void drawDebugComponentId(const Component *component);
+
+		//
+		// Writes the position of the given Component below its position
+		//
+		void drawDebugComponentPos(const Component *component);
 
 		//
 		// Frames the given Component's rect

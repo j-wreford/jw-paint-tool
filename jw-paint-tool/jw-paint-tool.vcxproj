@@ -96,6 +96,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>Msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -108,6 +109,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>Msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -124,6 +126,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>Msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -140,35 +143,105 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>Msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="core\Observable.h" />
+    <ClInclude Include="core\IObserver.h" />
     <ClInclude Include="core\Singleton.h" />
+    <ClInclude Include="core\ui\component\Button.h" />
+    <ClInclude Include="core\ui\component\ChoiceComponent.h" />
+    <ClInclude Include="core\ui\component\ChoiceGroup.h" />
     <ClInclude Include="core\ui\component\Component.h" />
     <ClInclude Include="core\ui\component\ComponentGroup.h" />
+    <ClInclude Include="core\ui\component\FixedSpace.h" />
     <ClInclude Include="core\ui\component\InteractiveComponent.h" />
-    <ClInclude Include="core\ui\component\RootComponent.h" />
+    <ClInclude Include="core\ui\component\RadioChoice.h" />
     <ClInclude Include="core\ui\component\StaticBox.h" />
+    <ClInclude Include="core\ui\component\StaticImage.h" />
     <ClInclude Include="core\ui\component\StaticLabel.h" />
+    <ClInclude Include="core\enum\ComponentStateEnum.h" />
+    <ClInclude Include="core\ui\component\TextField.h" />
+    <ClInclude Include="core\ui\component\ValueComponent.h" />
     <ClInclude Include="core\ui\FontManager.h" />
-    <ClInclude Include="core\ui\StyleManager.h" />
+    <ClInclude Include="core\ui\LayoutManager.h" />
+    <ClInclude Include="core\enum\LayoutManagerEnum.h" />
+    <ClInclude Include="core\ui\style\ComponentStyle.h" />
     <ClInclude Include="dependencies\easy-graphics\EasyGraphics.h" />
-    <ClInclude Include="PaintTool.h" />
+    <ClInclude Include="dependencies\rapidxml-1.13\rapidxml.hpp" />
+    <ClInclude Include="dependencies\rapidxml-1.13\rapidxml_iterators.hpp" />
+    <ClInclude Include="dependencies\rapidxml-1.13\rapidxml_print.hpp" />
+    <ClInclude Include="dependencies\rapidxml-1.13\rapidxml_utils.hpp" />
+    <ClInclude Include="src\AppData.h" />
+    <ClInclude Include="src\component\Canvas.h" />
+    <ClInclude Include="src\component\CircleDrawing.h" />
+    <ClInclude Include="src\component\ColourChoiceGroup.h" />
+    <ClInclude Include="src\component\ColourChoiceItem.h" />
+    <ClInclude Include="src\component\Drawing.h" />
+    <ClInclude Include="src\component\LineDrawing.h" />
+    <ClInclude Include="src\component\PolygonDrawing.h" />
+    <ClInclude Include="src\component\ToolChoiceItem.h" />
+    <ClInclude Include="src\component\UISelectedDrawing.h" />
+    <ClInclude Include="src\draw-tool\IDrawTool.h" />
+    <ClInclude Include="src\draw-tool\MoveTool.h" />
+    <ClInclude Include="src\draw-tool\PenFreehandTool.h" />
+    <ClInclude Include="src\draw-tool\PenLineTool.h" />
+    <ClInclude Include="src\draw-tool\ShapeCircleTool.h" />
+    <ClInclude Include="src\draw-tool\ShapeRectTool.h" />
+    <ClInclude Include="src\draw-tool\ShapeStarTool.h" />
+    <ClInclude Include="src\draw-tool\ShapeTriTool.h" />
+    <ClInclude Include="src\DrawingFactory.h" />
+    <ClInclude Include="src\enum\DrawingPropertiesEnum.h" />
+    <ClInclude Include="src\enum\ToolChoiceEnum.h" />
+    <ClInclude Include="src\PaintTool.h" />
     <ClInclude Include="core\ui\Window.h" />
+    <ClInclude Include="src\PaintToolFileIO.h" />
+    <ClInclude Include="src\TestUI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="core\ui\component\Button.cpp" />
     <ClCompile Include="core\ui\component\Component.cpp" />
     <ClCompile Include="core\ui\component\ComponentGroup.cpp" />
+    <ClCompile Include="core\ui\component\FixedSpace.cpp" />
     <ClCompile Include="core\ui\component\InteractiveComponent.cpp" />
-    <ClCompile Include="core\ui\component\RootComponent.cpp" />
     <ClCompile Include="core\ui\component\StaticBox.cpp" />
+    <ClCompile Include="core\ui\component\StaticImage.cpp" />
     <ClCompile Include="core\ui\component\StaticLabel.cpp" />
+    <ClCompile Include="core\ui\component\TextField.cpp" />
     <ClCompile Include="core\ui\FontManager.cpp" />
-    <ClCompile Include="core\ui\StyleManager.cpp" />
+    <ClCompile Include="core\ui\LayoutManager.cpp" />
+    <ClCompile Include="core\ui\style\ComponentStyle.cpp" />
     <ClCompile Include="dependencies\easy-graphics\EasyGraphics.cpp" />
-    <ClCompile Include="PaintTool.cpp" />
+    <ClCompile Include="src\AppData.cpp" />
+    <ClCompile Include="src\component\Canvas.cpp" />
+    <ClCompile Include="src\component\CircleDrawing.cpp" />
+    <ClCompile Include="src\component\ColourChoiceGroup.cpp" />
+    <ClCompile Include="src\component\ColourChoiceItem.cpp" />
+    <ClCompile Include="src\component\Drawing.cpp" />
+    <ClCompile Include="src\component\LineDrawing.cpp" />
+    <ClCompile Include="src\component\PolygonDrawing.cpp" />
+    <ClCompile Include="src\component\ToolChoiceItem.cpp" />
+    <ClCompile Include="src\component\UISelectedDrawing.cpp" />
+    <ClCompile Include="src\draw-tool\MoveTool.cpp" />
+    <ClCompile Include="src\draw-tool\PenFreehandTool.cpp" />
+    <ClCompile Include="src\draw-tool\PenLineTool.cpp" />
+    <ClCompile Include="src\draw-tool\ShapeCircleTool.cpp" />
+    <ClCompile Include="src\draw-tool\ShapeRectTool.cpp" />
+    <ClCompile Include="src\draw-tool\ShapeStarTool.cpp" />
+    <ClCompile Include="src\draw-tool\ShapeTriTool.cpp" />
+    <ClCompile Include="src\DrawingFactory.cpp" />
+    <ClCompile Include="src\PaintTool.cpp" />
     <ClCompile Include="core\ui\Window.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="src\PaintToolFileIO.cpp" />
+    <ClCompile Include="src\TestUI.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\Elephant.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dependencies\rapidxml-1.13\manual.html" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
