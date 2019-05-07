@@ -168,6 +168,12 @@
     <ClInclude Include="dependencies\rapidxml-1.13\rapidxml_print.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\component\CircleDrawing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\draw-tool\ShapeCircleTool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\ui\component\Component.cpp">
@@ -270,6 +276,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\DrawingFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component\CircleDrawing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\draw-tool\ShapeCircleTool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

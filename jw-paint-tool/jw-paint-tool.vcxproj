@@ -175,6 +175,7 @@
     <ClInclude Include="dependencies\rapidxml-1.13\rapidxml_utils.hpp" />
     <ClInclude Include="src\AppData.h" />
     <ClInclude Include="src\component\Canvas.h" />
+    <ClInclude Include="src\component\CircleDrawing.h" />
     <ClInclude Include="src\component\ColourChoiceGroup.h" />
     <ClInclude Include="src\component\ColourChoiceItem.h" />
     <ClInclude Include="src\component\Drawing.h" />
@@ -186,6 +187,7 @@
     <ClInclude Include="src\draw-tool\MoveTool.h" />
     <ClInclude Include="src\draw-tool\PenFreehandTool.h" />
     <ClInclude Include="src\draw-tool\PenLineTool.h" />
+    <ClInclude Include="src\draw-tool\ShapeCircleTool.h" />
     <ClInclude Include="src\draw-tool\ShapeRectTool.h" />
     <ClInclude Include="src\draw-tool\ShapeStarTool.h" />
     <ClInclude Include="src\draw-tool\ShapeTriTool.h" />
@@ -213,6 +215,7 @@
     <ClCompile Include="dependencies\easy-graphics\EasyGraphics.cpp" />
     <ClCompile Include="src\AppData.cpp" />
     <ClCompile Include="src\component\Canvas.cpp" />
+    <ClCompile Include="src\component\CircleDrawing.cpp" />
     <ClCompile Include="src\component\ColourChoiceGroup.cpp" />
     <ClCompile Include="src\component\ColourChoiceItem.cpp" />
     <ClCompile Include="src\component\Drawing.cpp" />
@@ -223,6 +226,7 @@
     <ClCompile Include="src\draw-tool\MoveTool.cpp" />
     <ClCompile Include="src\draw-tool\PenFreehandTool.cpp" />
     <ClCompile Include="src\draw-tool\PenLineTool.cpp" />
+    <ClCompile Include="src\draw-tool\ShapeCircleTool.cpp" />
     <ClCompile Include="src\draw-tool\ShapeRectTool.cpp" />
     <ClCompile Include="src\draw-tool\ShapeStarTool.cpp" />
     <ClCompile Include="src\draw-tool\ShapeTriTool.cpp" />
